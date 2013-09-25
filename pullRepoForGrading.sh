@@ -3,7 +3,7 @@
 
 if [ $# -ne 3 ] ; then
    echo "Usage: pullRepoForGrading.sh repoName repoURL gradingDir" ; 
-   echo "Example: pullRepoForGrading.sh lab00_Phill git@github.com:UCSB-CS56-S13/lab00_Phillip.git /cs/faculty/pconrad/cs56/labSubmissions/lab00" ; exit 0 
+   echo "Example: pullRepoForGrading.sh lab00_Phill git@github.com:UCSD-CSE-100/lab00_Phillip.git /cs/faculty/pconrad/cs56/labSubmissions/lab00" ; exit 0 
 fi
 
 export repoName=$1

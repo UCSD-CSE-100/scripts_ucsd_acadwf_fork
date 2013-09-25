@@ -47,7 +47,7 @@ args = parser.parse_args()
 
 pw = getpass.getpass()
 g = Github(args.githubUsername, pw, user_agent="PyGithub")
-org= g.get_organization("UCSB-CS56-S13")
+org= g.get_organization("UCSD-CSE-100")
 
 createLabRepo(g,org,args.infileName,args.lab)
 

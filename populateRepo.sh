@@ -3,7 +3,7 @@
 
 if [ $# -ne 4 ] ; then
    echo "Usage: populateRepo.sh repoName repoURL protoDir scratchDir" ; 
-   echo "Example: populateRepo.sh lab00_Phillip git@github.com:UCSB-CS56-S13/lab00_Phillip.git /cs/faculty/pconrad/cs56/lab00_prototype /cs/faculty/pconrad/cs56/scratchRepos" ; exit 0 
+   echo "Example: populateRepo.sh lab00_Phillip git@github.com:UCSD-CSE-100/lab00_Phillip.git /cs/faculty/pconrad/cs56/lab00_prototype /cs/faculty/pconrad/cs56/scratchRepos" ; exit 0 
 fi
 
 export repoName=$1

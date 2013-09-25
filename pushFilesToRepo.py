@@ -2,7 +2,7 @@
 
 # This script takes a lab number such as lab00 as the command line argument,
 # and tries to update all of the lab00_* repos in the 
-# UCSB-CS56-S13 organization by deleting all files in the repo currently,
+# UCSD-CSE-100 organization by deleting all files in the repo currently,
 # and replacing them with all files from those under the directory
 # lab00_prototype
 #
@@ -57,7 +57,7 @@ args = parser.parse_args()
 
 pw = getpass.getpass()
 g = Github(args.githubUsername, pw, user_agent="PyGithub")
-org= g.get_organization("UCSB-CS56-S13")
+org= g.get_organization("UCSD-CSE-100")
 
 pushFilesToRepo(g,org,args.lab,args.firstName,args.scratchDirName)
 

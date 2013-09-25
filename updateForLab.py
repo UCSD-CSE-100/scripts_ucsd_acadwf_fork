@@ -62,7 +62,7 @@ if not os.access(args.scratchDirName, os.W_OK):
 pw = getpass.getpass()
 g = Github(args.githubUsername, pw, user_agent="PyGithub")
 
-org= g.get_organization("UCSB-CS56-S13")
+org= g.get_organization("UCSD-CSE-100")
 
 updateStudentsFromFileForLab(g,org,
                              args.infileName,args.lab,args.scratchDirName,args.firstName)

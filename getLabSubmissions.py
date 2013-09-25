@@ -30,8 +30,8 @@ parser.add_argument('-u','--githubUsername',
                     help="github username, default is current OS user",
                     default=getpass.getuser())
 parser.add_argument('-o','--orgName',
-                    help="organization e.g. UCSB-CS56-S13",
-                    default='UCSB-CS56-S13')
+                    help="organization e.g. UCSD-CSE-100",
+                    default='UCSD-CSE-100')
 args = parser.parse_args()
 
 username = args.githubUsername
