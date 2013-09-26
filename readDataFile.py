@@ -8,7 +8,7 @@
 
 import csv
 
-filename =  '../CS56-S13-data/CS56 S13 Github Userids (Responses) - Form Responses.csv'
+filename =  'test1.csv'
 
 def processLine(lastName,githubUser):
     print("Last Name: ",lastName,end='');

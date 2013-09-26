@@ -30,7 +30,7 @@ addPyGithubToPath()
 from github import Github
 from github import GithubException
                       
-defaultInputFilename =  '../CS56-S13-data/CS56 S13 Github Userids (Responses) - Form Responses.csv'
+defaultInputFilename =  'test1.csv'
 
 parser = argparse.ArgumentParser(description='Update for lab only for new users')
 
