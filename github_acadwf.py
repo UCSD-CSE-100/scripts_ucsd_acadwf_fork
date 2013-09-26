@@ -104,7 +104,7 @@ def addStudentsFromFileToTeams(g,org,infileName):
                           line['last'],
                           line['first'],
                           line['github'],
-                          line['umail'],
+                          line['email'],
                           line['csil'])
 
 def updateStudentsFromFileForLab(g,org,infileName,lab,scratchDirName,firstName=''):
