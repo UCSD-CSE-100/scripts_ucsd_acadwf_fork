@@ -1,3 +1,4 @@
 # Python compiled bits
 *.pyc
 *.pyo
+PyGithub/
