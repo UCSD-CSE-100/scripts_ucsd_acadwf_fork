@@ -196,7 +196,7 @@ def addStudentToTeams(g,org,lastName,firstName,githubUser,umail,csil):
 
     studentTeam = getStudentFirstNameTeam(org, firstName)
 
-    if (studentTeam != False):
+    if (not studentTeam is None):
         print("Team {0} exists...".format(studentTeam.name),end='')
     else:
         studentTeam = createTeam(org,
@@ -241,7 +241,7 @@ def createStudentFirstNameTeamAndAddStudent(g,org,
 
     team = createTeam(org,
                       formatStudentTeamName(firstName))
-    if (team==False):
+    if (team is None):
        return
 
 def addStudentToAllStudentsTeam(g,
@@ -304,13 +304,13 @@ def createLabRepoForThisUser(g,
 
     teamName = formatStudentTeamName(firstName)
 
-    if (team==False):
+    if (team is None):
         team = findTeam(org,teamName);
 
-    if (team==False):
+    if (team is None):
         team = findTeam(org,teamName,refresh=True);
 
-    if (team == False):
+    if (team is None):
         print("ERROR: could not find team: " + teamName)
         print("RUN THE addStudentsToTeams script first!")
         return False
@@ -445,7 +445,7 @@ def findTeam(org,teamName,refresh=False):
     if teamName in findTeam.cacheTeamDict:
         return findTeam.cacheTeamDict[teamName]
     
-    return False
+    return None
 
 
 def addTeamsForPairsInFile(g,org,studentFileName,pairFileName):
