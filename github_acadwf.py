@@ -297,7 +297,7 @@ def createLabRepoForThisUser(g,
                              org,
                              lab,
                              lastName,firstName,githubUser,umail,csil,
-                             team=False):
+                             team=None):
    
 
     print(firstName + "\t" + lastName + "\t" + githubUser);
