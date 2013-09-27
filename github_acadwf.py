@@ -204,7 +204,7 @@ def addStudentToTeams(g,org,lastName,firstName,githubUser,umail,csil):
     
 
     studentGithubUser = findUser(g,githubUser)
-    if (studentGithubUser == False):
+    if (studentGithubUser is None):
         print ("github user {0} for {1} {2} does not exist".format(githubUser,firstName,lastName))
         return False       
 
@@ -236,7 +236,7 @@ def createStudentFirstNameTeamAndAddStudent(g,org,
 
     user = findUser(g,githubUser)
 
-    if (user==False):
+    if (user is None):
        return
 
     team = createTeam(org,
@@ -256,7 +256,7 @@ def addStudentToAllStudentsTeam(g,
 
     user = findUser(g,githubUser)
 
-    if (user==False):
+    if (user is None):
        return
     
     # TRY ADDING STUDENT TO THE AllStudents team
@@ -298,7 +298,7 @@ def createLabRepoForThisUser(g,
     
     githubUserObject = findUser(g,githubUser)
 
-    if (githubUserObject == False):
+    if (githubUserObject is None):
         print("ERROR: could not find github user: " + githubUser);
         return False
 
@@ -361,7 +361,7 @@ def findUser(g,githubUser,quiet=False):
         if (user == None):
             if not quiet:
                 print("No such github user: ",githubUser)
-            return False
+            return None
         else:
             if not quiet:
                 print(" githubUser: " + user.login + "...",end='');
@@ -370,7 +370,7 @@ def findUser(g,githubUser,quiet=False):
         print(e)
         if not quiet:
             print("No such github user: ",githubUser);
-        return False
+        return None
 
 def formatStudentTeamName(firstName):
        return "Student_" + firstName  # name -- string
@@ -389,12 +389,12 @@ def createTeam(org,teamName,quiet=False):
 
     # Try to create the team
 
-    team = False   # Sentinel to see if it succeeded or failed
+    team = None   # Sentinel to see if it succeeded or failed
     try:
        team = org.create_team(teamName,
                          [],
                          "push");
-       if team!=False:
+       if not team is None:
            if not quiet:
                print(" team {0} created...".format(teamName),end='')
            return team
@@ -411,11 +411,11 @@ def createTeam(org,teamName,quiet=False):
     # This is our own function and does NOT throw an exception on failure
 
     team = findTeam(org,teamName)
-    if team!=False:
+    if not team is None:
         return team
 
     team = findTeam(org,teamName,refresh=True)
-    if team!=False:
+    if not team is None:
         return team
      
     if not quiet:
@@ -423,7 +423,7 @@ def createTeam(org,teamName,quiet=False):
             "ERROR: team {0} could not be created and was not found".format(
                 teamName))
         
-    return False
+    return None
         
     
 
@@ -462,12 +462,12 @@ def addTeamsForPairsInFile(g,org,studentFileName,pairFileName):
         print("\nCreating team {0}...".format(pair["teamName"]))
         pairTeam = createTeam(org,pair["teamName"])
         user1 = findUser(g,pair["user1"]["github"])
-        if (user1==False):
+        if (user1 is None):
             raise Exception("Could not find github user {0}".pair["user1"]["github"])
 
         addUserToTeam(pairTeam,user1)
         user2 = findUser(g,pair["user2"]["github"])
-        if (user2==False):
+        if (user2 is None):
             raise Exception("Could not find github user {0}".pair["user2"]["github"])
         addUserToTeam(pairTeam,user2)
         
