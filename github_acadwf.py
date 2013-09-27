@@ -98,7 +98,13 @@ def addStudentsFromFileToTeams(g,org,infileName):
     from disambiguateFunctions import getUserList
     
     userList = getUserList(infileName)
-    
+   
+    allstudents = findTeam(org, "AllStudents")
+    if(allstudents is None):
+        allstudents = createTeam(org, "AllStudents")
+        if(allstudents is None):
+           print("Could not create team AllStudents")
+     
     for line in userList:
         studentTeam = addStudentToTeams(g,org,
                           line['last'],
