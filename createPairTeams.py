@@ -24,7 +24,7 @@ from github import Github
 from github import GithubException
                       
 defaultInputFileName =  'test1.csv'
-defaultPairFileName =  '../CS56-S13-data/pairs.csv'
+defaultPairFileName =  'pairs.csv'
 
 parser = argparse.ArgumentParser(description='Setup teams for pairs')
 
