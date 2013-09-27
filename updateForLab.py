@@ -47,7 +47,7 @@ parser.add_argument('-u','--githubUsername',
 
 parser.add_argument('-s','--scratchDirName', 
                     help="scratch directory to clone repos in while doing work",
-                    default="./scratchRepos")
+                    default="../scratchRepos")
 
 parser.add_argument('-f','--firstName', 
                     help="if passed, only update labxx_FirstName",
