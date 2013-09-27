@@ -6,3 +6,6 @@ PyGithub/
 #PyDev stuff
 *.project
 *.pydevproject
+
+#prototyping
+*_prototype
