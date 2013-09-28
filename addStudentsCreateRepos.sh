@@ -3,6 +3,7 @@
 if [ $# -ne 2 ] ; then
 	echo "Useage: addStudentsCreateRepos.sh <Github Username> <Labnum>"
 	echo "ex    : ./addStudentsCreateRepos.sh testaccount lab01"
+        exit
 fi
 
 #log the latest repo creation
