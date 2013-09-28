@@ -7,8 +7,9 @@
 students        = "test1.csv"
 pairs           = "pairs.csv"
 org             = "UCSD-CSE-100"
-scratchRepoDir  = "/home/linux/ieng6/oce/78/arliao/Github/scratchRepos"
-prototypesDir   = "/home/linux/ieng6/oce/78/arliao/Github/prototypes"
+scratchRepoDir  = "/home/linux/ieng6/oce/78/arliao/Github/scratchRepos/"
+prototypesDir   = "/home/linux/ieng6/oce/78/arliao/Github/prototypes/"
+labSubmissionsDir = "/home/linux/ieng6/oce/78/arliao/Github/labSubmissions"
 
 def getStudentsFile():
     return students
@@ -24,3 +25,6 @@ def getScratchRepoDir():
 	
 def getPrototypeDir():
     return prototypesDir
+	
+def getLabSubmissionsDir():
+    return labSubmissionsDir;

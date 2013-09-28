@@ -1,10 +1,6 @@
 #!/usr/bin/python
 import os
 
-labSubmissionsDir = "labSubmissions"
-if not os.access(labSubmissionsDir, os.W_OK):
-  os.mkdir(labSubmissionsDir, 0700)
-
 import getpass
 import sys
 import argparse
@@ -27,6 +23,10 @@ if not os.path.exists("config.py"):
 	sys.exit()
 
 import config
+
+labSubmissionsDir = config.getLabSubmissionsDir()
+if not os.access(labSubmissionsDir, os.W_OK):
+  os.mkdir(labSubmissionsDir, 0700)
 
 from github import Github
 from github import GithubException
