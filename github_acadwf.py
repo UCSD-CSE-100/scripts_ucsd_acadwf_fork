@@ -507,8 +507,8 @@ def updatePairsForLab(g,org,lab,scratchDirName,prefix=""):
             print("\nTeam: " + team.name,end='')
             result = createLabRepoForThisPairTeam(g,org,lab,team)
             
-            if (result):
-                pushFilesToPairRepo(g,org,lab,team,scratchDirName)
+#            if (result):
+#                pushFilesToPairRepo(g,org,lab,team,scratchDirName)
                 
         
 
