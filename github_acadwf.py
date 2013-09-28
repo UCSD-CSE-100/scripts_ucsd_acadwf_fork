@@ -7,7 +7,7 @@ import sys
 
 if not os.path.exists("config.py"):
 	print("Unable to find config file, please see sample_config.py")
-	return
+	sys.exit()
 
 import config
 
