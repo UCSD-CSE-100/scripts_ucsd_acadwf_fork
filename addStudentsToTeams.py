@@ -16,6 +16,7 @@ from __future__ import print_function
 
 import getpass
 import sys
+import os
 import argparse
 
 from github_acadwf import addPyGithubToPath

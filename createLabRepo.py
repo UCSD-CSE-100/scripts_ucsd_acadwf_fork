@@ -16,9 +16,8 @@ from __future__ import print_function
 from github_acadwf import createLabRepo
 
 import getpass
-
 import sys
-
+import os
 import argparse
 
 #check if config file exists

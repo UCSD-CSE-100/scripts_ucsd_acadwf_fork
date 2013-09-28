@@ -4,6 +4,7 @@
 
 from __future__ import print_function
 import sys
+import os
 
 if not os.path.exists("config.py"):
 	print("Unable to find config file, please see sample_config.py")
@@ -27,8 +28,6 @@ def pushFilesToRepo(g,org,lab,firstName,scratchDirName):
 
     addPyGithubToPath()
     from github import GithubException
-
-    import os
 
     protoDirName = config.getPrototypeDir() + lab + "_prototype"
     
@@ -65,8 +64,6 @@ def pushFilesToPairRepo(g,org,lab,team,scratchDirName):
 
     addPyGithubToPath()
     from github import GithubException
-
-    import os
 
     protoDirName = config.getPrototypeDir() + lab + "_prototype"
     
