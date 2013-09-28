@@ -107,7 +107,7 @@ def addStudentsFromFileToTeams(g,org,infileName):
         allstudents = createTeam(org, "AllStudents")
         if(allstudents is None):
            print("Could not create team AllStudents")
-		   return
+           return
      
     for line in userList:
         studentTeam = addStudentToTeams(g,org,
