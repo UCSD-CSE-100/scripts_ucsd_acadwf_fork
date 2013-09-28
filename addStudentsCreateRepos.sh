@@ -7,7 +7,7 @@ if [ $# -ne 2 ] ; then
 fi
 
 #log the latest repo creation
-repoLogs='scriptLogs/'
+repoLogs=`python -c 'import config; dir = config.getScriptsLogsDir(); print(dir)'`
 if [ ! -d "${repoLogs}" ]; then
 	mkdir ${repoLogs}
 fi
