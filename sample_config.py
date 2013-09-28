@@ -9,7 +9,7 @@ students          = "test1.csv"
 pairs             = "pairs.csv"
 org               = "UCSD-CSE-100"
 scratchRepoDir    = "/home/linux/ieng6/oce/78/arliao/Github/scratchRepos/"
-prototypesDir     = "/home/linux/ieng6/oce/78/arliao/Github/prototypes/"
+prototypesDir     = "/home/linux/ieng6/cs100e/public"
 labSubmissionsDir = "/home/linux/ieng6/oce/78/arliao/Github/labSubmissions"
 
 currQuarter       = "FALL 2013"
