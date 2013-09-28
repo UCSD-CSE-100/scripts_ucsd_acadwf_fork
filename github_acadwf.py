@@ -107,6 +107,7 @@ def addStudentsFromFileToTeams(g,org,infileName):
         allstudents = createTeam(org, "AllStudents")
         if(allstudents is None):
            print("Could not create team AllStudents")
+		   return
      
     for line in userList:
         studentTeam = addStudentToTeams(g,org,
@@ -230,7 +231,7 @@ def  getStudentFirstNameTeam(org,firstName,refresh=False):
     return findTeam(org,formatStudentTeamName(firstName),refresh)
 
 def  getAllStudentsTeam(org):
-    return findTeam(org,"AllStudents")
+    return findTeam(org,"AllStudents", True)
 
     
 
@@ -340,15 +341,17 @@ def createRepoForOrg(org,labNumber,githubUserObject,githubTeamObject, firstName,
     try:  
         repo = org.create_repo(
             repoName,
-            labNumber + " for CS56, S13 for " + firstName, # description 
-            "http://www.cs.ucsb.edu/~" + csil, # homepage -- string
+            labNumber + " for " + config.getCurrentClass() + " " 
+			          + config.getCurrentQuarter()  + " for " 
+					  + firstName, # description 
+            csil + "@ucsd.edu", # homepage -- string
             True, # private -- bool
             True, # has_issues -- bool
             True, # has_wiki -- bool
             True, # has_downloads -- bool
             team_id=githubTeamObject,
             auto_init=True,
-            gitignore_template="Java")
+            gitignore_template=config.getProjLang())
         print(" Created repo "+repoName)
         return True
     except GithubException as e:
@@ -533,15 +536,17 @@ def createRepoForPairTeam(org,labNumber,team):
     try:  
         repo = org.create_repo(
             repoName,
-            labNumber + " for CS56, S13 for " + team.name, # description 
-            "http://www.cs.ucsb.edu/~pconrad/cs56", # homepage -- string
+            labNumber + " for " + config.getCurrentClass() + " " 
+			          + config.getCurrentQuarter()  + " for " 
+					  + team.name, # description 
+            config.getClassWebsite(), # homepage -- string
             True, # private -- bool
             True, # has_issues -- bool
             True, # has_wiki -- bool
             True, # has_downloads -- bool
             team_id=team,
             auto_init=True,
-            gitignore_template="Java")
+            gitignore_template=config.getProjLang())
         print(" Created repo "+repoName)
         return True
     except GithubException as e:
