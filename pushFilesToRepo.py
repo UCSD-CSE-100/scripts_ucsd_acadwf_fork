@@ -28,11 +28,12 @@ from github import GithubException
 
 from github_acadwf import pushFilesToRepo
 
+#check if config file exists
+if not os.path.exists("config.py"):
+	print("Unable to find config file, please see sample_config.py")
+	return
 
-
-
-
-
+import config
 
 parser = argparse.ArgumentParser(description='push files from labxx_prototype directory to labxx_* repos')
 
@@ -49,7 +50,7 @@ parser.add_argument('-u','--githubUsername',
 
 parser.add_argument('-s','--scratchDirName', 
                     help="scratch directory to clone repos in while doing work",
-                    default="./scratchRepos")
+                    default=config.getScratchRepoDir())
 
 
 args = parser.parse_args()

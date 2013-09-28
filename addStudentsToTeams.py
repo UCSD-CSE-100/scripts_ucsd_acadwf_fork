@@ -21,12 +21,19 @@ import argparse
 from github_acadwf import addPyGithubToPath
 from github_acadwf import addStudentsFromFileToTeams
 
+#check if config file exists
+if not os.path.exists("config.py"):
+	print("Unable to find config file, please see sample_config.py")
+	return
+
+import config
+
 addPyGithubToPath()
 
 from github import Github
 from github import GithubException
                       
-defaultInputFilename =  'test1.csv'
+defaultInputFilename =  config.getStudentsFile()
 
 parser = argparse.ArgumentParser(description='Disambiguate First Names.')
 parser.add_argument('-i','--infileName',
@@ -41,7 +48,7 @@ args = parser.parse_args()
 
 pw = getpass.getpass()
 g = Github(args.githubUsername, pw, user_agent="PyGithub")
-org= g.get_organization("UCSD-CSE-100")
+org= g.get_organization(config.getOrgName())
 addStudentsFromFileToTeams(g,org,args.infileName)
 
 

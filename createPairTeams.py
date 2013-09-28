@@ -18,13 +18,20 @@ import sys
 from github_acadwf import addPyGithubToPath
 from github_acadwf import addTeamsForPairsInFile
 
+#check if config file exists
+if not os.path.exists("config.py"):
+	print("Unable to find config file, please see sample_config.py")
+	return
+
+import config
+
 addPyGithubToPath()
 
 from github import Github
 from github import GithubException
                       
-defaultInputFileName =  'test1.csv'
-defaultPairFileName =  'pairs.csv'
+defaultInputFileName =  config.getStudentsFile()
+defaultPairFileName  =  config.getPairsFile()
 
 parser = argparse.ArgumentParser(description='Setup teams for pairs')
 
@@ -45,7 +52,7 @@ args = parser.parse_args()
 pw = getpass.getpass()
 g = Github(args.githubUsername, pw, user_agent="PyGithub")
 
-org= g.get_organization("UCSD-CSE-100")
+org= g.get_organization(config.getOrgName())
 
 addTeamsForPairsInFile(g,org,args.inFileName,args.pairFileName)
 

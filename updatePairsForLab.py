@@ -20,8 +20,14 @@ addPyGithubToPath()
 
 from github import Github
 from github import GithubException
+
+if not os.path.exists("config.py"):
+	print("Unable to find config file, please see sample_config.py")
+	return
+
+import config
                       
-defaultInputFilename =  'test1.csv'
+defaultInputFilename =  config.getStudentsFile()
 
 parser = argparse.ArgumentParser(description='Update for lab only for new users')
 
@@ -38,7 +44,7 @@ parser.add_argument('-u','--githubUsername',
 
 parser.add_argument('-s','--scratchDirName', 
                     help="scratch directory to clone repos in while doing work",
-                    default="../scratchRepos")
+                    default=config.getScratchRepoDir())
 
 parser.add_argument('-t','--teamPrefix', 
                     help="prefix of teams to create",
@@ -54,7 +60,7 @@ if not os.access(args.scratchDirName, os.W_OK):
 pw = getpass.getpass()
 g = Github(args.githubUsername, pw, user_agent="PyGithub")
 
-org= g.get_organization("UCSD-CSE-100")
+org= g.get_organization(config.getOrgName())
 
 updatePairsForLab(g,org,args.lab,args.scratchDirName, args.teamPrefix)
 

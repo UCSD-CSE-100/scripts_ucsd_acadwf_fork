@@ -21,6 +21,13 @@ from github_acadwf import pullRepoForGrading
 
 sys.path.append("./PyGithub");
 
+#check if config file exists
+if not os.path.exists("config.py"):
+	print("Unable to find config file, please see sample_config.py")
+	return
+
+import config
+
 from github import Github
 from github import GithubException
 
@@ -31,7 +38,7 @@ parser.add_argument('-u','--githubUsername',
                     default=getpass.getuser())
 parser.add_argument('-o','--orgName',
                     help="organization e.g. UCSD-CSE-100",
-                    default='UCSD-CSE-100')
+                    default=config.getOrgName())
 args = parser.parse_args()
 
 username = args.githubUsername
