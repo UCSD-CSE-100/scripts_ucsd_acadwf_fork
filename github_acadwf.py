@@ -29,7 +29,7 @@ def pushFilesToRepo(g,org,lab,firstName,scratchDirName):
     addPyGithubToPath()
     from github import GithubException
 
-    protoDirName = config.getPrototypeDir() + lab + "_prototype"
+    protoDirName = config.getPrototypeDir() + lab
     
     # check to see if protoDirName exists.  If not, bail
     
@@ -65,7 +65,7 @@ def pushFilesToPairRepo(g,org,lab,team,scratchDirName):
     addPyGithubToPath()
     from github import GithubException
 
-    protoDirName = config.getPrototypeDir() + lab + "_prototype"
+    protoDirName = config.getPrototypeDir() + lab
     
     # check to see if protoDirName exists.  If not, bail
     
