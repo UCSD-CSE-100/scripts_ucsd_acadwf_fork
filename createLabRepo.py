@@ -57,7 +57,7 @@ org= g.get_organization(config.getOrgName())
 
 createLabRepo(g,org,args.infileName,args.lab)
 
-
+sys.exit(0)
 
 
 

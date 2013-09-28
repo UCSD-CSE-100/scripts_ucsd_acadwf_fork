@@ -59,3 +59,4 @@ org= g.get_organization("UCSD-CSE-100")
 
 pushFilesToRepo(g,org,args.lab,args.firstName,args.scratchDirName)
 
+sys.exit(0)

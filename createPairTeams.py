@@ -56,7 +56,7 @@ org= g.get_organization(config.getOrgName())
 
 addTeamsForPairsInFile(g,org,args.inFileName,args.pairFileName)
 
-
+sys.exit(0)
 
 
 
