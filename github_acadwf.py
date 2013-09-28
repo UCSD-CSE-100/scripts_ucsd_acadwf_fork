@@ -344,7 +344,7 @@ def createRepoForOrg(org,labNumber,githubUserObject,githubTeamObject, firstName,
             labNumber + " for " + config.getCurrentClass() + " " 
 			          + config.getCurrentQuarter()  + " for " 
 					  + firstName, # description 
-            csil + "@ucsd.edu", # homepage -- string
+            "", # homepage -- string, part of README
             True, # private -- bool
             True, # has_issues -- bool
             True, # has_wiki -- bool
@@ -539,7 +539,7 @@ def createRepoForPairTeam(org,labNumber,team):
             labNumber + " for " + config.getCurrentClass() + " " 
 			          + config.getCurrentQuarter()  + " for " 
 					  + team.name, # description 
-            config.getClassWebsite(), # homepage -- string
+            "", # homepage -- string, now part of readme
             True, # private -- bool
             True, # has_issues -- bool
             True, # has_wiki -- bool
