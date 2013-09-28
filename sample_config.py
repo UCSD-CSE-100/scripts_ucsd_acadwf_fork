@@ -4,6 +4,7 @@
 # TODO: Please copy or rename this file as config.py with your own custom settings
 #       for use with the scripts
 
+#Python globals
 students          = "test1.csv"
 pairs             = "pairs.csv"
 org               = "UCSD-CSE-100"
@@ -18,6 +19,10 @@ classWebsite      = "https://sites.google.com/a/eng.ucsd.edu/cse-100-fall-2013/"
 #see https://github.com/github/gitignore for all possible languages
 projLang          = "C++"
 
+#Shell Script Globals
+scriptsLogsDir    = "/home/linux/ieng6/oce/78/arliao/Github/scriptsLogs"
+
+''' Python Config calls '''
 def getStudentsFile():
     return students
 
@@ -47,4 +52,8 @@ def getClassWebsite():
 
 def getProjLang():
     return projLang
+	
+''' Shell Script Config Calls '''
+def getScriptsLogsDir():
+    print(scriptsLogDir)
 	
