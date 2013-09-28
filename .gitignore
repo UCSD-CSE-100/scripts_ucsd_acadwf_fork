@@ -10,3 +10,6 @@ PyGithub/
 #prototyping
 *_prototype
 config.py
+
+#runtime creations
+scriptLogs/
