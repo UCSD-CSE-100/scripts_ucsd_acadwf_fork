@@ -55,5 +55,5 @@ def getProjLang():
 	
 ''' Shell Script Config Calls '''
 def getScriptsLogsDir():
-    print(scriptsLogDir)
+    return scriptsLogsDir
 	
