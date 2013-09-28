@@ -5,6 +5,12 @@
 from __future__ import print_function
 import sys
 
+if not os.path.exists("config.py"):
+	print("Unable to find config file, please see sample_config.py")
+	return
+
+import config
+
 def populateRepo(repo,protoDir,scratchDir):
     import subprocess
     callList = ["./populateRepo.sh",repo.name,repo.ssh_url,protoDir,scratchDir]
@@ -24,7 +30,7 @@ def pushFilesToRepo(g,org,lab,firstName,scratchDirName):
 
     import os
 
-    protoDirName = lab + "_prototype"
+    protoDirName = config.getPrototypeDir() + lab + "_prototype"
     
     # check to see if protoDirName exists.  If not, bail
     
@@ -62,7 +68,7 @@ def pushFilesToPairRepo(g,org,lab,team,scratchDirName):
 
     import os
 
-    protoDirName = lab + "_prototype"
+    protoDirName = config.getPrototypeDir() + lab + "_prototype"
     
     # check to see if protoDirName exists.  If not, bail
     
