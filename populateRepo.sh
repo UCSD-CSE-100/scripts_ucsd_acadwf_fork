@@ -22,7 +22,7 @@ if [ -d $scratchDir/$repoName ] ; then
    printf " found repo %s ... " $repoName
 else
     printf " cloning repo %s... \n" $repoName
-    git clone -q -n $repoURL 
+    git clone -q $repoURL 
 fi
 
 cd $repoName
