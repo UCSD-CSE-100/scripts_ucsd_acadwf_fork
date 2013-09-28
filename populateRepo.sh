@@ -53,7 +53,7 @@ if [ -f $protoDir/.gitmodues ] ; then
    git add .gitmodules
 fi
 
-git commit -m "Project Files for ${labnum} pushed by populateRepo.sh script"
+git commit -m "Project Files for P${labnum} pushed by populateRepo.sh script"
 git push origin master
 
 
