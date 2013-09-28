@@ -31,7 +31,7 @@ if [ $cdStatus -ne 0 ] ; then
     echo "Can't find repo $repoName -- bailing out "; exit 1
 fi
 
-git pull 
+git pull origin master
 
 cp -r $protoDir/* .
 git add .
@@ -53,7 +53,7 @@ if [ -f $protoDir/.gitmodues ] ; then
    git add .gitmodules
 fi
 
-git commit -m "Files pushed by populateRepo.sh script"
+git commit -m "Project Files for ${labnum} pushed by populateRepo.sh script"
 git push origin master
 
 
