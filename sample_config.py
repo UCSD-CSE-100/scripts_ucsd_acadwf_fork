@@ -9,8 +9,8 @@ students          = "test1.csv"
 pairs             = "pairs.csv"
 org               = "UCSD-CSE-100"
 scratchRepoDir    = "/home/linux/ieng6/oce/78/arliao/Github/scratchRepos/"
-prototypesDir     = "/home/linux/ieng6/cs100e/public"
-labSubmissionsDir = "/home/linux/ieng6/oce/78/arliao/Github/labSubmissions"
+prototypesDir     = "/home/linux/ieng6/cs100e/public/"
+labSubmissionsDir = "/home/linux/ieng6/oce/78/arliao/Github/labSubmissions/"
 
 currQuarter       = "FALL 2013"
 currClass         = "CSE 100"
@@ -20,7 +20,7 @@ classWebsite      = "https://sites.google.com/a/eng.ucsd.edu/cse-100-fall-2013/"
 projLang          = "C++"
 
 #Shell Script Globals
-scriptsLogsDir    = "/home/linux/ieng6/oce/78/arliao/Github/scriptsLogs"
+scriptsLogsDir    = "/home/linux/ieng6/oce/78/arliao/Github/scriptsLogs/"
 
 ''' Python Config calls '''
 def getStudentsFile():
