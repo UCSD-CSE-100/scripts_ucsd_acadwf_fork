@@ -17,3 +17,6 @@ Creating Repos for Students and Pairs
 4) run ./createLabRepoForPairs.py -u <GITHUBID> <LABNAME>
 
 5) run ./pushFilesToRepo.py -u <GITHUBID> <LABNAME>
+
+Pulling Repos for Grading
+=====================
