@@ -25,7 +25,7 @@ from github_acadwf import addStudentsFromFileToTeams
 #check if config file exists
 if not os.path.exists("config.py"):
 	print("Unable to find config file, please see sample_config.py")
-	sys.exit()
+	sys.exit(1)
 
 import config
 
