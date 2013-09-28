@@ -11,28 +11,27 @@ All steps from here on out will assume that a valid SSH-RSA key is associated wi
 
 Initializing the Repo
 =====================
-1) Create the directory for the repository (such as deploy_scripts)
+1. Create the directory for the repository (such as deploy_scripts)
+2. run the following commands:
 
-2) run the following commands:
-
-      cd <DIRECTORY>
-      git init
-      git remote add --track master origin git@github.com:UCSD-CSE-100/scripts_ucsd_acadwf_fork.git
-      git pull
-      ./initRepo.sh
-      
-3) Optional: You may configure your config.py as needed. Default values for your particular username will have been filled in and created if they do not already exist.
+            cd <DIRECTORY>
+            git init
+            git remote add --track master origin git@github.com:UCSD-CSE-100/scripts_ucsd_acadwf_fork.git
+            git pull
+            ./initRepo.sh
+            
+3. Optional: You may configure your config.py as needed. Default values for your particular username will have been filled in and created if they do not already exist.
 
 Creating Repos for Students and Pairs
 =====================
       NOTE: Github Password or OAuth token will need to be entered for each individual command in a script
             Script may take up to 1 hour to run depending on API calls reaching the rate limit
 
-1) run 
+1. run 
 
-     ./addStudentsCreateRepos.sh <github username> <Project #>
+            ./addStudentsCreateRepos.sh <github username> <Project #>
 
-2) Check your scripts log directory for command status, the script itself will tell you if it thinks it succeeded in executing all scripts, but it never hurts to double check.
+2. Check your scripts log directory for command status, the script itself will tell you if it thinks it succeeded in executing all scripts, but it never hurts to double check.
 
 Pulling Repos for Grading
 =====================
