@@ -64,7 +64,7 @@ org= g.get_organization(config.getOrgName())
 
 updatePairsForLab(g,org,args.lab,args.scratchDirName, args.teamPrefix)
 
-
+sys.exit(0)
 
 
 

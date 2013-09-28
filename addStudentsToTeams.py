@@ -52,7 +52,7 @@ g = Github(args.githubUsername, pw, user_agent="PyGithub")
 org= g.get_organization(config.getOrgName())
 addStudentsFromFileToTeams(g,org,args.infileName)
 
-
+sys.exit(0)
         
 
 
