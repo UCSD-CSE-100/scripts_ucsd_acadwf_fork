@@ -36,6 +36,13 @@ git pull
 cp -r $protoDir/* .
 git add .
 
+#add assignment README url to readme
+#can't just use second grep as disambiguation might add
+labnum=echo "P1_Pair_Arden_P3_Max.git" | awk -F'_' '{print $1}' | grep -oh "[0-9]"
+url="https://sites.google.com/a/eng.ucsd.edu/cse-100-fall-2013/assignments/assignment-${labnum}-readme"
+echo -e "\nAssignment README can be found here: ${url}\n" > README.md
+git add README.md
+
 
 if [ -f $protoDir/.gitignore ] ; then
    cp $protoDir/.gitignore .
