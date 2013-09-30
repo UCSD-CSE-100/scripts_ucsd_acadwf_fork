@@ -22,9 +22,10 @@ echo
 if [ "$3" == "ADD" ] || [ "$3" == "BOTH"  ]; then
     echo "Adding Students to teams."
     currTime=`date`
-    echo -e "Adding students @ ${date}" >> ${repoLogs}/${lab}_AddingStudentsAndTeams
-    echo -e "-------------------------" >> ${repoLogs}/${lab}_AddingStudentsAndTeams
-    ./execute.py "addStudentsToTeams.py" "-u ${user}" "${password}"
+    currLog="${repoLogs}/${lab}_AddingStudentsAndTeams"
+    echo -e "Adding students @ ${date}" >> ${currLog}
+    echo -e "-------------------------" >> ${currLog}
+    ./execute.py "addStudentsToTeams.py" "-u ${user}" "${currLog}" "${password}"
     if [ $? -ne 0 ]; then
         echo -e "Did not properly add all students to organization\n"
         exit
@@ -32,9 +33,9 @@ if [ "$3" == "ADD" ] || [ "$3" == "BOTH"  ]; then
     
     echo "Creating Paired teams"
     currTime=`date`
-    echo -e "\nCreating pair teams @ ${date}" >> ${repoLogs}/${lab}_AddingStudentsAndTeams
-    echo -e "-------------------------" >> ${repoLogs}/${lab}_AddingStudentsAndTeams
-    ./execute.py "createPairTeams.py" "-u ${user}" "${password}"
+    echo -e "\nCreating pair teams @ ${date}" >> ${currLog}
+    echo -e "-------------------------" >> ${currLog}
+    ./execute.py "createPairTeams.py" "-u ${user}" "${currLog}"  "${password}"
     if [ $? -ne 0 ]; then
         echo -e "Did not properly create all teams\n"
         exit

@@ -9,9 +9,9 @@ if (len(sys.argv) < 5):
 
 script    = sys.argv[1]
 argstring = sys.argv[2]
-log       = sys.argv[3]
+log       = file(sys.argv[3],"a")
 password  = sys.argv[4]
-cmd='./'+ script + ' ' + argstring + '>>' + log
+cmd='./'+ script + ' ' + argstring
 
 #print(script)
 #print(argstring)
@@ -21,9 +21,11 @@ cmd='./'+ script + ' ' + argstring + '>>' + log
 child = pexpect.spawn(cmd)
 child.expect('Password: ')
 child.sendline(password)
+child.logfile = sys.stdout
 
-import time
+child.wait()
+child.close()
 
-while child.isalive():
-    time.sleep(1)
+sys.exit(child.exitstatus)
+
 
