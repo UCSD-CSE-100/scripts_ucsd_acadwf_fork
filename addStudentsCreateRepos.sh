@@ -2,7 +2,7 @@
 
 if [ $# -ne 3 ] ; then
     echo "Usage: addStudentsCreateRepos.sh <Github Username> <Labnum> <ADD|CREATE|BOTH>"
-    echo "ex   : ./addStudentsCreateRepos.sh testaccount P1"
+    echo "ex   : ./addStudentsCreateRepos.sh testaccount P1 BOTH"
     exit
 fi
 
@@ -23,7 +23,7 @@ if [ "$3" == "ADD" ] || [ "$3" == "BOTH"  ]; then
     echo "Adding Students to teams."
     currTime=`date`
     currLog="${repoLogs}/${lab}_AddingStudentsAndTeams"
-    echo -e "Adding students @ ${date}" >> ${currLog}
+    echo -e "Adding students @ ${currTime}" >> ${currLog}
     echo -e "-------------------------" >> ${currLog}
     ./execute.py "addStudentsToTeams.py" "-u ${user}" "${currLog}" "${password}"
     if [ $? -ne 0 ]; then
@@ -33,21 +33,24 @@ if [ "$3" == "ADD" ] || [ "$3" == "BOTH"  ]; then
     
     echo "Creating Paired teams"
     currTime=`date`
-    echo -e "\nCreating pair teams @ ${date}" >> ${currLog}
+    echo >> ${currLog}
+    echo -e "\nCreating pair teams @ ${currTime}" >> ${currLog}
     echo -e "-------------------------" >> ${currLog}
-    ./execute.py "createPairTeams.py" "-u ${user}" "${currLog}"  "${password}"
+    ./execute.py "createPairTeams.py" "-u ${user}" "${currLog}" "${password}"
     if [ $? -ne 0 ]; then
         echo -e "Did not properly create all teams\n"
         exit
     fi
+    echo -e "\n\n"  >> ${currLog}
 fi
 
 if [ "$3" == "CREATE"  ] || [ "$3" == "BOTH"  ]; then
     echo "Creating individual repos"
+    currLog="${repoLogs}/${lab}_creatingRepos"
     currTime=`date`
-    echo -e "Creating indiv repos @ ${date}" >> ${repoLogs}/${lab}_CreatingRepos
-    echo -e "-------------------------" >> ${repoLogs}/${lab}_CreatingRepos
-    ./createLabRepo.py -u ${user} ${lab} >> ${repoLogs}/${lab}_CreatingRepos
+    echo -e "Creating indiv repos @ ${currTime}" >> ${currLog}
+    echo -e "-------------------------" >> ${currLog}
+    ./execute.py "createLabRepo.py" "-u ${user} ${lab}" >> ${currLog}
     if [ $? -ne 0 ]; then
         echo -e "Did not create all individual repos\n"
     	exit
@@ -55,23 +58,28 @@ if [ "$3" == "CREATE"  ] || [ "$3" == "BOTH"  ]; then
     
     echo "Creating pair repos"
     currTime=`date`
-    echo -e "\nCreating pair repos @ ${date}" >> ${repoLogs}/${lab}_CreatingRepos
-    echo -e "-------------------------" >> ${repoLogs}/${lab}_CreatingRepos
-    ./createLabRepoForPairs.py -u ${user} ${lab} >> ${repoLogs}/${lab}_CreatingRepos
+    echo -e "\nCreating pair repos @ ${currTime}" >> ${currLog}
+    echo -e "-------------------------" >> ${currLog}
+    ./execute.py "createLabRepoForPairs.py" "-u ${user} ${lab}" >> ${currLog}
     if [ $? -ne 0 ]; then
     	echo -e "Did not create all team repos\n"
     	exit
     fi
+
+    echo -e "\n\n" >> ${currLog}
     
     echo "Pushing files to created repos"
     currTime=`date`
-    echo -e "Pushing files to repos @ ${date}" >> ${repoLogs}/${lab}_PopulateRepos
-    echo -e "-------------------------" >> ${repoLogs}/${lab}_PopulateRepos
-    ./pushFilesToRepo.py -u ${user} ${lab} >> ${repoLogs}/${lab}_PopulateRepos
+    currLog="${repoLogs}/${lab}_PopulateRepos"
+    echo -e "Pushing files to repos @ ${currTime}" >> ${currLog}
+    echo -e "-------------------------" >> ${currLog}
+    ./execute.py "pushFilesToRepo.py" "-u ${user} ${lab}" >> ${currLog}
     if [ $? -ne 0 ]; then
         echo -e "Could not push files to all repos\n"
-	    exit
+        exit
     fi
+    
+    echo -e "\n\n" >> ${currLog}
 fi
 
 echo "All operations return okay. Check ${repoLogs} for detailed status on operations"

@@ -3,13 +3,12 @@
 import pexpect
 import sys
 
-if (len(sys.argv) < 5):
+if (len(sys.argv) < 4):
     print("Not enough args supplied!")
     sys.exit(1)
 
 script    = sys.argv[1]
 argstring = sys.argv[2]
-log       = file(sys.argv[3],"a")
 password  = sys.argv[4]
 cmd='./'+ script + ' ' + argstring
 
@@ -18,14 +17,15 @@ cmd='./'+ script + ' ' + argstring
 #print(password)
 #print(cmd)
 
-child = pexpect.spawn(cmd)
-child.expect('Password: ')
-child.sendline(password)
-child.logfile = sys.stdout
+with open(sys.argv[3], 'a') as log:
+    child = pexpect.spawn(cmd)
+    child.expect('Password: ')
+    child.sendline(password)
 
-child.wait()
-child.close()
-
+    child.expect(pexpect.EOF)
+    log.write(child.before)
+    
+child.close()    
 sys.exit(child.exitstatus)
 
 
