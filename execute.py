@@ -3,14 +3,15 @@
 import pexpect
 import sys
 
-if (len(sys.argv) < 4):
+if (len(sys.argv) < 5):
     print("Not enough args supplied!")
     sys.exit(1)
 
 script    = sys.argv[1]
 argstring = sys.argv[2]
-password  = sys.argv[3]
-cmd='./'+ script + ' ' + argstring
+log       = sys.argv[3]
+password  = sys.argv[4]
+cmd='./'+ script + ' ' + argstring + '>>' + log
 
 #print(script)
 #print(argstring)
