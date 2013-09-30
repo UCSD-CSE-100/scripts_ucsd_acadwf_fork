@@ -44,18 +44,10 @@ parser.add_argument('-i','--infileName',
 parser.add_argument('-u','--githubUsername', 
                     help="github username, default is current OS user",
                     default=getpass.getuser())
-					
-parser.add_argument('-P', '--password',
-                    help="github password, default is shell prompt for password",
-				    default="")
 
 args = parser.parse_args()
 
-if args.password == "":
-    pw = getpass.getpass()
-else:
-    pw = args.password
-
+pw = getpass.getpass()
 g = Github(args.githubUsername, pw, user_agent="PyGithub")
 org= g.get_organization(config.getOrgName())
 addStudentsFromFileToTeams(g,org,args.infileName)
