@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ $# -ne 2 ] ; then
-	echo "Usage: addStudentsCreateRepos.sh <Github Username> <Labnum>"
+	echo "Usage: addStudentsCreateRepos.sh <Github Username> <Labnum> <ADD|CREATE|BOTH>"
 	echo "ex   : ./addStudentsCreateRepos.sh testaccount P1"
     exit
 fi
@@ -23,7 +23,8 @@ echo "Adding Students to teams."
 currTime=`date`
 echo -e "Adding students @ ${date}" >> ${repoLogs}/${lab}_AddingStudentsAndTeams
 echo -e "-------------------------" >> ${repoLogs}/${lab}_AddingStudentsAndTeams
-./addStudentsToTeams.py -u ${user} -P ${password}  >> ${repoLogs}/${lab}_AddingStudentsAndTeams
+./execute.py "addStudentsToTeams.py" "-u ${user}"
+#./addStudentsToTeams.py -u ${user} -P ${password}  >> ${repoLogs}/${lab}_AddingStudentsAndTeams
 if [ $? -ne 0 ]; then
 	echo -e "Did not properly add all students to organization\n"
 	exit
