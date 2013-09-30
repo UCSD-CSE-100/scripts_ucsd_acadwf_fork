@@ -1,15 +1,15 @@
 #!/bin/bash
 
 if [ $# -ne 2 ] ; then
-	echo "Usage: addStudentsCreateRepos.sh <Github Username> <Labnum> <ADD|CREATE|BOTH>"
-	echo "ex   : ./addStudentsCreateRepos.sh testaccount P1"
+    echo "Usage: addStudentsCreateRepos.sh <Github Username> <Labnum> <ADD|CREATE|BOTH>"
+    echo "ex   : ./addStudentsCreateRepos.sh testaccount P1"
     exit
 fi
 
 #log the latest repo creation
 repoLogs=`python -c 'import config; dir = config.getScriptsLogsDir(); print(dir)'`
 if [ ! -d "${repoLogs}" ]; then
-	mkdir ${repoLogs}
+    mkdir ${repoLogs}
 fi
 
 user="${1}"
@@ -23,11 +23,11 @@ echo "Adding Students to teams."
 currTime=`date`
 echo -e "Adding students @ ${date}" >> ${repoLogs}/${lab}_AddingStudentsAndTeams
 echo -e "-------------------------" >> ${repoLogs}/${lab}_AddingStudentsAndTeams
-./execute.py "addStudentsToTeams.py" "-u ${user}"
+./execute.py "addStudentsToTeams.py" "-u ${user}" "${password}"
 #./addStudentsToTeams.py -u ${user} -P ${password}  >> ${repoLogs}/${lab}_AddingStudentsAndTeams
 if [ $? -ne 0 ]; then
-	echo -e "Did not properly add all students to organization\n"
-	exit
+    echo -e "Did not properly add all students to organization\n"
+    exit
 fi
 
 # echo "Creating Paired teams"
