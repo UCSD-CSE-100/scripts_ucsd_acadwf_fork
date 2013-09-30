@@ -22,7 +22,7 @@ with open(sys.argv[3], 'a') as log:
     child.expect('Password: ')
     child.sendline(password)
 
-    child.expect(pexpect.EOF)
+    child.expect(pexpect.EOF, 6000)
     log.write(child.before)
     
 child.close()    

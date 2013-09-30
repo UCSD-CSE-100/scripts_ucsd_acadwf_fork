@@ -50,7 +50,7 @@ if [ "$3" == "CREATE"  ] || [ "$3" == "BOTH"  ]; then
     currTime=`date`
     echo -e "Creating indiv repos @ ${currTime}" >> ${currLog}
     echo -e "-------------------------" >> ${currLog}
-    ./execute.py "createLabRepo.py" "-u ${user} ${lab}" >> ${currLog}
+    ./execute.py "createLabRepo.py" "-u ${user} ${lab}" "${currLog}" "${password}"
     if [ $? -ne 0 ]; then
         echo -e "Did not create all individual repos\n"
     	exit
@@ -60,7 +60,7 @@ if [ "$3" == "CREATE"  ] || [ "$3" == "BOTH"  ]; then
     currTime=`date`
     echo -e "\nCreating pair repos @ ${currTime}" >> ${currLog}
     echo -e "-------------------------" >> ${currLog}
-    ./execute.py "createLabRepoForPairs.py" "-u ${user} ${lab}" >> ${currLog}
+    ./execute.py "createLabRepoForPairs.py" "-u ${user} ${lab}" "${currLog}" "${password}"
     if [ $? -ne 0 ]; then
     	echo -e "Did not create all team repos\n"
     	exit
@@ -73,7 +73,7 @@ if [ "$3" == "CREATE"  ] || [ "$3" == "BOTH"  ]; then
     currLog="${repoLogs}/${lab}_PopulateRepos"
     echo -e "Pushing files to repos @ ${currTime}" >> ${currLog}
     echo -e "-------------------------" >> ${currLog}
-    ./execute.py "pushFilesToRepo.py" "-u ${user} ${lab}" >> ${currLog}
+    ./execute.py "pushFilesToRepo.py" "-u ${user} ${lab}" "${currLog}" "${password}"
     if [ $? -ne 0 ]; then
         echo -e "Could not push files to all repos\n"
         exit
