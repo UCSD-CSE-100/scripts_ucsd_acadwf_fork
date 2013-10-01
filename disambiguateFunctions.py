@@ -151,7 +151,7 @@ def convertPairList(userList,csvFile):
             user2 = temp
         team["user1"] = user1
         team["user2"] = user2
-        team["teamName"]="Pair_" + user1['first'] + "_" + user2['first']
+        team["teamName"]="Pair_" + user1['github'] + "_" + user2['github']
         
         pairList.append(team)
         
@@ -164,9 +164,9 @@ def getUserList(csvFilename):
     
         userList = convertUserList(csvFile)
         
-        newUserList = disambiguateAllFirstNames(userList)
+        #newUserList = disambiguateAllFirstNames(userList)
 
-        return newUserList
+        return userList
 
 def getPairList(userList,csvFilename):
 

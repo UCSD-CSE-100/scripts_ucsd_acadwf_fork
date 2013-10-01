@@ -204,13 +204,13 @@ def addStudentToTeams(g,org,lastName,firstName,githubUser,umail,csil):
     print("addStudentToTeams: {0} {1} (github: {2})...".format(
             firstName,lastName,githubUser),end='')
 
-    studentTeam = getStudentFirstNameTeam(org, firstName)
+    studentTeam = getStudentGithubTeam(org, firstName)
 
     if (not studentTeam is None):
         print("Team {0} exists...".format(studentTeam.name),end='')
     else:
         studentTeam = createTeam(org,
-                                 formatStudentTeamName(firstName))
+                                 formatStudentTeamName(githubUser))
     
 
     studentGithubUser = findUser(g,githubUser)
@@ -227,8 +227,8 @@ def addStudentToTeams(g,org,lastName,firstName,githubUser,umail,csil):
     else:
         return False
                
-def  getStudentFirstNameTeam(org,firstName,refresh=False):
-    return findTeam(org,formatStudentTeamName(firstName),refresh)
+def  getStudentGithubTeam(org,firstName,refresh=False):
+    return findTeam(org,formatStudentTeamName(githubUser),refresh)
 
 def  getAllStudentsTeam(org):
     return findTeam(org,"AllStudents", True)
@@ -250,7 +250,7 @@ def createStudentFirstNameTeamAndAddStudent(g,org,
        return
 
     team = createTeam(org,
-                      formatStudentTeamName(firstName))
+                      formatStudentTeamName(githubUser))
     if (team is None):
        return
 
@@ -312,7 +312,7 @@ def createLabRepoForThisUser(g,
         print("ERROR: could not find github user: " + githubUser);
         return False
 
-    teamName = formatStudentTeamName(firstName)
+    teamName = formatStudentTeamName(githubUser)
 
     if (team is None):
         team = findTeam(org,teamName);
@@ -326,24 +326,24 @@ def createLabRepoForThisUser(g,
         return False
     
     return createRepoForOrg(org,lab,
-                            githubUserObject,team,firstName,csil)
+                            githubUserObject,team,githubUser,csil)
 
     
 
-def createRepoForOrg(org,labNumber,githubUserObject,githubTeamObject, firstName,csil):
+def createRepoForOrg(org,labNumber,githubUserObject,githubTeamObject, githubUser,csil):
 
     addPyGithubToPath()
     from github import GithubException
 
 
-    desc = "Github repo for " + labNumber + " for " + firstName
-    repoName =            labNumber + "_" + firstName  # name -- string
+    desc = "Github repo for " + labNumber + " for " + githubUser
+    repoName =            labNumber + "_" + githubUser  # name -- string
     try:  
         repo = org.create_repo(
             repoName,
             labNumber + " for " + config.getCurrentClass() + " " 
 			          + config.getCurrentQuarter()  + " for " 
-					  + firstName, # description 
+					  + githubUser, # description 
             "", # homepage -- string, part of README
             True, # private -- bool
             True, # has_issues -- bool
@@ -384,8 +384,8 @@ def findUser(g,githubUser,quiet=False):
             print("No such github user: ",githubUser);
         return None
 
-def formatStudentTeamName(firstName):
-       return "Student_" + firstName  # name -- string
+def formatStudentTeamName(githubId):
+       return "Student_" + githubId  # name -- string
 
 
 def createTeam(org,teamName,quiet=False):
