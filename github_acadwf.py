@@ -204,7 +204,7 @@ def addStudentToTeams(g,org,lastName,firstName,githubUser,umail,csil):
     print("addStudentToTeams: {0} {1} (github: {2})...".format(
             firstName,lastName,githubUser),end='')
 
-    studentTeam = getStudentGithubTeam(org, firstName)
+    studentTeam = getStudentGithubTeam(org, githubUser)
 
     if (not studentTeam is None):
         print("Team {0} exists...".format(studentTeam.name),end='')
@@ -227,7 +227,7 @@ def addStudentToTeams(g,org,lastName,firstName,githubUser,umail,csil):
     else:
         return False
                
-def  getStudentGithubTeam(org,firstName,refresh=False):
+def  getStudentGithubTeam(org,githubUser,refresh=False):
     return findTeam(org,formatStudentTeamName(githubUser),refresh)
 
 def  getAllStudentsTeam(org):
