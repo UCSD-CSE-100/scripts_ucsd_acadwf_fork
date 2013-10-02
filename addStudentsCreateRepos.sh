@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ $# -ne 3 ] ; then
-    echo "Usage: addStudentsCreateRepos.sh <Github Username> <Labnum> <ADD|CREATE|BOTH>"
+    echo "Usage: addStudentsCreateRepos.sh <Github Username> <Labnum> <ADD|PAIRS|CREATE|ALL>"
     echo "ex   : ./addStudentsCreateRepos.sh testaccount P1 BOTH"
     exit
 fi
@@ -19,7 +19,7 @@ echo -n "Password: "
 read -s password
 echo
 
-if [ "$3" == "ADD" ] || [ "$3" == "BOTH"  ]; then
+if [ "$3" == "ADD" ] || [ "$3" == "ALL"  ]; then
     echo "Adding Students to teams."
     currTime=`date`
     currLog="${repoLogs}/${lab}_AddingStudentsAndTeams"
@@ -31,8 +31,12 @@ if [ "$3" == "ADD" ] || [ "$3" == "BOTH"  ]; then
         exit
     fi
     
+fi
+
+if [ "$3" == "PAIRS" ] || [ "$3" == "ALL" ]; then
     echo "Creating Paired teams"
     currTime=`date`
+	currLog="${repoLogs}/${lab}_AddingStudentsAndTeams"
     echo >> ${currLog}
     echo -e "\nCreating pair teams @ ${currTime}" >> ${currLog}
     echo -e "-------------------------" >> ${currLog}
@@ -42,9 +46,10 @@ if [ "$3" == "ADD" ] || [ "$3" == "BOTH"  ]; then
         exit
     fi
     echo -e "\n\n"  >> ${currLog}
+
 fi
 
-if [ "$3" == "CREATE"  ] || [ "$3" == "BOTH"  ]; then
+if [ "$3" == "CREATE"  ] || [ "$3" == "ALL"  ]; then
     scratch=`python -c 'import config; print(config.getScratchRepoDir())'`
     rm -rf ${scratch}*
 
