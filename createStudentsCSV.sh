@@ -8,9 +8,22 @@ pairsP2="P2Pairs.csv"
 echo "Timestamp,First Name,Last Name,github userid,Umail address,CSIL userid" >> ${output}
 
 #exclude any line with emails and special symbols, return only unique lines
-list=`grep -v "@" | uniq -u`
-
+grep -v "@" ${filename}  | uniq -u > temp.csv
 while read line; do
-	echo ${line}
+    TS=`echo ${line} | awk -F',' '{print $1}'`
+    FN=`echo ${line} | awk -F',' '{print $2}'`
+    LN=`echo ${line} | awk -F',' '{print $3}'`
+    GID=`echo ${line} | awk -F',' '{print $4}'`
+    PID=`echo ${line} | awk -F',' '{print $5}'`
 
-done < ${list}
+    echo "${TS},${FN},${LN},${GID},@,${PID}" >> ${output}
+done < temp.csv
+
+
+#exclude any line without a pair (probably no as efficient...)
+grep -v ",,," ${filename}  | uniq -u > temp.csv
+#while read line; do
+#    echo -n
+#done < temp.csv
+
+rm temp.csv
