@@ -45,6 +45,9 @@ if [ "$3" == "ADD" ] || [ "$3" == "BOTH"  ]; then
 fi
 
 if [ "$3" == "CREATE"  ] || [ "$3" == "BOTH"  ]; then
+    scratch=`python -c 'import config; print(config.getScratchRepoDir())'`
+    rm -rf ${scratch}*
+
     echo "Creating individual repos"
     currLog="${repoLogs}/${lab}_creatingRepos"
     currTime=`date`
