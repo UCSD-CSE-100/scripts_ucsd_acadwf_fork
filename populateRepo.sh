@@ -22,7 +22,7 @@ rm -rf *
 
 alreadyPopulated=`grep "${reponame}" ../deploy/alreadyDeployed`
 
-if [ ! -z ${alreadyPopulated} ]; then
+if [ ! -z "${alreadyPopulated}" ]; then
 	echo "Already populated!\n"
 	exit 0
 fi
@@ -65,5 +65,5 @@ fi
 git commit -m "Project Files for P${labnum} pushed by populateRepo.sh script"
 git push origin master
 
-
+echo ${repoName} >> alreadyCreated
 
