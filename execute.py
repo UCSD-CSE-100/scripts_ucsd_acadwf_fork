@@ -21,8 +21,7 @@ with open(sys.argv[3], 'a') as log:
     child = pexpect.spawn(cmd)
     child.expect('Password: ')
     child.sendline(password)
-
-    child.expect(pexpect.EOF, 6000)
+    child.expect(pexpect.EOF,10800)
     log.write(child.before)
     
 child.close()    
