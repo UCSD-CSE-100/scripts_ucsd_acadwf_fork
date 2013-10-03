@@ -36,7 +36,7 @@ fi
 if [ "$3" == "PAIRS" ] || [ "$3" == "ALL" ]; then
     echo "Creating Paired teams"
     currTime=`date`
-	currLog="${repoLogs}/${lab}_AddingStudentsAndTeams"
+    currLog="${repoLogs}/${lab}_AddingStudentsAndTeams"
     echo >> ${currLog}
     echo -e "\nCreating pair teams @ ${currTime}" >> ${currLog}
     echo -e "-------------------------" >> ${currLog}
@@ -73,12 +73,15 @@ if [ "$3" == "CREATE"  ] || [ "$3" == "ALL"  ]; then
     	echo -e "Did not create all team repos\n"
     	exit
     fi
+	
+fi
 
+if [ "$3" == "POPULATE" ] || [ "$3" == "ALL" ]; then
+    currLog="${repoLogs}/${lab}_PopulateRepos"
     echo -e "\n\n" >> ${currLog}
-    
+
     echo "Pushing files to created repos"
     currTime=`date`
-    currLog="${repoLogs}/${lab}_PopulateRepos"
     echo -e "Pushing files to repos @ ${currTime}" >> ${currLog}
     echo -e "-------------------------" >> ${currLog}
     ./execute.py "pushFilesToRepo.py" "-u ${user} ${lab}" "${currLog}" "${password}"
