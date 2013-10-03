@@ -18,6 +18,15 @@ printf "Populating repo %s... " $repoName
 
 mkdir -p $scratchDir; cd $scratchDir
 
+rm -rf *
+
+alreadyPopulated=`grep "${reponame}" ../deploy/alreadyDeployed`
+
+if [ ! -z ${alreadyPopulated} ]; then
+	echo "Already populated!\n"
+	exit 0
+fi
+
 if [ -d $scratchDir/$repoName ] ; then
    printf " found repo %s ... " $repoName
 else
