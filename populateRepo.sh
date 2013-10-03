@@ -20,7 +20,9 @@ mkdir -p $scratchDir; cd $scratchDir
 
 rm -rf *
 
-alreadyPopulated=`grep "${reponame}" ../deploy/alreadyDeployed`
+if [ -f "../deploy/alreadyDeployed" ]; then
+    alreadyPopulated=`grep "${reponame}" ../deploy/alreadyDeployed`
+fi
 
 if [ ! -z "${alreadyPopulated}" ]; then
 	echo "Already populated!\n"
