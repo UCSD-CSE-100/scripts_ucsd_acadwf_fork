@@ -27,7 +27,7 @@ while read line; do
 done < students_list.csv
 
 while read line; do
-    id=`echo ${line} | awk -F',' '{print $4}'`
+    id=`echo ${line} | awk -F',' '{print $1}'`
     created=`grep "${id}" teams`
     
     if [ -z "${created}" ]; then
