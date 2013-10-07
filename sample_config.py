@@ -22,6 +22,9 @@ projLang          = "C++"
 #Shell Script Globals
 scriptsLogsDir    = "/home/linux/ieng6/cs100e/USER/scriptLogs/"
 
+#List of current tutors
+tutors            = ["tutor_0", "tutor_1", "tutor_2", "tutor_3", "tutor_4", "tutor_5", "tutor_6", "tutor_7"]
+
 ''' Python Config calls '''
 def getStudentsFile():
     return students
@@ -56,4 +59,9 @@ def getProjLang():
 ''' Shell Script Config Calls '''
 def getScriptsLogsDir():
     return scriptsLogsDir
-	
+
+''' Returns a list of tuples of tutors and their tar files for distribution '''
+def getTutors():
+    tutor_tuples = [(x,  x + "_grading" ) for x in tutors]
+    return tutor_tuples
+
