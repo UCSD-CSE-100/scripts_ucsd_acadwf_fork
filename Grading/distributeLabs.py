@@ -11,6 +11,11 @@ sys.path.append("..");
 import argparse
 from github_acadwf import pullRepoForGrading
 import config #assume exists due to ./initrepo
+import random
+import tarfile
+
+from github import Github
+from github import GithubException
 
 tutors    = config.getTutors()
 numTutors = len(tutors)
@@ -26,8 +31,12 @@ parser.add_argument('-o','--orgName',
 args = parser.parse_args()
 
 username = args.githubUsername
-pw = getpass.getpass()
-g = Github(username, pw, user_agent='PyGithub')
+pw       = getpass.getpass()
+g        = Github(username, pw, user_agent='PyGithub')
+org      = g.get_organization(args.orgName)
+repos    = org.get_repos()
+
+random.shuffle(tutors)
 
 
 sys.exit(0)
