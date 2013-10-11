@@ -4,6 +4,8 @@ import os
 import getpass
 import sys
 import random
+import tarfile
+import subprocess
 
 sys.path.append("../PyGithub");
 sys.path.append("..");
@@ -11,8 +13,7 @@ sys.path.append("..");
 import argparse
 from github_acadwf import pullRepoForGrading
 import config #assume exists due to ./initrepo
-import random
-import tarfile
+
 
 from github import Github
 from github import GithubException
@@ -37,7 +38,19 @@ org      = g.get_organization(args.orgName)
 repos    = org.get_repos()
 
 random.shuffle(tutors)
+currCount=0;
 
+for repo in repos:
+    if repo.name.startswith(args.prefix):
+    currTutorTar = tutors[currCount][1];
+    #perform operations here
+    
+    #check if repo was added
+    if(False):
+        currCount += 1
+        currCount %= 8
+        if ( currCount == 0 ):
+            random.shuffle(tutors)  
 
 sys.exit(0)
 
