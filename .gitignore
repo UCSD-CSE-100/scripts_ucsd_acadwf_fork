@@ -16,8 +16,7 @@ scriptLogs/
 
 #misc
 github_raw.csv
-students_list_partial.csv
+*_partial.csv
 alreadyCreated
-P1Pairs_partial.csv
-straglers.txt
+*.txt
 cse_100_fa13_roster.csv
