@@ -21,7 +21,6 @@ fi
 
 #clone and begin packaging the repository
 cd ${scratchDir}
-rm -rf *
 
 git clone ${2}
 cd ${1}
@@ -42,17 +41,29 @@ else
     git branch -d ontime
 fi
 
+#check for late submission day one, always get latest commit
+lateOne=`git rev-list -n 1 --before="10/12/2013 20:15" --after="10/11/2013 20:15" master`
+if [ ! -z "${lateOne}" ]; then
+   git checkout ${lateOne} -b lateone
+   tar -cvf ../${1}_lateone.tar BST.hpp BSTNode.hpp BSTIterator.hpp
+   git branch -d lateone
+fi
 
+#check for late submission day two, always get latest commit
+lateTwo=`git rev-list -n 1 --before="10/13/2013 20:15" --after="10/12/2013 20:15" master`
+if [ ! -z "${lateOne}" ]; then
+   git checkout ${lateTwo} -b latetwo
+   tar -cvf ../${1}_latetwo.tar BST.hpp BSTNode.hpp BSTIterator.hpp
+   git branch -d latetwo
+fi
 
-#check for late submission day one
-
-
-#check for late submission day two
-
+cd ..
+tar -Azvf ${scratchDir}${3}.tar.gz *.tar
 
 #Finished with packaging, check if was success
 if [ $? -ne 0 ]; then
    echo "Did not successfully add to archive"
+   rm -rf * #perform cleanup
    exit 1
 else
    if [ -z "${pair}" ]; then
@@ -63,4 +74,5 @@ else
    fi
 fi
 
+rm -rf * #perform cleanup because of possible quota issues
 exit 0
