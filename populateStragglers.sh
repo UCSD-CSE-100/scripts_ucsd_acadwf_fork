@@ -1,6 +1,8 @@
 #!/bin/bash
 
-#usage ./populateStragglers.sh LABNAME
+if [ $# -ne 1 ]; then
+   echo "usage ./populateStragglers.sh LABNAME"
+fi
 
 protodir=`python -c 'import config;print(config.getPrototypeDir())'`
 protodir=`echo ${protodir}$1`
