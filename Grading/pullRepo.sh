@@ -8,7 +8,7 @@ fi
 #initial setup
 submissionsDir=`python -c 'import sys; sys.path.append(".."); import config; print(config.getLabSubmissionsDir())'`
 scratchDir=`python -c 'import sys; sys.path.append(".."); import config; print(config.getScratchRepoDir())'`
-graderTar="${submissionsDir}${3}.tar"
+graderZip="${submissionsDir}${3}.zip"
 
 #check if we are currently in a pair
 pair=`echo ${1} | grep "Pair"`
@@ -53,7 +53,7 @@ fi
 
 #check for late submission day two, always get latest commit
 lateTwo=`git rev-list -n 1 --before="10/13/2013 20:15" --after="10/12/2013 20:15" master`
-if [ ! -z "${lateOne}" ]; then
+if [ ! -z "${lateTwo}" ]; then
    git checkout ${lateTwo} -b latetwo
    tar -cvf ../${1}_latetwo.tar BST.hpp BSTNode.hpp BSTIterator.hpp
    git checkout master
@@ -61,7 +61,8 @@ if [ ! -z "${lateOne}" ]; then
 fi
 
 cd ..
-tar -Avf ${scratchDir}${3}.tar ${1}.tar.gz
+tar -czvf ${1}.tar.gz *.tar
+zip ${graderZip} ${1}.tar.gz
 
 #Finished with packaging, check if was success
 if [ $? -ne 0 ]; then
