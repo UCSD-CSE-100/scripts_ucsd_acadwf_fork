@@ -54,6 +54,12 @@ url="https://sites.google.com/a/eng.ucsd.edu/cse-100-fall-2013/assignments/assig
 echo -e "\nAssignment README can be found here: ${url}\n" >> README.md
 git add README.md
 
+#add .gitignore values
+echo "#Ignore editor generated files" >> .gitignore
+echo "*.swp" >> .gitignore
+echo "*.gch" >> .gitignore
+echo "*~" >> .gitignore
+git add .gitignore
 
 if [ -f $protoDir/.gitignore ] ; then
    cp $protoDir/.gitignore .
