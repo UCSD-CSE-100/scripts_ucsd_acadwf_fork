@@ -71,10 +71,10 @@ if [ $? -ne 0 ]; then
    exit 1
 else
    if [ -z "${pair}" ]; then
-      echo "${student}" >> students_pulled
+      echo "${student}" >> ${submissionsDir}students_pulled
    else
-      echo "${studentOne}" >> students_pulled
-      echo "${studentTwo}" >> students_pulled
+      echo "${studentOne}" >> ${submissionsDir}students_pulled
+      echo "${studentTwo}" >> ${submissionsDir}students_pulled
    fi
 fi
 
