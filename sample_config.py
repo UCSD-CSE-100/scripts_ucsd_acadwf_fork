@@ -62,6 +62,5 @@ def getScriptsLogsDir():
 
 ''' Returns a list of tuples of tutors and their tar files for distribution '''
 def getTutors():
-    tutor_tuples = [(x,  x + "_grading" ) for x in tutors]
-    return tutor_tuples
+    return tutors;
 
