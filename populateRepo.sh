@@ -55,7 +55,7 @@ echo -e "\nAssignment README can be found here: ${url}\n" >> README.md
 git add README.md
 
 #add .gitignore values
-echo "#Ignore editor generated files" >> .gitignore
+echo -e "\n#Ignore editor generated files" >> .gitignore
 echo "*.swp" >> .gitignore
 echo "*.gch" >> .gitignore
 echo "*~" >> .gitignore
