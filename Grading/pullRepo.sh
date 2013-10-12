@@ -38,6 +38,7 @@ else
        git checkout ${exists} -b ontime
     fi
     tar -cvf ../${1}_ontime.tar BST.hpp BSTNode.hpp BSTIterator.hpp
+    git checkout master
     git branch -d ontime
 fi
 
@@ -46,6 +47,7 @@ lateOne=`git rev-list -n 1 --before="10/12/2013 20:15" --after="10/11/2013 20:15
 if [ ! -z "${lateOne}" ]; then
    git checkout ${lateOne} -b lateone
    tar -cvf ../${1}_lateone.tar BST.hpp BSTNode.hpp BSTIterator.hpp
+   git checkout master
    git branch -d lateone
 fi
 
@@ -54,11 +56,12 @@ lateTwo=`git rev-list -n 1 --before="10/13/2013 20:15" --after="10/12/2013 20:15
 if [ ! -z "${lateOne}" ]; then
    git checkout ${lateTwo} -b latetwo
    tar -cvf ../${1}_latetwo.tar BST.hpp BSTNode.hpp BSTIterator.hpp
+   git checkout master
    git branch -d latetwo
 fi
 
 cd ..
-tar -Azvf ${scratchDir}${3}.tar.gz *.tar
+tar -Avf ${scratchDir}${3}.tar ${1}.tar.gz
 
 #Finished with packaging, check if was success
 if [ $? -ne 0 ]; then
