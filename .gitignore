@@ -20,3 +20,8 @@ github_raw.csv
 alreadyCreated
 *.txt
 cse_100_fa13_roster.csv
+
+#ignore compressed files
+*.zip
+*.tar
+*tar.gz
