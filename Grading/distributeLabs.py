@@ -4,7 +4,6 @@ import os
 import getpass
 import sys
 import random
-import tarfile
 import subprocess
 
 sys.path.append("../PyGithub");
@@ -42,15 +41,23 @@ currCount=0;
 
 for repo in repos:
     if repo.name.startswith(args.prefix):
-    currTutorTar = tutors[currCount][1];
+    currTutor = tutors[currCount];
     #perform operations here
-    
+    callList = ["./pullRepo.sh",repo.name,repo.ssh_url,currTutor]
+    check = subprocess.call(callList)
     #check if repo was added
-    if(False):
+    if(check == 0):
         currCount += 1
         currCount %= 8
         if ( currCount == 0 ):
-            random.shuffle(tutors)  
+            random.shuffle(tutors)
 
-sys.exit(0)
+# pick up the stragglers
+callList = ["./pullStragglers.sh"]
+check = subprocess.call(callList)
+
+if(check == 0):
+    sys.exit(0)
+
+sys.exit(1)
 
