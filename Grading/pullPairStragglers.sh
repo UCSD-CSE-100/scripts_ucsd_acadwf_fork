@@ -28,7 +28,7 @@ while read line; do
         git ls-remote ${repoUrl} > /dev/null 2>&1
         if [ $? -eq 0 ]; then
             currTutor="${tutors[$curr]}"
-            ./pullRepo ${repoName} ${repoUrl} ${currTutor} "IGNORE"
+            ./pullRepo.sh ${repoName} ${repoUrl} ${currTutor} "IGNORE"
             if [ $? -eq 0 ]; then
                 echo "${student1}" > ${pulled}
                 echo "${student2}" > ${pulled}
@@ -39,7 +39,7 @@ while read line; do
             git ls-remote ${repoUrl} > /dev/null 2>&1
             if [ $? -eq 0 ]; then
                 currTutor="${tutors[$curr]}"
-                ./pullRepo ${repoName} ${repoUrl} ${currTutor} "IGNORE"
+                ./pullRepo.sh ${repoName} ${repoUrl} ${currTutor} "IGNORE"
                 if [ $? -eq 0 ]; then
                     echo "${student1}" > ${pulled}
                     echo "${student2}" > ${pulled}

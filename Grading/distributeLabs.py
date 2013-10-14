@@ -53,19 +53,19 @@ for repo in repos:
                 random.shuffle(tutors)
 
 # pick up the pair stragglers
-callList = ["./pullPairStragglers.sh", args.prefix]
-check = subprocess.call(callList)
+#callList = ["./pullPairStragglers.sh", args.prefix]
+#check = subprocess.call(callList)
 
-if (check != 0 ):
-    print("Did not pick up all pairs!")
+#if (check != 0 ):
+#    print("Did not pick up all pairs!")
 
 #pick up the remaining students
-callList = ["./pullStragglers.sh", args.prefix]
-check = subprocess.call(callList)
+#callList = ["./pullStragglers.sh", args.prefix]
+#check = subprocess.call(callList)
 
-if(check == 0):
-    sys.exit(0)
+#if(check == 0):
+#    sys.exit(0)
 
-print("Did not pick up all students!")
+#print("Did not pick up all students!")
 sys.exit(1)
 
