@@ -35,7 +35,7 @@ else
        git checkout ${exists} -b ontime
     else
        revision=`git rev-list -n 1 --before="10/11/2013 20:15" master`
-       git checkout ${exists} -b ontime
+       git checkout ${revision} -b ontime
     fi
     tar -cvf ../${1}_ontime.tar BST.hpp BSTNode.hpp BSTIterator.hpp
     git checkout master
