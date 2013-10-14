@@ -29,7 +29,7 @@ cd ${1}
 exists=`git rev-list -n 1 --before="10/11/2013 20:15" --grep="FINAL SUBMISSION" master`
 if [ -z "${exists}" ] && [ -z "${4}" ]; then
    echo "No final submission in this repo, excluded from current pass"
-   rm -rf * #early cleanup
+   rm -rf ${scratchDir}* #early cleanup
    exit 1
 else
     if [ ! -z "${exists}" ]; then
@@ -68,7 +68,7 @@ zip ${graderZip} ${1}.tar.gz
 #Finished with packaging, check if was success
 if [ $? -ne 0 ]; then
    echo "Did not successfully add to archive"
-   rm -rf * #perform cleanup
+   rm -rf ${scratchDir}* #perform cleanup
    exit 1
 else
    if [ -z "${pair}" ]; then
@@ -79,5 +79,5 @@ else
    fi
 fi
 
-rm -rf * #perform cleanup because of possible quota issues
+rm -rf ${scratchDir}* #perform cleanup because of possible quota issues
 exit 0
