@@ -7,7 +7,10 @@ declare -i curr
 let counter=0
 
 awk 'NR>1' ../students_list.csv > temp
+submissionsDir=`python -c 'import sys; sys.path.append(".."); import config; print(config.getLabSubmissionsDir())'`
+pulled="${submissionsDir}students_pulled"
 
+echo "${pulled}"
 while read line; do
     let curr=counter%8
     echo "$line"
