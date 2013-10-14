@@ -29,7 +29,6 @@ while read line; do
         if [ $? -eq 0 ]; then
             currTutor="${tutors[$curr]}"
             ./pullRepo.sh ${repoName} ${repoUrl} ${currTutor} "IGNORE"
-            fi
         else
             repoName="P1_Pair_${student2}_${student1}"
             repoUrl="git@github.com:UCSD-CSE-100/${repoName}.git"

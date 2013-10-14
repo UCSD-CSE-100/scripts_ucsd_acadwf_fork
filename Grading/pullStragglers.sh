@@ -18,11 +18,12 @@ pulled="${submissionsDir}students_pulled"
 echo "${pulled}"
 while read line; do
     let curr=counter%8
-    githubid=`echo ${line} | awk -F',' '{print $4}'`
+    githubid=`echo "${line}" | awk -F',' '{print $4}'`
+    githubid=`echo "${githubid}" | tr '[:upper:]' '[:lower:]'`
     isPulled=`grep "${githubid}" ${pulled}`
     if [ -z "${isPulled}" ]; then
         currTutor="${tutors[$curr]}"
-        repoName="$1_${githubid}"
+        repoName="P1_${githubid}"
         repoUrl="git@github.com:UCSD-CSE-100/${repoName}.git"
         
         ./pullRepo.sh ${repoName} ${repoUrl} ${currTutor} "IGNORE"

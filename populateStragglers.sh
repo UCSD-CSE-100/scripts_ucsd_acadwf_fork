@@ -15,4 +15,4 @@ while read line; do
    ./populateRepo.sh $repoName $repoUrl $protodir $scratchDir
    echo "RepoName: ${repoName} ${repoUrl} ${protodir} ${scratchDir}"
 
-done < straglers.txt
+done < stragglers

@@ -20,6 +20,7 @@ github_raw.csv
 alreadyCreated
 *.txt
 cse_100_fa13_roster.csv
+stragglers
 
 #ignore compressed files
 *.zip
