@@ -22,7 +22,7 @@ while read line; do
     isPulled=`grep "${githubid}" ${pulled}`
     if [ -z "${isPulled}" ]; then
         currTutor="${tutors[$curr]}"
-        repoName="$1_${githubid}"
+        repoName="P1_${githubid}"
         repoUrl="git@github.com:UCSD-CSE-100/${repoName}.git"
         
         ./pullRepo.sh ${repoName} ${repoUrl} ${currTutor} "IGNORE"
