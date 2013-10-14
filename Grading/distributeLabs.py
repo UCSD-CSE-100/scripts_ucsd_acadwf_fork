@@ -53,7 +53,7 @@ for repo in repos:
             random.shuffle(tutors)
 
 # pick up the stragglers
-callList = ["./pullStragglers.sh"]
+callList = ["./pullStragglers.sh", args.prefix]
 check = subprocess.call(callList)
 
 if(check == 0):
