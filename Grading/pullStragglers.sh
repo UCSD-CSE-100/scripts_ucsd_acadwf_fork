@@ -25,7 +25,7 @@ while read line; do
         repoName="$1_${githubid}"
         repoUrl="git@github.com:UCSD-CSE-100/${repoName}.git"
         
-        ./pullRepo.sh ${repoName} ${repoUrl} ${currTutor}
+        ./pullRepo.sh ${repoName} ${repoUrl} ${currTutor} "IGNORE"
         
         if [ $? -eq 0 ]; then
             let counter=counter+1
