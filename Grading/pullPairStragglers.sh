@@ -29,9 +29,6 @@ while read line; do
         if [ $? -eq 0 ]; then
             currTutor="${tutors[$curr]}"
             ./pullRepo.sh ${repoName} ${repoUrl} ${currTutor} "IGNORE"
-            if [ $? -eq 0 ]; then
-                echo "${student1}" >> ${pulled}
-                echo "${student2}" >> ${pulled}
             fi
         else
             repoName="P1_Pair_${student2}_${student1}"
@@ -40,10 +37,6 @@ while read line; do
             if [ $? -eq 0 ]; then
                 currTutor="${tutors[$curr]}"
                 ./pullRepo.sh ${repoName} ${repoUrl} ${currTutor} "IGNORE"
-                if [ $? -eq 0 ]; then
-                    echo "${student1}" >> ${pulled}
-                    echo "${student2}" >> ${pulled}
-                fi
             else
                 echo "Pair does not have a repository!" >> pullPairsLog
             fi
