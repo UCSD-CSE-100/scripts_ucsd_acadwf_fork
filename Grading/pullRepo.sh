@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ $# -ne 3 ]; then
+if [ $# -lt 3 ]; then
    echo "Usage: pullRepo.sh repoName repoUrl grader [IGNORE]"
    exit 1
 fi
