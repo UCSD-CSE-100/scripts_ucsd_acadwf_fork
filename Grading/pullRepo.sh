@@ -29,6 +29,7 @@ cd ${1}
 exists=`git rev-list -n 1 --before="10/11/2013 20:15" --grep="FINAL SUBMISSION" master`
 if [ -z "${exists}" ] && [ -z "${4}" ]; then
    echo "No final submission in this repo, excluded from current pass"
+   rm -rf * #early cleanup
    exit 1
 else
     if [ ! -z "${exists}" ]; then
