@@ -44,27 +44,40 @@ fi
 
 git pull origin master
 
-cp -r $protoDir/* .
-git add .
+if [ ! -f "Makefile" ]; then
+    cp -r $protoDir/* .
+    git add .
+else
+    cp $protoDir/test_RST.cpp .
+    git add test_RST.cpp
+fi
 
 #add assignment README url to readme
 #can't just use second grep as disambiguation might add
 labnum=`echo "${repoName}" | awk -F'_' '{print $1}' | grep -oh "[0-9]"`
 url="https://sites.google.com/a/eng.ucsd.edu/cse-100-fall-2013/assignments/assignment-${labnum}-readme"
-echo -e "\nAssignment README can be found here: ${url}\n" >> README.md
-git add README.md
+
+added=`grep "${url}" README.md`
+if [ -z "${added}" ]; then
+    echo -e "\nAssignment README can be found here: ${url}\n" >> README.md
+    git add README.md
+fi
 
 #add .gitignore values
-echo -e "\n#Ignore editor generated files" >> .gitignore
-echo "*.swp" >> .gitignore
-echo "*.gch" >> .gitignore
-echo "*~" >> .gitignore
-git add .gitignore
+added=`grep "#Ignore editor generated" .gitignore`
+if [ -z "${added}" ]; then
+   echo -e "\n#Ignore editor generated files" >> .gitignore
+   echo "*.swp" >> .gitignore
+   echo "*.gch" >> .gitignore
+   echo "*~" >> .gitignore
+   git add .gitignore
+fi
 
 if [ -f $protoDir/.gitignore ] ; then
    cp $protoDir/.gitignore .
    git add .gitignore
 fi
+
 if [ -f $protoDir/.gitmodues ] ; then
    cp $protoDir/.gitmodules .
    git add .gitmodules
