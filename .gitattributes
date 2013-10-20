@@ -1,4 +1,6 @@
+#Preserve line endings for scripts
 *.py text eol=lf
 *.sh text eol=lf
 
+#Preserve line endings for README and markdown files
 *.md text eol=crlf
