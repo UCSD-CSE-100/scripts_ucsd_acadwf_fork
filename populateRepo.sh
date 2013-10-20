@@ -70,11 +70,16 @@ if [ -z "${added}" ]; then
    echo "*.swp" >> .gitignore
    echo "*.swn" >> .gitignore
    echo "*.swo" >> .gitignore
-   echo "*.gch" >> .gitignore
+   echo "*.gch*" >> .gitignore
    echo "*~" >> .gitignore
    echo -e "\n#Ignore student created binaries" >> .gitignore
    echo "a.out" >> .gitignore
    git add .gitignore
+fi
+
+#add .gitattributes file to force line endings
+if [ -z ".gitattributes" ]; then
+    echo -e ""
 fi
 
 if [ -f $protoDir/.gitignore ] ; then
