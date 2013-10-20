@@ -79,7 +79,11 @@ fi
 
 #add .gitattributes file to force line endings
 if [ -z ".gitattributes" ]; then
-    echo -e ""
+    echo "#Preserving UNIX style line endings across repos" >> .gitattributes
+    echo "*.cpp text eol=lf" >> .gitattributes
+    echo "*.hpp text eol=lf" >> .gitattributes
+    echo "*.md text eol=lf"  >> .gitattributes
+    echo "MAKEFILE text eol=lf" >> .gitattributes
 fi
 
 if [ -f $protoDir/.gitignore ] ; then
