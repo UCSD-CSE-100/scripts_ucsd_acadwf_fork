@@ -68,8 +68,12 @@ added=`grep "#Ignore editor generated" .gitignore`
 if [ -z "${added}" ]; then
    echo -e "\n#Ignore editor generated files" >> .gitignore
    echo "*.swp" >> .gitignore
+   echo "*.swn" >> .gitignore
+   echo "*.swo" >> .gitignore
    echo "*.gch" >> .gitignore
    echo "*~" >> .gitignore
+   echo -e "\n#Ignore student created binaries" >> .gitignore
+   echo "a.out" >> .gitignore
    git add .gitignore
 fi
 
