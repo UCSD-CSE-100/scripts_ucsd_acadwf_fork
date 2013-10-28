@@ -59,7 +59,7 @@ if [ ! -z "${lateOne}" ]; then
 fi
 
 #check for late submission day two, always get latest commit
-lateTwo=`git rev-list -n 1 --before="10/17/2013 20:15" --after="10/16/2013 20:15" master`
+lateTwo=`git rev-list -n 1 --before="10/27/2013 20:15" --after="10/26/2013 20:15" master`
 if [ ! -z "${lateTwo}" ]; then
    git checkout ${lateTwo} -b latetwo
    tar -cvf ../${1}_latetwo.tar BST*.hpp RST.hpp benchtree.cpp countint.*pp

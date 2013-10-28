@@ -25,13 +25,14 @@ pulled="${submissionsDir}students_pulled"
 touch ${pulled}
 
 while read line; do
+    echo "${line}"
     let curr=counter%8
     currTutor="${tutors[$curr]}"
     githubid=`echo "${line}" | awk -F',' '{print $4}' | tr '[:upper:]' '[:lower:]'`
     isPulled=`grep "${githubid}" ${pulled}`
     if [ -z "${isPulled}" ]; then
         pair=`grep -i "$githubid" ../P1Pairs.csv`
-        if [ -z "${pair}" ]; then
+        if [ ! -z "${pair}" ]; then
             githubid_P1=`echo "${pair}" | awk -F',' '{print $1}' | tr '[:upper:]' '[:lower:]'`
             githubid_P2=`echo "${pair}" | awk -F',' '{print $2}' | tr '[:upper:]' '[:lower:]'`
             fName_P1=`grep -io "${githubid_P1}" temp_students | awk -F',' '{print $2}'`
@@ -82,6 +83,7 @@ while read line; do
             fi
         fi
     fi
+    
 done < temp_students
 
 rm -f temp_students
