@@ -25,8 +25,20 @@ cd ${scratchDir}
 git clone ${2}
 cd ${1}
 
+#Check if checkpoint submission exists, pull latest commit before deadline if it does not
+exits=`git rev-list -n 1 --before="10/21/2013 18:30" --grep="CHECKPOINT" master`
+if [ -z "${exists}" ]; then
+   revision=`git rev-list -n 1 --before="10/21/2013 18:30" master`
+   git checkout ${revision} -b checkpoint
+else
+   git checkout ${exists} -b checkpoint
+fi
+tar -cvf ../${1}_checkpoint.tar BST*.hpp RST.hpp
+git checkout master
+git branch -d checkpoint
+
 #check if final submission exists, unless we are ignoring final submission
-exists=`git rev-list -n 1 --before="10/11/2013 20:15" --grep="FINAL SUBMISSION" master`
+exists=`git rev-list -n 1 --before="10/25/2013 20:15" --grep="FINAL SUBMISSION" master`
 if [ -z "${exists}" ] && [ -z "${4}" ]; then
    echo "No final submission in this repo, excluded from current pass"
    rm -rf ${scratchDir}* #early cleanup
@@ -35,34 +47,36 @@ else
     if [ ! -z "${exists}" ]; then
        git checkout ${exists} -b ontime
     else
-       revision=`git rev-list -n 1 --before="10/11/2013 20:15" master`
+       revision=`git rev-list -n 1 --before="10/25/2013 20:15" master`
        git checkout ${revision} -b ontime
     fi
-    tar -cvf ../${1}_ontime.tar BST.hpp BSTNode.hpp BSTIterator.hpp
+    tar -cvf ../${1}_ontime.tar BST*.hpp RST.hpp benchtree.cpp countint.*pp
     git checkout master
     git branch -d ontime
 fi
 
 #check for late submission day one, always get latest commit
-lateOne=`git rev-list -n 1 --before="10/12/2013 20:15" --after="10/11/2013 20:15" master`
+lateOne=`git rev-list -n 1 --before="10/26/2013 20:15" --after="10/25/2013 20:15" master`
 if [ ! -z "${lateOne}" ]; then
    git checkout ${lateOne} -b lateone
-   tar -cvf ../${1}_lateone.tar BST.hpp BSTNode.hpp BSTIterator.hpp
+   tar -cvf ../${1}_lateone.tar BST*.hpp RST.hpp benchtree.cpp countint.*pp
    git checkout master
    git branch -d lateone
 fi
 
 #check for late submission day two, always get latest commit
-lateTwo=`git rev-list -n 1 --before="10/13/2013 20:15" --after="10/12/2013 20:15" master`
+lateTwo=`git rev-list -n 1 --before="10/17/2013 20:15" --after="10/16/2013 20:15" master`
 if [ ! -z "${lateTwo}" ]; then
    git checkout ${lateTwo} -b latetwo
-   tar -cvf ../${1}_latetwo.tar BST.hpp BSTNode.hpp BSTIterator.hpp
+   tar -cvf ../${1}_latetwo.tar BST*.hpp RST.hpp benchtree.cpp countint.*pp
    git checkout master
    git branch -d latetwo
 fi
 
+cp *.pdf ../.
+
 cd ..
-tar -czvf ${1}.tar.gz *.tar
+tar --ignore-failed-read -czvf ${1}.tar.gz *.tar *.pdf
 zip ${graderZip} ${1}.tar.gz
 
 #Finished with packaging, check if was success
