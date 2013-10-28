@@ -32,8 +32,8 @@ while read line; do
     if [ -z "${isPulled}" ]; then
         pair=`grep -i "$githubid" ../P1Pairs.csv`
         if [ -z "${pair}" ]; then
-            githubid_P1=`echo "${pair}" | awk -F',' '{print $1}' | tr '[:upper:]' '[:lower:]`
-            githubid_P2=`echo "${pair}" | awk -F',' '{print $2}' | tr '[:upper:]' '[:lower:]`
+            githubid_P1=`echo "${pair}" | awk -F',' '{print $1}' | tr '[:upper:]' '[:lower:]'`
+            githubid_P2=`echo "${pair}" | awk -F',' '{print $2}' | tr '[:upper:]' '[:lower:]'`
             fName_P1=`grep -io "${githubid_P1}" temp_students | awk -F',' '{print $2}'`
             lName_P1=`grep -io "${githubid_P1}" temp_students | awk -F',' '{print $3}'`
             fName_P2=`grep -io "${githubid_P2}" temp_students | awk -F',' '{print $2}'`
