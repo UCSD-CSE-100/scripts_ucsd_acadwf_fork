@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ $# -lt 3 ]; then
-   echo "Usage: pullRepo.sh repoName repoUrl grader [IGNORE]"
+   echo "Usage: pullRepo.sh repoName repoUrl grader"
    exit 1
 fi
 
