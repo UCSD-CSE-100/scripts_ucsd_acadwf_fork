@@ -10,20 +10,20 @@ submissionsDir=`python -c 'import sys; sys.path.append(".."); import config; pri
 scratchDir=`python -c 'import sys; sys.path.append(".."); import config; print(config.getScratchRepoDir())'`
 graderZip="${submissionsDir}${3}.zip"
 
-#check if we are currently in a pair
-pair=`echo ${1} | grep "Pair"`
-if [ -z "${pair}" ]; then
-    student=`echo ${1} | awk -F'_' '{print $2}'`
-else
-    studentOne=`echo ${1} | awk -F'_' '{print $3}'`
-    studentTwo=`echo ${1} | awk -F'_' '{print $4}'`
-fi
-
 #clone and begin packaging the repository
 cd ${scratchDir}
 
 git clone ${2}
 cd ${1}
+
+#If they have less than a certain number of commits, exit
+commits=`git shortlog | grep -E '^[ ]+\w+' | wc -l`
+if [ "${commits}" -le 3 ]; then
+    echo "Did not work in this repository"
+    cd ..
+    rm -rf ${scratchDir}* #perform cleanup
+    exit 0
+fi
 
 #Check if checkpoint submission exists, pull latest commit before deadline if it does not
 exits=`git rev-list -n 1 --before="10/21/2013 18:30" --grep="CHECKPOINT" master`
@@ -38,22 +38,16 @@ git checkout master
 git branch -d checkpoint
 
 #check if final submission exists, unless we are ignoring final submission
-exists=`git rev-list -n 1 --before="10/25/2013 20:15" --grep="FINAL SUBMISSION" master`
-if [ -z "${exists}" ] && [ -z "${4}" ]; then
-   echo "No final submission in this repo, excluded from current pass"
-   rm -rf ${scratchDir}* #early cleanup
-   exit 1
+exists=`git rev-list -n 1 --before="10/25/2013 20:15" --grep="FINAL" master`
+if [ -z "${exists}" ]; then
+    revision=`git rev-list -n 1 --before="10/25/2013 20:15" master`
+    git checkout ${revision} -b ontime
 else
-    if [ ! -z "${exists}" ]; then
-       git checkout ${exists} -b ontime
-    else
-       revision=`git rev-list -n 1 --before="10/25/2013 20:15" master`
-       git checkout ${revision} -b ontime
-    fi
-    tar -cvf ../${1}_ontime.tar BST*.hpp RST.hpp benchtree.cpp countint.*pp
-    git checkout master
-    git branch -d ontime
+    git checkout ${exists} -b ontime
 fi
+tar -cvf ../${1}_ontime.tar BST*.hpp RST.hpp benchtree.cpp countint.*pp
+git checkout master
+git branch -d ontime
 
 #check for late submission day one, always get latest commit
 lateOne=`git rev-list -n 1 --before="10/26/2013 20:15" --after="10/25/2013 20:15" master`
@@ -84,13 +78,6 @@ if [ $? -ne 0 ]; then
    echo "Did not successfully add to archive"
    rm -rf ${scratchDir}* #perform cleanup
    exit 1
-else
-   if [ -z "${pair}" ]; then
-      echo "${student}" >> ${submissionsDir}students_pulled
-   else
-      echo "${studentOne}" >> ${submissionsDir}students_pulled
-      echo "${studentTwo}" >> ${submissionsDir}students_pulled
-   fi
 fi
 
 rm -rf ${scratchDir}* #perform cleanup because of possible quota issues
