@@ -30,14 +30,14 @@ while read line; do
     githubid=`echo "${line}" | awk -F',' '{print $4}' | tr '[:upper:]' '[:lower:]'`
     isPulled=`grep "${githubid}" ${pulled}`
     if [ -z "${isPulled}" ]; then
-        pair=`grep "$githubid" P1Pairs.csv`
+        pair=`grep -i "$githubid" ../P1Pairs.csv`
         if [ -z "${pair}" ]; then
             githubid_P1=`echo "${pair}" | awk -F',' '{print $1}' | tr '[:upper:]' '[:lower:]`
             githubid_P2=`echo "${pair}" | awk -F',' '{print $2}' | tr '[:upper:]' '[:lower:]`
-            fName_P1=`grep -io "${githubid_P1}" temp | awk -F',' '{print $2}'`
-            lName_P1=`grep -io "${githubid_P1}" temp | awk -F',' '{print $3}'`
-            fName_P2=`grep -io "${githubid_P2}" temp | awk -F',' '{print $2}'`
-            lName_P2=`grep -io "${githubid_P2}" temp | awk -F',' '{print $3}'`
+            fName_P1=`grep -io "${githubid_P1}" temp_students | awk -F',' '{print $2}'`
+            lName_P1=`grep -io "${githubid_P1}" temp_students | awk -F',' '{print $3}'`
+            fName_P2=`grep -io "${githubid_P2}" temp_students | awk -F',' '{print $2}'`
+            lName_P2=`grep -io "${githubid_P2}" temp_students | awk -F',' '{print $3}'`
             
             #pull for partner 1 if they worked in it
             repoName="P2_${githubid_P1}"
