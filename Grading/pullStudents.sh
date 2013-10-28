@@ -22,6 +22,7 @@ done
 #begin reading the students_list.csv
 awk 'NR>1' ../students_list.csv > temp
 pulled="${submissionsDir}students_pulled"
+touch ${pulled}
 
 while read line; do
     let curr=counter%8
