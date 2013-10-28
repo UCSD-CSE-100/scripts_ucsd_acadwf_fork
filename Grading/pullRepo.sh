@@ -20,6 +20,7 @@ cd ${1}
 commits=`git shortlog | grep -E '^[ ]+\w+' | wc -l`
 if [ "${commits}" -le 3 ]; then
     echo "Did not work in this repository"
+    echo "Commits was ${commits}"
     cd ..
     rm -rf ${scratchDir}* #perform cleanup
     exit 0
