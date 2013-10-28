@@ -35,20 +35,20 @@ while read line; do
         if [ ! -z "${pair}" ]; then
             githubid_P1=`echo "${pair}" | awk -F',' '{print $1}' | tr '[:upper:]' '[:lower:]'`
             githubid_P2=`echo "${pair}" | awk -F',' '{print $2}' | tr '[:upper:]' '[:lower:]'`
-            fName_P1=`grep -io "${githubid_P1}" temp_students | awk -F',' '{print $2}'`
-            lName_P1=`grep -io "${githubid_P1}" temp_students | awk -F',' '{print $3}'`
-            fName_P2=`grep -io "${githubid_P2}" temp_students | awk -F',' '{print $2}'`
-            lName_P2=`grep -io "${githubid_P2}" temp_students | awk -F',' '{print $3}'`
+            fName_P1=`grep -i "${githubid_P1}" temp_students | awk -F',' '{print $2}'`
+            lName_P1=`grep -i "${githubid_P1}" temp_students | awk -F',' '{print $3}'`
+            fName_P2=`grep -i "${githubid_P2}" temp_students | awk -F',' '{print $2}'`
+            lName_P2=`grep -i "${githubid_P2}" temp_students | awk -F',' '{print $3}'`
             
             #pull for partner 1 if they worked in it
             repoName="P2_${githubid_P1}"
             repoUrl="git@github.com:UCSD-CSE-100/${repoName}.git"
-            ./pullRepo.sh ${repoName} ${repoUrl} ${currTutor}
+            ./pullRepo.sh "${repoName}" "${repoUrl}" "${currTutor}"
             
             #pull for partner 2 if they worked in it
             repoName="P2_${githubid_P2}"
             repoUrl="git@github.com:UCSD-CSE-100/${repoName}.git"
-            ./pullRepo.sh ${repoName} ${repoUrl} ${currTutor}
+            ./pullRepo.sh "${repoName}" "${repoUrl}" "${currTutor}"
             
             #find what their repo is called
             repoName="P2_Pair_${githubid_P1}_${githubid_P2}"
@@ -59,7 +59,7 @@ while read line; do
                 repoUrl="git@github.com:UCSD-CSE-100/${repoName}.git"
             fi
             
-            ./pullRepo.sh ${repoName} ${repoUrl} ${currTutor}
+            ./pullRepo.sh "${repoName}" "${repoUrl}" "${currTutor}"
             if [ $? -eq 0 ]; then
                 echo "$currTutor,${fName_P1} ${lName_P1},YES,0,0,0," >> ${submissionsDir}${currTutor}.csv
                 echo "$currTutor,${fName_P2} ${lName_P2},YES,0,0,0," >> ${submissionsDir}${currTutor}.csv
@@ -75,7 +75,7 @@ while read line; do
             repoName="P2_${githubid}"
             repoUrl="git@github.com:UCSD-CSE-100/${repoName}.git"
             
-            ./pullRepo.sh ${repoName} ${repoUrl} ${currTutor}
+            ./pullRepo.sh "${repoName}" "${repoUrl}" "${currTutor}"
             if [ $? -eq 0 ]; then
                 echo "$currTutor,${fName} ${lName},NO,0,0,0," >> ${submissionsDir}${currTutor}.csv
                 let counter=counter+1

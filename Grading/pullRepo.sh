@@ -13,18 +13,21 @@ graderZip="${submissionsDir}${3}.zip"
 #clone and begin packaging the repository
 cd ${scratchDir}
 
+echo "Repo Url is ${2}, reponame is ${1}"
+
 git clone ${2}
-cd ${1}
+cd ${scratchDir}${1}
+pwd
 
 #If they have less than a certain number of commits, exit
-commits=`git shortlog | grep -E '^[ ]+\w+' | wc -l`
-if [ "${commits}" -le 3 ]; then
-    echo "Did not work in this repository"
-    echo "Commits was ${commits}"
-    cd ..
-    rm -rf ${scratchDir}* #perform cleanup
-    exit 0
-fi
+# commits=`git shortlog | grep -E '^[ ]+\w+' | wc -l`
+# if [ "${commits}" -le 3 ]; then
+    # echo "Did not work in this repository"
+    # echo "Commits was ${commits}"
+    # cd ..
+    # rm -rf ${scratchDir}* #perform cleanup
+    # exit 0
+# fi
 
 #Check if checkpoint submission exists, pull latest commit before deadline if it does not
 exits=`git rev-list -n 1 --before="10/21/2013 18:30" --grep="CHECKPOINT" master`
@@ -34,7 +37,9 @@ if [ -z "${exists}" ]; then
 else
    git checkout ${exists} -b checkpoint
 fi
-tar -cvf ../${1}_checkpoint.tar BST*.hpp RST.hpp
+if [ -f "BST.hpp" ]; then
+    tar -cvf ../${1}_checkpoint.tar BST*.hpp RST.hpp
+fi
 git checkout master
 git branch -d checkpoint
 
@@ -46,7 +51,9 @@ if [ -z "${exists}" ]; then
 else
     git checkout ${exists} -b ontime
 fi
-tar -cvf ../${1}_ontime.tar BST*.hpp RST.hpp benchtree.cpp countint.*pp
+if [ -f "BST.hpp" ]; then
+    tar -cvf ../${1}_ontime.tar BST*.hpp RST.hpp benchtree.cpp countint.*pp
+fi
 git checkout master
 git branch -d ontime
 
@@ -54,7 +61,9 @@ git branch -d ontime
 lateOne=`git rev-list -n 1 --before="10/26/2013 20:15" --after="10/25/2013 20:15" master`
 if [ ! -z "${lateOne}" ]; then
    git checkout ${lateOne} -b lateone
-   tar -cvf ../${1}_lateone.tar BST*.hpp RST.hpp benchtree.cpp countint.*pp
+   if [ -f "BST.hpp" ]; then
+      tar -cvf ../${1}_lateone.tar BST*.hpp RST.hpp benchtree.cpp countint.*pp
+   fi
    git checkout master
    git branch -d lateone
 fi
@@ -63,7 +72,9 @@ fi
 lateTwo=`git rev-list -n 1 --before="10/27/2013 20:15" --after="10/26/2013 20:15" master`
 if [ ! -z "${lateTwo}" ]; then
    git checkout ${lateTwo} -b latetwo
-   tar -cvf ../${1}_latetwo.tar BST*.hpp RST.hpp benchtree.cpp countint.*pp
+   if [ -f "BST.hpp" ]; then
+      tar -cvf ../${1}_latetwo.tar BST*.hpp RST.hpp benchtree.cpp countint.*pp
+   fi
    git checkout master
    git branch -d latetwo
 fi
