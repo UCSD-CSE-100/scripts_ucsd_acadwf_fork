@@ -1,12 +1,14 @@
 #!/bin/bash
 
 if [ $# -lt 1 ]; then
-    echo "Usage: pullStragglers.sh labNum"
+    echo "Usage: pullStudents.sh labNum"
     exit 1
 fi
 
 submissionsDir=`python -c 'import sys; sys.path.append(".."); import config; print(config.getLabSubmissionsDir())'`
 tutors=("victor_alor" "victoria_do" "leta_he" "arden_liao" "ryan_liao" "scott_lin" "michael_luo" "dong_nam")
+
+rm -rf ${submissionDir}
 
 declare -i counter
 declare -i curr
