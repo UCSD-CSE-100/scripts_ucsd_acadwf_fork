@@ -74,6 +74,8 @@ if [ -z "${added}" ]; then
    echo "*~" >> .gitignore
    echo -e "\n#Ignore student created binaries" >> .gitignore
    echo "a.out" >> .gitignore
+   echo -e "\n#Ignore Merge Conflict NFS file creation" >> .gitignore
+   echo "*.nfs*" >> .gitignore
    git add .gitignore
 fi
 
