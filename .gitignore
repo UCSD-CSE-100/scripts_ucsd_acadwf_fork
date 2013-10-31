@@ -20,6 +20,7 @@ reregistration_responses.*
 *_partial.csv
 alreadyCreated
 *.txt
+*Pairs.csv
 cse_100_fa13_roster.csv
 stragglers
 
