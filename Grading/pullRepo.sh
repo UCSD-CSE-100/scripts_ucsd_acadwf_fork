@@ -82,8 +82,10 @@ fi
 cp *.pdf ../.
 
 cd ..
-tar --ignore-failed-read -czvf ${1}.tar.gz *.tar *.pdf
-zip ${graderZip} ${1}.tar.gz
+if [ -f "${1}_lateone.tar" ] || [ -f "${1}_ontime.tar" ] || [ -f "${1}_latetwo.tar}" ]; then
+    tar --ignore-failed-read -czvf ${1}.tar.gz *.tar *.pdf
+    zip ${graderZip} ${1}.tar.gz
+fi
 
 #Finished with packaging, check if was success
 if [ $? -ne 0 ]; then
