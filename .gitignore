@@ -16,6 +16,7 @@ scriptLogs/
 
 #misc
 github_raw.csv
+reregistration_responses.*
 *_partial.csv
 alreadyCreated
 *.txt
