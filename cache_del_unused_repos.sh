@@ -12,7 +12,7 @@ if [ "$1" == "CACHE" ]; then
     cd ${scratchdir}
     while read line; do
         bundle=`echo ${line} | awk -F'_' '{print $1}'`
-        git clone git@github.com:UCSD-CSE-100/${repo}
+        git clone git@github.com:UCSD-CSE-100/${line}
         cd ${line}
         
         git bundle create ${line}.bundle master
