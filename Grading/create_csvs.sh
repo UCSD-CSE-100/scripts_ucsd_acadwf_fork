@@ -34,6 +34,7 @@ for tutor in "${tutors[@]}"; do
             echo "${tutor},${fName1} ${lName1},${student1},${pid1},NO,,,," >> ${bundle_dir}/${tutor}.csv
         fi
     done < temp
+    zip ${bundle_dir}/${tutor}.zip ${bundle_dir}/${tutor}.csv
     echo "---------------------------------------------"
     rm -f temp
 done
