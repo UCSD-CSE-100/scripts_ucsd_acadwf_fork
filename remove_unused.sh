@@ -8,7 +8,7 @@ checkWork()
     if [ "${1}" == "P1" ]; then
         worked=`diff BST.hpp $PUBLIC/P1/BST.hpp`
     elif [ "${1}" == "P2" ]; then
-        worked=`[ -f "RST.hpp" ] && echo "hello"`
+        worked=`[ -f "BST.hpp" ] && echo "hello"`
     fi
     
     if [ -z "${worked}" ]; then
@@ -38,13 +38,16 @@ while read line; do
 done < ~/deploy/temp_students
 
 cd ${scratchdir}
+
 while read line; do
     gitid1=`echo "${line}" | awk -F',' '{print $1}' | tr '[:upper:]' '[:lower:]'`
     gitid2=`echo "${line}" | awk -F',' '{print $2}' | tr '[:upper:]' '[:lower:]'`
     
     repo="${1}_Pair_${gitid1}_${gitid2}"
     exists=`git ls-remote git@github.com:UCSD-CSE-100/${repo} 2>&1 | grep "ERROR"`
-    if [ ! -z "${exists}" ] && repo="${1}_Pair_${gitid2}_${gitid1}"
+    if [ ! -z "${exists}" ]; then
+        repo="${1}_Pair_${gitid2}_${gitid1}"
+    fi
     
     checkWork ${1} ${repo}
     
