@@ -44,27 +44,6 @@ fi
 
 git pull origin master
 
-if [ ! -f "Makefile" ]; then
-    cp -r $protoDir/* .
-    cp    $protoDir/../checkFiles.sh .
-    chmod +x checkFiles.sh
-    git add -A
-else
-    cp $protoDir/test_RST.cpp .
-    git add test_RST.cpp
-fi
-
-#add assignment README url to readme
-#can't just use second grep as disambiguation might add
-labnum=`echo "${repoName}" | awk -F'_' '{print $1}' | grep -oh "[0-9]"`
-url="https://sites.google.com/a/eng.ucsd.edu/cse-100-fall-2013/assignments/assignment-${labnum}-readme"
-
-added=`grep "${url}" README.md`
-if [ -z "${added}" ]; then
-    echo -e "\nAssignment README can be found here: ${url}\n" >> README.md
-    git add README.md
-fi
-
 #add .gitignore values
 added=`grep "#Ignore editor generated" .gitignore`
 if [ -z "${added}" ]; then
@@ -90,6 +69,27 @@ if [ -z ".gitattributes" ]; then
     echo "*.sh text eol=lf"  >> .gitattributes
     echo "MAKEFILE text eol=lf" >> .gitattributes
     git add .gitattributes
+fi
+
+if [ ! -f "Makefile" ]; then
+    cp -r $protoDir/* .
+    cp    $protoDir/../checkFiles.sh .
+    chmod +x checkFiles.sh
+    git add -A
+else
+    cp $protoDir/test_RST.cpp .
+    git add test_RST.cpp
+fi
+
+#add assignment README url to readme
+#can't just use second grep as disambiguation might add
+labnum=`echo "${repoName}" | awk -F'_' '{print $1}' | grep -oh "[0-9]"`
+url="https://sites.google.com/a/eng.ucsd.edu/cse-100-fall-2013/assignments/assignment-${labnum}-readme"
+
+added=`grep "${url}" README.md`
+if [ -z "${added}" ]; then
+    echo -e "\nAssignment README can be found here: ${url}\n" >> README.md
+    git add README.md
 fi
 
 if [ -f $protoDir/.gitignore ] ; then
