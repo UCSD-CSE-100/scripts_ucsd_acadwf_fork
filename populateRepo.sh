@@ -74,7 +74,7 @@ fi
 if [ ! -f "Makefile" ]; then
     cp -r $protoDir/* .
     cp    $protoDir/../checkFiles.sh .
-    chmod +x checkFiles.sh
+    chmod +x-w checkFiles.sh
     git add -A
 else
     cp $protoDir/test_RST.cpp .
