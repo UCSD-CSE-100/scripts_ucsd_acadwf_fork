@@ -46,7 +46,7 @@ git pull origin master
 
 if [ ! -f "Makefile" ]; then
     cp -r $protoDir/* .
-    git add .
+    git add -A
 else
     cp $protoDir/test_RST.cpp .
     git add test_RST.cpp
