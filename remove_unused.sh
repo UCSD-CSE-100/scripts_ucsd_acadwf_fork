@@ -39,21 +39,21 @@ done < ~/deploy/temp_students
 
 cd ${scratchdir}
 
-while read line; do
-    gitid1=`echo "${line}" | awk -F',' '{print $1}' | tr '[:upper:]' '[:lower:]'`
-    gitid2=`echo "${line}" | awk -F',' '{print $2}' | tr '[:upper:]' '[:lower:]'`
+# while read line; do
+    # gitid1=`echo "${line}" | awk -F',' '{print $1}' | tr '[:upper:]' '[:lower:]'`
+    # gitid2=`echo "${line}" | awk -F',' '{print $2}' | tr '[:upper:]' '[:lower:]'`
     
-    repo="${1}_Pair_${gitid1}_${gitid2}"
-    exists=`git ls-remote git@github.com:UCSD-CSE-100/${repo} 2>&1 | grep "ERROR"`
-    if [ ! -z "${exists}" ]; then
-        repo="${1}_Pair_${gitid2}_${gitid1}"
-    fi
+    # repo="${1}_Pair_${gitid1}_${gitid2}"
+    # exists=`git ls-remote git@github.com:UCSD-CSE-100/${repo} 2>&1 | grep "ERROR"`
+    # if [ ! -z "${exists}" ]; then
+        # repo="${1}_Pair_${gitid2}_${gitid1}"
+    # fi
     
-    checkWork ${1} ${repo}
+    # checkWork ${1} ${repo}
     
-    cd ${scratchdir}; rm -rf ${repo}
+    # cd ${scratchdir}; rm -rf ${repo}
 
-done < ~/deploy/temp_pairs
+# done < ~/deploy/temp_pairs
 
 cd ~/deploy
 rm -f temp_students temp_pairs
