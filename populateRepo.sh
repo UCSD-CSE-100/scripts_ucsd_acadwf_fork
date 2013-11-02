@@ -46,6 +46,8 @@ git pull origin master
 
 if [ ! -f "Makefile" ]; then
     cp -r $protoDir/* .
+    cp    $protoDir/../checkFiles.sh .
+    chmod +x checkFiles.sh
     git add -A
 else
     cp $protoDir/test_RST.cpp .
@@ -85,7 +87,9 @@ if [ -z ".gitattributes" ]; then
     echo "*.cpp text eol=lf" >> .gitattributes
     echo "*.hpp text eol=lf" >> .gitattributes
     echo "*.md text eol=lf"  >> .gitattributes
+    echo "*.sh text eol=lf"  >> .gitattributes
     echo "MAKEFILE text eol=lf" >> .gitattributes
+    git add .gitattributes
 fi
 
 if [ -f $protoDir/.gitignore ] ; then
