@@ -2,6 +2,7 @@
 
 if [ $# -ne 1 ]; then
    echo "usage ./populateStragglers.sh LABNAME"
+   exit 0
 fi
 
 protodir=`python -c 'import config;print(config.getPrototypeDir())'`

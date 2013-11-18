@@ -62,7 +62,7 @@ if [ -z "${added}" ]; then
 fi
 
 #add .gitattributes file to force line endings
-if [ -z ".gitattributes" ]; then
+if [ ! -f ".gitattributes" ]; then
     echo "#Preserving UNIX style line endings across repos" >> .gitattributes
     echo "*.cpp text eol=lf" >> .gitattributes
     echo "*.hpp text eol=lf" >> .gitattributes
@@ -77,9 +77,10 @@ if [ ! -f "Makefile" ]; then
     cp    $protoDir/../checkFiles.sh .
     chmod +x-w checkFiles.sh
     git add -A
-else
-    cp $protoDir/test_RST.cpp .
-    git add test_RST.cpp
+fi
+
+if [ -f "input_files/kamasutra.txt" ]; then
+    git rm input_files/kamasutra.txt
 fi
 
 #add assignment README url to readme

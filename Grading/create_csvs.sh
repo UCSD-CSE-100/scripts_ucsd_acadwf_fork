@@ -22,7 +22,7 @@ for tutor in "${tutors[@]}"; do
             fName1=`echo "${entry1}" | awk -F',' '{print $2}'`
             lName1=`echo "${entry1}" | awk -F',' '{print $3}'`
             echo -n "${tutor},${fName1} ${lName1},${student1},${pid1},YES," >> ${bundle_dir}/${tutor}.csv
-            echo "0,0,0,0,0,0,0,0,0,0," >> ${bundle_dir}/${tutor}.csv
+            echo "0,0,0,0,0,0,0,0,0,0,0," >> ${bundle_dir}/${tutor}.csv
             
             student2=`echo "${student}" | tr '.' '_' | awk -F'_' '{print $4}'`
             entry2=`grep -i "${student2}" ../students_list.csv`
@@ -30,7 +30,7 @@ for tutor in "${tutors[@]}"; do
             fName2=`echo "${entry2}" | awk -F',' '{print $2}'`
             lName2=`echo "${entry2}" | awk -F',' '{print $3}'`
             echo -n "${tutor},${fName2} ${lName2},${student2},${pid2},YES," >> ${bundle_dir}/${tutor}.csv
-            echo "0,0,0,0,0,0,0,0,0,0," >> ${bundle_dir}/${tutor}.csv
+            echo "0,0,0,0,0,0,0,0,0,0,0," >> ${bundle_dir}/${tutor}.csv
             
         else
             entry1=`grep -i "${student1}" ../students_list.csv`
@@ -38,7 +38,7 @@ for tutor in "${tutors[@]}"; do
             fName1=`echo "${entry1}" | awk -F',' '{print $2}'`
             lName1=`echo "${entry1}" | awk -F',' '{print $3}'`
             echo -n "${tutor},${fName1} ${lName1},${student1},${pid1},NO," >> ${bundle_dir}/${tutor}.csv
-            echo "0,0,0,0,0,0,0,0,0,0," >> ${bundle_dir}/${tutor}.csv
+            echo "0,0,0,0,0,0,0,0,0,0,0," >> ${bundle_dir}/${tutor}.csv
         fi
     done < temp
     zip ${bundle_dir}/${tutor}.zip ${bundle_dir}/${tutor}.csv
