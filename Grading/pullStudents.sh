@@ -16,7 +16,7 @@ let counter=0
 
 #Generate grading csv's for the tutors
 for tutor in "${tutors[@]}"; do
-    echo "Tutor,Student,Pair,Ontime,Late_One,Late_Two,Comments" > ${submissionsDir}${tutor}.csv
+    echo "Tutor,Student,Pair" > ${submissionsDir}${tutor}.csv
 done
 
 #begin reading the students_list.csv
@@ -61,8 +61,8 @@ while read line; do
             
             ./pullRepo.sh "${repoName}" "${repoUrl}" "${currTutor}"
             if [ $? -eq 0 ]; then
-                echo "$currTutor,${fName_P1} ${lName_P1},YES,0,0,0," >> ${submissionsDir}${currTutor}.csv
-                echo "$currTutor,${fName_P2} ${lName_P2},YES,0,0,0," >> ${submissionsDir}${currTutor}.csv
+                echo "$currTutor,${fName_P1} ${lName_P1},YES" >> ${submissionsDir}${currTutor}.csv
+                echo "$currTutor,${fName_P2} ${lName_P2},YES" >> ${submissionsDir}${currTutor}.csv
                 echo "${githubid_P1}" >> ${pulled}
                 echo "${githubid_P2}" >> ${pulled}
                 let counter=counter+1
@@ -77,7 +77,7 @@ while read line; do
             
             ./pullRepo.sh "${repoName}" "${repoUrl}" "${currTutor}"
             if [ $? -eq 0 ]; then
-                echo "$currTutor,${fName} ${lName},NO,0,0,0," >> ${submissionsDir}${currTutor}.csv
+                echo "$currTutor,${fName} ${lName},NO" >> ${submissionsDir}${currTutor}.csv
                 let counter=counter+1
                 echo "${githubid}" >> ${pulled}
             fi
