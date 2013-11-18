@@ -29,7 +29,7 @@ for tutor in "${tutors[@]}"; do
             pid2=`echo "${entry2}" | awk -F',' '{print $6}'`
             fName2=`echo "${entry2}" | awk -F',' '{print $2}'`
             lName2=`echo "${entry2}" | awk -F',' '{print $3}'`
-            echo -n "${tutor},${fName1} ${lName1},${student1},${pid1},YES," >> ${bundle_dir}/${tutor}.csv
+            echo -n "${tutor},${fName2} ${lName2},${student2},${pid2},YES," >> ${bundle_dir}/${tutor}.csv
             echo "0,0,0,0,0,0,0,0,0,0," >> ${bundle_dir}/${tutor}.csv
             
         else
