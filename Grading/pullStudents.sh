@@ -41,21 +41,21 @@ while read line; do
             lName_P2=`grep -i "${githubid_P2}" temp_students | awk -F',' '{print $3}'`
             
             #pull for partner 1 if they worked in it
-            repoName="P2_${githubid_P1}"
+            repoName="${1}_${githubid_P1}"
             repoUrl="git@github.com:UCSD-CSE-100/${repoName}.git"
             ./pullRepo.sh "${repoName}" "${repoUrl}" "${currTutor}"
             
             #pull for partner 2 if they worked in it
-            repoName="P2_${githubid_P2}"
+            repoName="${1}_${githubid_P2}"
             repoUrl="git@github.com:UCSD-CSE-100/${repoName}.git"
             ./pullRepo.sh "${repoName}" "${repoUrl}" "${currTutor}"
             
             #find what their repo is called
-            repoName="P2_Pair_${githubid_P1}_${githubid_P2}"
+            repoName="${1}_Pair_${githubid_P1}_${githubid_P2}"
             repoUrl="git@github.com:UCSD-CSE-100/${repoName}.git"
             exists=`git ls-remote ${repoUrl} 2>&1 | grep "ERROR"`
             if [ ! -z "${exists}" ]; then
-                repoName="P2_Pair_${githubid_P2}_${githubid_P1}"
+                repoName="${1}_Pair_${githubid_P2}_${githubid_P1}"
                 repoUrl="git@github.com:UCSD-CSE-100/${repoName}.git"
             fi
             
@@ -72,7 +72,7 @@ while read line; do
             #Pull their repository
             fName=`echo "${line}" | awk -F',' '{print $2}'`
             lName=`echo "${line}" | awk -F',' '{print $3}'`
-            repoName="P2_${githubid}"
+            repoName="${1}_${githubid}"
             repoUrl="git@github.com:UCSD-CSE-100/${repoName}.git"
             
             ./pullRepo.sh "${repoName}" "${repoUrl}" "${currTutor}"
