@@ -37,8 +37,8 @@ if [ -z "${exists}" ]; then
 else
    git checkout ${exists} -b checkpoint
 fi
-if [ -f "BST.hpp" ]; then
-    tar -cvf ../${1}_checkpoint.tar BST*.hpp RST.hpp
+if [ -f "compress.cpp" ] && [ -f "uncompress.cpp"  ]; then
+    tar -cvf ../${1}_checkpoint.tar *.cpp *.hpp
 fi
 git checkout master
 git branch -d checkpoint
