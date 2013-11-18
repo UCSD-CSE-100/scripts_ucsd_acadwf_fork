@@ -40,7 +40,7 @@ fi
 if [ -f "compress.cpp" ] && [ -f "uncompress.cpp"  ]; then
     tar -cvf ../${1}_checkpoint.tar compress.cpp uncompress.cpp HCNode.*pp HCTree.*pp
     if [ -s "BitInputStream.cpp" ] && [ -s "BitOutputStream.cpp" ]; then
-        tar -rvf ../${1}_checkpoint.tar BitInputStream.*pp BitOutStream.*pp
+        tar -rvf ../${1}_checkpoint.tar BitInputStream.*pp BitOutputStream.*pp
     fi
 fi
 git checkout master
@@ -66,7 +66,7 @@ unset revision
 lateOne=`git rev-list -n 1 --before="11/19/2013 20:15" --after="11/18/2013 20:15" --grep="final" -i master`
 if [ ! -z "${lateOne}" ]; then
     revision=${lateOne}
-else if [ -z "${ontime_check}"]; then
+elif [ -z "${ontime_check}"]; then
     revision=`git rev-list -n 1 --before="11/19/2013 20:15" --after="11/18/2013 20:15" master`
 fi
 
@@ -83,7 +83,7 @@ fi
 lateTwo=`git rev-list -n 1 --before="11/20/2013 20:15" --after="11/19/2013 20:15" --grep="final" -i master`
 if [ ! -z "${lateTwo}" ]; then
     revision=${lateTwo}
-else if [ -z "${ontime_check}"]; then
+elif [ -z "${ontime_check}"]; then
     revision=`git rev-list -n 1 --before="11/20/2013 20:15" --after="11/19/2013 20:15" master`
 fi
 
