@@ -38,7 +38,10 @@ else
    git checkout ${exists} -b checkpoint
 fi
 if [ -f "compress.cpp" ] && [ -f "uncompress.cpp"  ]; then
-    tar -cvf ../${1}_checkpoint.tar *.cpp *.hpp
+    tar -cvf ../${1}_checkpoint.tar compress.cpp uncompress.cpp HCNode.*pp HCTree.*pp
+    if [ -a "BitInputStream.cpp" ] && [ -a "BitOutputStream.cpp" ]; then
+        tar -rvf ../${1}_checkpoint.tar BitInputStream.*pp BitOutStream.*pp
+    fi
 fi
 git checkout master
 git branch -d checkpoint
@@ -49,6 +52,7 @@ if [ -z "${exists}" ]; then
     revision=`git rev-list -n 1 --before="10/25/2013 20:15" master`
     git checkout ${revision} -b ontime
 else
+    ontime_check="TRUE"
     git checkout ${exists} -b ontime
 fi
 if [ -f "BST.hpp" ]; then
