@@ -88,7 +88,9 @@ done < temp_students
 
 rm -f temp_students
 
+cd $submissionsDir
+
 for tutor in "${tutors[@]}"; do
-    zip ${submissionsDir}${tutor}.zip ${submissionsDir}${tutor}.csv
+    zip ${tutor}.zip ${tutor}.csv
 done
 
