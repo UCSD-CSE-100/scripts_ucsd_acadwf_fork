@@ -31,7 +31,7 @@ while read line; do
     githubid=`echo "${line}" | awk -F',' '{print $4}' | tr '[:upper:]' '[:lower:]'`
     isPulled=`grep "${githubid}" ${pulled}`
     if [ -z "${isPulled}" ]; then
-        pair=`grep -i "$githubid" ../P1Pairs.csv`
+        pair=`grep -i "$githubid" ../P2Pairs.csv`
         if [ ! -z "${pair}" ]; then
             githubid_P1=`echo "${pair}" | awk -F',' '{print $1}' | tr '[:upper:]' '[:lower:]'`
             githubid_P2=`echo "${pair}" | awk -F',' '{print $2}' | tr '[:upper:]' '[:lower:]'`
