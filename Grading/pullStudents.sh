@@ -8,7 +8,7 @@ fi
 submissionsDir=`python -c 'import sys; sys.path.append(".."); import config; print(config.getLabSubmissionsDir())'`
 tutors=("victor_alor" "victoria_do" "leta_he" "arden_liao" "ryan_liao" "scott_lin" "michael_luo" "dong_nam")
 
-rm -rf ${submissionDir}
+rm -rf ${submissionsDir}*
 
 declare -i counter
 declare -i curr
