@@ -47,9 +47,9 @@ git checkout master
 git branch -d checkpoint
 
 #check if final submission exists, unless we are ignoring final submission
-exists=`git rev-list -n 1 --before="10/25/2013 20:15" --grep="final" -i master`
+exists=`git rev-list -n 1 --before="11/18/2013 20:15" --grep="final" -i master`
 if [ -z "${exists}" ]; then
-    revision=`git rev-list -n 1 --before="10/25/2013 20:15" master`
+    revision=`git rev-list -n 1 --before="11/18/2013 20:15" master`
     git checkout ${revision} -b ontime
 else
     ontime_check="TRUE"
