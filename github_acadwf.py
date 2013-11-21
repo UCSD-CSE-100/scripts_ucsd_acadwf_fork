@@ -479,7 +479,7 @@ def addTeamsForPairsInFile(g,org,studentFileName,pairFileName):
             raise Exception("Could not find github user {0}".pair["user2"]["github"])
         addUserToTeam(pairTeam,user2)
         
-        createRepoForPairTeam(org, "P3", pairTeam);
+        createRepoForPairTeam(org, "P4", pairTeam);
         
 
     
