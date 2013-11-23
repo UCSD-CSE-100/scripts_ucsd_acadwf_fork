@@ -11,6 +11,7 @@ sys.path.append("..")
 
 import config
 pairs = {}
+students = {}
 
 with open("../" + config.getPairsFile(), 'rb') as pairFile:
     pair_reader = csv.DictReader(pairFile)
@@ -22,8 +23,6 @@ count = 0
 with open("../" + config.getStudentsFile()) as studentsFile:
     student_reader = csv.DictReader(studentsFile)
     for line in student_reader:
-        if line['github userid'] in pairs:
-            print "{} {} is in a pair!".format(line['First Name'], line['Last Name']) 
-            count += 1
+        students[line['github userid']] = line['First Name'] + " " + line['Last Name']
 
-print "There were {0} pairs!".format(count/2)
+print "There are {0} pairs and {1} students".format(len(pairs)/2, len(students))
