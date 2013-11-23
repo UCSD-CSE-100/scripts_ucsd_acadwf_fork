@@ -19,7 +19,7 @@ with open("../" + config.getPairsFile(), 'rb') as pairFile:
         pairs[line['Partner2_GithubID']] = line['Partner1_GithubID']
 
 count = 0
-with open("../" + config.get) as studentsFile:
+with open("../" + config.getStudentsFile()) as studentsFile:
     student_reader = csv.DictReader(studentsFile)
     for line in student_reader:
         if line['github userid'] in pairs:
