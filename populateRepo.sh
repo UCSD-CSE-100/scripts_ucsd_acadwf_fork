@@ -46,7 +46,7 @@ git pull origin master
 
 #add .gitignore values
 added=`grep "#Ignore editor generated" .gitignore`
-if [ -z "${added}" ]; then
+if [ -z "${added}" ] || [ ! -f ".gitignore" ]; then
    echo -e "\n#Ignore editor generated files" >> .gitignore
    echo "*.swp" >> .gitignore
    echo "*.swn" >> .gitignore
