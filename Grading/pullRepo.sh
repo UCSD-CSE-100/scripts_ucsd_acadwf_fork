@@ -100,10 +100,11 @@ cd ..
 if [ -f "${1}_lateone.tar" ] || [ -f "${1}_ontime.tar" ] || [ -f "${1}_latetwo.tar}" ]; then
     tar --ignore-failed-read -czvf ${1}.tar.gz *.tar
     zip ${graderZip} ${1}.tar.gz
+    status=$?
 fi
 
 #Finished with packaging, check if was success
-if [ $? -ne 0 ]; then
+if [ -z ${status} ] || [ $status -ne 0 ]; then
    echo "Did not successfully add to archive"
    rm -rf ${scratchDir}* #perform cleanup
    exit 1
