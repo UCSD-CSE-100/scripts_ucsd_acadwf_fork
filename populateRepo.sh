@@ -66,6 +66,7 @@ if [ ! -f ".gitattributes" ]; then
     echo "#Preserving UNIX style line endings across repos" >> .gitattributes
     echo "*.cpp text eol=lf" >> .gitattributes
     echo "*.hpp text eol=lf" >> .gitattributes
+    echo "*.h text eol=lf" >> .gitattributes
     echo "*.md text eol=lf"  >> .gitattributes
     echo "*.sh text eol=lf"  >> .gitattributes
     echo "MAKEFILE text eol=lf" >> .gitattributes
