@@ -1,5 +1,20 @@
 #!/usr/bin/python
 
+def check_pairs(students, pairs):
+    completed = []
+    count = 0;
+    for student in students.keys():
+        if student in pairs and student not in completed:
+            print "{0} is in a pair with {1}".format(students[student], students[pairs[student]])
+            count+=1
+            completed.extend([student, pairs[student]])
+
+    print "There are {0} pairs and {1} students".format(len(pairs)/2, len(students))
+    print "Traversal found {0} pairs! Matches actual? {1}".format(count, count==len(pairs)/2)
+
+
+
+
 import csv
 import os
 import sys
@@ -12,8 +27,6 @@ sys.path.append("..")
 import config
 pairs = {}
 students = {}
-
-completed = []
 
 #add all pairs to a dict, put in twice to map both ways
 with open("../" + config.getPairsFile(), 'rb') as pairFile:
@@ -28,12 +41,6 @@ with open("../" + config.getStudentsFile()) as studentsFile:
     for line in student_reader:
         students[line['github userid'].lower()] = line['First Name'] + " " + line['Last Name']
 
-count = 0;
-for student in students.keys():
-    if student in pairs and student not in completed:
-        print "{0} is in a pair with {1}".format(students[student], students[pairs[student]])
-        count+=1
-        completed.extend([student, pairs[student]])
+check_pairs(students, pairs)
 
-print "There are {0} pairs and {1} students".format(len(pairs)/2, len(students))
-print "Traversal found {0} pairs! Matches actual? {1}".format(count, count==len(pairs)/2)
+sys.exit(0)
