@@ -5,7 +5,7 @@ import subprocess
 
 def check_pairs(students, pairs):
     completed = []
-    count = 0;
+    count = 0
     for student in students.keys():
         if student in pairs and student not in completed:
             print "{0} is in a pair with {1}".format(students[student], students[pairs[student]])
@@ -24,19 +24,26 @@ def repo_exists(project, gh_id, gh_id2=None):
     repo_state = repo_proc.wait()
     return (repo_state == 0)
     
+def check_pairs(students, pairs):
+    completed = []
+    for student in students.keys():
+        if (student in pairs) and (student not in completed):
+            if repo_exists("P4", student, pairs[student]):
+                print "Repo name is {0}_Pair_{1}_{2}".format("P4", student, pair[student])
+            else
+                print "Repo name is {0}_Pair_{1}_{2}".format("P4", pair[student], student)
+            completed.extend([student, pairs[student]])
+
 def check_repos(students, pairs):
     completed = [ ]
-    count = 0;
+    count = 0
     for student in students.keys():
-        s1_name = students[student].split()
         #Pair repository
         if (student in pairs) and (student not in completed):
             student_two = pairs[student]
-            print "Checking {0}".format(student)
             if not repo_exists("P4", student):
                 print "Error! {0} does not have a repository".format(students[student])
                 count+=1
-            print "Checking {0}".format(student_two)
             if not repo_exists("P4", student_two):
                 print "Error! {0} does not have a repository".format(students[student_two])
                 count+=1
