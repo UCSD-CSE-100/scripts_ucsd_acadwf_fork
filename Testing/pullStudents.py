@@ -81,7 +81,7 @@ proc.wait()
 tutor_csvs = {}
 
 for tutor in tutors:
-    tutor_csv = open(submissions_dir + tutor, 'ab')
+    tutor_csv = open(submissions_dir + tutor + ".csv", 'wb')
     tutor_csv.write("Tutor,Student,Github ID,Pair")
     tutor_csvs[tutor] = tutor_csv
 
