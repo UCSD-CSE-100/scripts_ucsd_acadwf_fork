@@ -72,14 +72,14 @@ pairs = {}
 students = {}
 
 #add all pairs to a dict, put in twice to map both ways
-with open("../" + config.getPairsFile(), 'rb') as pairFile:
+with open(config.getPairsFile(), 'rb') as pairFile:
     pair_reader = csv.DictReader(pairFile)
     for line in pair_reader:
         pairs[line['Partner1_GithubID'].lower()] = line['Partner2_GithubID'].lower()
         pairs[line['Partner2_GithubID'].lower()] = line['Partner1_GithubID'].lower()
 
 #add all students to a dict
-with open("../" + config.getStudentsFile()) as studentsFile:
+with open(config.getStudentsFile(), 'rb') as studentsFile:
     student_reader = csv.DictReader(studentsFile)
     for line in student_reader:
         students[line['github userid'].lower()] = line['First Name'] + " " + line['Last Name']
