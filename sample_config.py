@@ -25,6 +25,9 @@ scriptsLogsDir    = "DIRECTORY/../scriptLogs/"
 #List of current tutors
 tutors            = ["tutor_0", "tutor_1", "tutor_2", "tutor_3", "tutor_4", "tutor_5", "tutor_6", "tutor_7"]
 
+#List of Lab Names
+class_labs        = ["P1", "P2", "P3", "P4"]
+
 ''' Python Config calls '''
 def getStudentsFile():
     return students
