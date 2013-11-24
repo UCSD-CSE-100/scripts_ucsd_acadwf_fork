@@ -30,17 +30,19 @@ def check_repos(students, pairs):
         #Pair repository
         if (student in pairs) and (student not in completed):
             student_two = pairs[student]
-            if !repo_exists("P4", student):
-                "Error! {0} does not have a repository".format(students[student])
+            if not repo_exists("P4", student):
+                print "Error! {0} does not have a repository".format(students[student])
                 count+=1
-            if !repo_exists("P4", student_two):
-                "Error! {0} does not have a repository".format(students[student_two])
-            
+            if not repo_exists("P4", student_two):
+                print "Error! {0} does not have a repository".format(students[student_two])
+                count+=1
+            completed.extend([student, student_two])
         #solo repository
         else:
-            if !repo_exists("P4", student):
-                "Error! {0} does not have a repository".format(students[student])
+            if not repo_exists("P4", student):
+                print "Error! {0} does not have a repository".format(students[student])
                 count +=1
+            completed.append(student)
     
     if count == 0:
         print "All repositories accounted for!"
@@ -62,8 +64,8 @@ students = {}
 with open("../" + config.getPairsFile(), 'rb') as pairFile:
     pair_reader = csv.DictReader(pairFile)
     for line in pair_reader:
-        pairs[line['Partner1_GithubID']] = line['Partner2_GithubID']
-        pairs[line['Partner2_GithubID']] = line['Partner1_GithubID']
+        pairs[line['Partner1_GithubID'].lower()] = line['Partner2_GithubID'].lower()
+        pairs[line['Partner2_GithubID'].lower()] = line['Partner1_GithubID'].lower()
 
 #add all students to a dict
 with open("../" + config.getStudentsFile()) as studentsFile:
