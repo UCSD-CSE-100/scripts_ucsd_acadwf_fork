@@ -38,17 +38,15 @@ def pull_pair(project, gh_id, gh_id2, tutor):
     return (proc_state == 0)
 
 def pull_solo(project, gh_id, tutor):
-    proc_state = 0
     repo_name = "{0}_{1}".format(project, gh_id)
     repo_url  = "git@github.com:UCSD-CSE-100/" + repo_name + ".git"
     
-   # repo_proc = subprocess.Popen(['./pullRepo.sh',
-                                 # repo_name,
-                                 # repo_url,
-                                 # tutor])
-   # proc_state = repo_proc.wait()
+    repo_proc = subprocess.Popen(['./../Grading/pullRepo.sh',
+                                 repo_name,
+                                 repo_url,
+                                 tutor])
     
-    return (proc_state == 0)
+    return (repo_proc.wait() == 0)
     
 import random
 import csv
