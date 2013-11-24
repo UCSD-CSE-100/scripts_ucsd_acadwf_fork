@@ -17,13 +17,13 @@ SCRIPTSLOGSDIR=`python -c 'import config; dir = config.getScriptsLogsDir(); prin
 
 echo "Creating directories..."
 if [ ! -d "${SCRATCHREPODIR}" ]; then
-	mkdir ${SCRATCHREPODIR}
+	mkdir -p ${SCRATCHREPODIR}
 fi
 
 if [ ! -d "${SUBMISSIONSDIR}" ]; then
-	mkdir ${SUBMISSIONSDIR}
+	mkdir -p ${SUBMISSIONSDIR}
 fi
 
 if [ ! -d "${SCRIPTSLOGSDIR}" ]; then
-	mkdir ${SCRIPTSLOGSDIR}
+	mkdir -p  ${SCRIPTSLOGSDIR}
 fi
