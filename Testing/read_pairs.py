@@ -30,10 +30,10 @@ def check_repos(students, pairs):
         #Pair repository
         if (student in pairs) and (student not in completed):
             student_two = pairs[student]
-            if !repo_exists(student):
+            if !repo_exists("P4", student):
                 "Error! {0} does not have a repository".format(students[student])
                 count+=1
-            if !repo_exists(student_two):
+            if !repo_exists("P4", student_two):
                 "Error! {0} does not have a repository".format(students[student_two])
             
         #solo repository
