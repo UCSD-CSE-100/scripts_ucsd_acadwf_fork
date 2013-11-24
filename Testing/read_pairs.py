@@ -16,9 +16,8 @@ def check_pairs(students, pairs):
     print "Traversal found {0} pairs! Matches actual? {1}".format(count, count==len(pairs)/2)
 
 def repo_exists(project, gh_id, gh_id2=None):
-    if gh_id2 == None:
-        repo_name = "git@github.com:UCSD-CSE-100/{0}_{1}.git".format(project, gh_id)
-    else:
+    repo_name = "git@github.com:UCSD-CSE-100/{0}_{1}.git".format(project, gh_id)
+    if gh_id2 != None:
         repo_name = "git@github.com:UCSD-CSE-100/{0}_Pair_{1}_{2}.git".format(project, gh_id, gh_id2) 
     repo_proc  = subprocess.Popen(["git", "ls-remote", repo_name, "&> /dev/null"],
                                   stderr = subprocess.PIPE)
