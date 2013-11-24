@@ -22,19 +22,19 @@ def pull_pair(project, gh_id, gh_id2, tutor):
     pair_name = "{0}_Pair_{1}_{2}.git".format(project, gh_id, gh_id2)
     pair_repo = "git@github.com:UCSD-CSE-100/" + pair_name
     if check_repo(pair_repo):
-        repo_proc = subprocess.Popen(['./pullRepo.sh',
-                                      pair_name,
-                                      pair_repo,
-                                      tutor])
-        proc_state = repo_proc.wait()
+#        repo_proc = subprocess.Popen(['./pullRepo.sh',
+#                                      pair_name,
+#                                      pair_repo,
+#                                      tutor])
+        proc_state = 0#repo_proc.wait()
     else:
         pair_name = "{0}_Pair_{1}_{2}.git".format(project, gh_id2, gh_id)
         pair_repo = "git@github.com:UCSD-CSE-100/" + pair_name
-        repo_proc = subprocess.Popen(['./pullRepo.sh',
-                                      pair_name,
-                                      pair_repo,
-                                      tutor], stdout)
-        proc_state = repo_proc.wait()
+#        repo_proc = subprocess.Popen(['./pullRepo.sh',
+#                                      pair_name,
+#                                      pair_repo,
+#                                      tutor], stdout)
+#        proc_state = repo_proc.wait()
     return (proc_state == 0)
 
 def pull_solo(project, gh_id, tutor):
@@ -42,14 +42,14 @@ def pull_solo(project, gh_id, tutor):
     
     return (proc_state == 0)
     
-import argparse
 import random
 import csv
 import sys
 sys.path.append("..");
 import config
+import argparse
 
-tutors    = random.shuffle(config.getTutors())
+tutors    = config.getTutors()
 numTutors = len(tutors)
 count     = 0
 
@@ -75,7 +75,7 @@ with open(config.getStudentsFile(), 'rb') as studentsFile:
     for line in student_reader:
         students[line['github userid'].lower()] = (line['First Name'], line['Last Name'])
 
-proc = subprocess.Popen(['rm', '-rf', submissions_dir+*])
+proc = subprocess.Popen(['rm', '-rf', submissions_dir+'*'])
 proc.wait()
 
 tutor_csvs = {}
@@ -89,6 +89,9 @@ completed = []
 csv_str   = "{0},{1} {2},{3},{4}" #Tutor,Student Name,Github ID,Pair
 for student in students.keys():
     print "Current student is {0} {1}".format(students[student][0], students[student][1])
+    if count%8  == 0:
+        random.shuffle(tutors)
+        count = 0
     curr_tutor = tutors[count]
     if student not in completed:
         # Pair Case
