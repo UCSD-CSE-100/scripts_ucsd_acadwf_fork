@@ -96,6 +96,7 @@ for student in students.keys():
     if student not in completed:
         # Pair Case
         if student in pairs:
+            print "Current student is {0} {1}".format(students[pairs[student]][0], students[pairs[student]][1])
             if( pull_pair(lab, student, pairs[student], curr_tutor) ):
                 count += 1
                 f_name0 = students[student][0]
