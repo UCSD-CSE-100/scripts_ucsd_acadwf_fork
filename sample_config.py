@@ -11,6 +11,7 @@ org               = "UCSD-CSE-100"
 scratchRepoDir    = "DIRECTORY/../scratchRepos/"
 prototypesDir     = "/home/linux/ieng6/cs100e/public/"
 labSubmissionsDir = "DIRECTORY/../labSubmissions/"
+grading_dir       = "DIRECTORY/Grading"
 
 currQuarter       = "FALL 2013"
 currClass         = "CSE 100"
