@@ -100,20 +100,20 @@ for student in students.keys():
                 count += 1
                 f_name0 = students[student][0]
                 l_name0 = students[student][1]
-                f_name1 = students[pair[student]][0]
-                l_name1 = students[pair[student]][1]
+                f_name1 = students[pairs[student]][0]
+                l_name1 = students[pairs[student]][1]
                 
-                tutor_csvs[tutor].write(csv_str.format(tutor, f_name0, l_name0, student, YES))
-                tutor_csvs[tutor].write(csv_str.format(tutor, f_name1, l_name1, student, YES))
+                tutor_csvs[tutor].write(csv_str.format(tutor, f_name0, l_name0, student, 'YES'))
+                tutor_csvs[tutor].write(csv_str.format(tutor, f_name1, l_name1, student,'YES'))
                
                 completed.extend([student, pairs[student]])
         # Solo Case
         else:
-            if( pull_solo(lab, student, curr_tutor, tutor_csvs[curr_tutor]) ):
+            if( pull_solo(lab, student, curr_tutor) ):
                 count += 1
                 f_name0 = students[student][0]
                 l_name0 = students[student][1]
-                tutor_csvs[tutor].write(csv_str.format(tutor, f_name0, l_name0, student, YES))
+                tutor_csvs[tutor].write(csv_str.format(tutor, f_name0, l_name0, student, 'YES'))
                 completed.append(student)
     print
     
