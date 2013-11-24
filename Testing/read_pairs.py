@@ -1,5 +1,8 @@
 #!/usr/bin/python
 
+#needed globally
+import subprocess
+
 def check_pairs(students, pairs):
     completed = []
     count = 0;
@@ -12,14 +15,41 @@ def check_pairs(students, pairs):
     print "There are {0} pairs and {1} students".format(len(pairs)/2, len(students))
     print "Traversal found {0} pairs! Matches actual? {1}".format(count, count==len(pairs)/2)
 
-
-
-
+def repo_exists(project, github_id):
+    repo_name  = "{0}_{1}".format(project, github_id)
+    repo_proc  = subprocess.Popen(["git", "ls-remote", repo_name, "&> /dev/null"],
+                                  stderr = subprocess.PIPE)
+    repo_state = repo_proc.wait()
+    return (repo_state == 0)
+    
+def check_repos(students, pairs):
+    completed = [ ]
+    count = 0;
+    for student in students.keys():
+        s1_name = students[student].split()
+        #Pair repository
+        if (student in pairs) and (student not in completed):
+            student_two = pairs[student]
+            if !repo_exists(student):
+                "Error! {0} does not have a repository".format(students[student])
+                count+=1
+            if !repo_exists(student_two):
+                "Error! {0} does not have a repository".format(students[student_two])
+            
+        #solo repository
+        else:
+            if !repo_exists("P4", student):
+                "Error! {0} does not have a repository".format(students[student])
+                count +=1
+    
+    if count == 0:
+        print "All repositories accounted for!"
+    
 import csv
 import os
 import sys
 import random
-import subprocess
+
 
 sys.path.append("../PyGithub")
 sys.path.append("..")
@@ -41,6 +71,7 @@ with open("../" + config.getStudentsFile()) as studentsFile:
     for line in student_reader:
         students[line['github userid'].lower()] = line['First Name'] + " " + line['Last Name']
 
-check_pairs(students, pairs)
+#check_pairs(students, pairs)
+check_repos(students, pairs)
 
 sys.exit(0)
