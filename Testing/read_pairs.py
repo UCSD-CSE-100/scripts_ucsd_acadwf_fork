@@ -29,9 +29,9 @@ def check_pairs(students, pairs):
     for student in students.keys():
         if (student in pairs) and (student not in completed):
             if repo_exists("P4", student, pairs[student]):
-                print "Repo name is {0}_Pair_{1}_{2}".format("P4", student, pair[student])
-            else
-                print "Repo name is {0}_Pair_{1}_{2}".format("P4", pair[student], student)
+                print "Repo name is {0}_Pair_{1}_{2}".format("P4", student, pairs[student])
+            else:
+                print "Repo name is {0}_Pair_{1}_{2}".format("P4", pairs[student], student)
             completed.extend([student, pairs[student]])
 
 def check_repos(students, pairs):
@@ -84,7 +84,8 @@ with open("../" + config.getStudentsFile()) as studentsFile:
     for line in student_reader:
         students[line['github userid'].lower()] = line['First Name'] + " " + line['Last Name']
 
-#check_pairs(students, pairs)
-check_repos(students, pairs)
+# check_pairs(students, pairs)
+# check_repos(students, pairs)
+check_pairs(students, pairs)
 
 sys.exit(0)
