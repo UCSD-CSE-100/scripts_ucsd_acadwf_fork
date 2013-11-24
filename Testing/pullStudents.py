@@ -2,20 +2,39 @@
 
 import subprocess
 
-def repo_exists(project, gh_id, gh_id2=None):
+#TODO: Come up with a better solution for checking if a repo exists
+def repo_exists(project=None, gh_id=None, gh_id2=None, repo=None):
     repo_name = "git@github.com:UCSD-CSE-100/{0}_{1}.git".format(project, gh_id)
     if gh_id2 != None:
         repo_name = "git@github.com:UCSD-CSE-100/{0}_Pair_{1}_{2}.git".format(project, gh_id, gh_id2) 
     repo_proc  = subprocess.Popen(["git", "ls-remote", repo_name, "&> /dev/null"],
                                   stderr = subprocess.PIPE)
-    repo_state = repo_proc.wait()
-    return (repo_state == 0)
+    return (repo_proc.wait() == 0)
+    
+def check_repo(repo_name):
+    repo_proc  = subprocess.Popen(["git", "ls-remote", repo_name, "&> /dev/null"],
+                                  stderr = subprocess.PIPE)
+    return (repo_proc.wait() == 0)
 
+# add repo format strings to config file?
 def pull_pair(project, gh_id, gh_id2, tutor):
     proc_state = 0
-    if repo_exists(project, gh_id, gh_id2):
+    pair_name = "{0}_Pair_{1}_{2}.git".format(project, gh_id, gh_id2)
+    pair_repo = "git@github.com:UCSD-CSE-100/" + pair_name
+    if check_repo(pair_repo):
+        repo_proc = subprocess.Popen(['./pullRepo.sh',
+                                      pair_name,
+                                      pair_repo,
+                                      tutor])
+        proc_state = repo_proc.wait()
     else:
-    
+        pair_name = "{0}_Pair_{1}_{2}.git".format(project, gh_id2, gh_id)
+        pair_repo = "git@github.com:UCSD-CSE-100/" + pair_name
+        repo_proc = subprocess.Popen(['./pullRepo.sh',
+                                      pair_name,
+                                      pair_repo,
+                                      tutor], stdout)
+        proc_state = repo_proc.wait()
     return (proc_state == 0)
 
 def pull_solo(project, gh_id, tutor):
@@ -27,7 +46,6 @@ import argparse
 import random
 import csv
 import sys
-
 sys.path.append("..");
 import config
 
@@ -68,7 +86,7 @@ for tutor in tutors:
     tutor_csvs[tutor] = tutor_csv
 
 completed = []
-csv_str   = "{0},{1} {2},{3},{4}"
+csv_str   = "{0},{1} {2},{3},{4}" #Tutor,Student Name,Github ID,Pair
 for student in students.keys():
     print "Current student is {0} {1}".format(students[student][0], students[student][1])
     curr_tutor = tutors[count]
@@ -94,7 +112,8 @@ for student in students.keys():
                 l_name0 = students[student][1]
                 tutor_csvs[tutor].write(csv_str.format(tutor, f_name0, l_name0, student, YES))
                 completed.append(student)
-            
+    print
+    
 #Close all open file handles
 for csv in tutor_csvs.values():
     csv.close()
