@@ -120,7 +120,7 @@ for student in students.keys():
                 count += 1
                 f_name0 = students[student][0]
                 l_name0 = students[student][1]
-                tutor_csvs[tutor].write(csv_str.format(tutor, f_name0, l_name0, student, 'YES'))
+                tutor_csvs[tutor].write(csv_str.format(tutor, f_name0, l_name0, student, 'NO'))
                 completed.append(student)
     print
     
