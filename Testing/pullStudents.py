@@ -62,7 +62,7 @@ count     = 0
 parser = argparse.ArgumentParser(description='Pull Students for grading')
 parser.add_argument('prefix', help='prefix e.g. PA1')
 parser.add_argument('-i','--infileName',
-                    help='input file (default: None)'",
+                    help='input file (default: None)',
                     default=None)
                     
 args = parser.parse_args()
