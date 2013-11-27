@@ -97,7 +97,13 @@ for tutor in tutors:
 completed = []
 csv_str   = "{0},{1} {2},{3},{4}" #Tutor,Student Name,Github ID,Pair
 if(args.infileName != None):
-    
+    with open(args.infileName, 'rb') as tb_pulled:
+        pull_reader = csv.DictReader(tb_pulled)
+        for line in pair_reader:
+            if line[''].lower in pairs.keys():
+                print line + " is in a pair";
+            else
+                print line + " is flying solo";
 else:
     for student in students.keys():
         print "Current student is {0} {1}".format(students[student][0], students[student][1])
