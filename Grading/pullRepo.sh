@@ -97,7 +97,7 @@ if [ ! -z "${revision}" ]; then
 fi
 
 cd ..
-if [ -f "${1}_lateone.tar" ] || [ -f "${1}_ontime.tar" ] || [ -f "${1}_latetwo.tar}" ]; then
+if [ -f "${1}_lateone.tar" ] || [ -f "${1}_ontime.tar" ] || [ -f "${1}_latetwo.tar" ]; then
     tar --ignore-failed-read -czvf ${1}.tar.gz *.tar
     zip ${graderZip} ${1}.tar.gz
     status=$?
