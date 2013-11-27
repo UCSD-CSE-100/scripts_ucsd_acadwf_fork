@@ -156,7 +156,7 @@ else:
 not_pulled = list(set(completed) ^ set(students.keys()))
 with open(submissions_dir+"not_worked", 'wb') as not_worked:
     for student in not_pulled:
-        not_worked.write("{name} - {gid} not pulled\n".format(
+        not_worked.write("Not pulled: {name} - {gid}\n".format(
                          name = students[student][0] + students[student][1],
                          gid = student))
        
