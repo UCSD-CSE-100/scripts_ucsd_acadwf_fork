@@ -113,8 +113,9 @@ with open(config.getStudentsFile(), 'rb') as studentsFile:
         students[line['github userid'].lower()] = (line['First Name'], line['Last Name'])
 
 #clean out submissions dir
-proc = subprocess.Popen(['rm', '-rf', submissions_dir+'*'])
-proc.wait()
+import os
+for file in os.listdir(submissions_dir):
+    os.remove(submissions_dir + file)
 
 tutor_csvs = {}
 for tutor in tutors:
