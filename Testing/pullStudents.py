@@ -99,11 +99,11 @@ csv_str   = "{0},{1} {2},{3},{4}\n" #Tutor,Student Name,Github ID,Pair
 if(args.infileName != None):
     with open(args.infileName, 'rb') as tb_pulled:
         pull_reader = csv.DictReader(tb_pulled)
-        for line in pair_reader:
-            if line[''].lower in pairs.keys():
-                print line + " is in a pair";
-            else
-                print line + " is flying solo";
+        for line in pull_reader:
+            if line['GithubId'].lower in pairs.keys():
+                print line['Name'] + " is in a pair";
+            else:
+                print line['Name'] + " is flying solo";
 else:
     for student in students.keys():
         print "Current student is {0} {1}".format(students[student][0], students[student][1])
@@ -122,7 +122,7 @@ else:
                     f_name1 = students[pairs[student]][0]
                     l_name1 = students[pairs[student]][1]
                     
-                    tutor_csvs[tutor].write(csv_str.format(tutor, f_name0, l_name0, student, 'YES'))
+                    tutor_csvs[tutor].write(csv_str.format(tutor, f_name0, l_name0, student,'YES'))
                     tutor_csvs[tutor].write(csv_str.format(tutor, f_name1, l_name1, student,'YES'))
                    
                     completed.extend([student, pairs[student]])
