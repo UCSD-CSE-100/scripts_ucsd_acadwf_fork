@@ -62,18 +62,21 @@ count     = 0
 parser = argparse.ArgumentParser(description='Pull Students for grading')
 parser.add_argument('prefix', help='prefix e.g. PA1')
 parser.add_argument('-i','--infileName',
-                    help='input file (default: None)'",
+                    help='input file (default: None)',
                     default=None)
+parser.add_argument('-p','--pairfileName',
+                    help='input file (default: '+config.getPairsFile()),
+                    default=config.getPairsFile())
                     
-args = parser.parse_args()
-lab = args.prefix
+args     = parser.parse_args()
+lab      = args.prefix
 
 submissions_dir = config.getLabSubmissionsDir()
 pairs    = {}
 students = {}
 
 #set up 
-with open(config.getPairsFile(), 'rb') as pairFile:
+with open(args.pairfileName, 'rb') as pairFile:
     pair_reader = csv.DictReader(pairFile)
     for line in pair_reader:
         pairs[line['Partner1_GithubID'].lower()] = line['Partner2_GithubID'].lower()
