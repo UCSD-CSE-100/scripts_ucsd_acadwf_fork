@@ -97,7 +97,8 @@ if [ ! -z "${revision}" ]; then
 fi
 
 cd ..
-if [ -f "${1}_checkpoint.tar" ] || [ -f "${1}_lateone.tar" ] || [ -f "${1}_ontime.tar" ] || [ -f "${1}_latetwo.tar" ]; then
+tar_count=`ls -1 *.tar 2>/dev/null | wc -l`
+if [ "$count" != 0 ]; then
     tar --ignore-failed-read -czvf ${1}.tar.gz *.tar
     zip ${graderZip} ${1}.tar.gz
     status=$?
