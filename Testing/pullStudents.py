@@ -47,17 +47,39 @@ def pull_solo(project, gh_id, tutor):
                                  tutor])
     
     return (repo_proc.wait() == 0)
-    
+
+def check_student(student, pairs, students, csv_str, tutor_csvs, curr_tutor):
+    added = [];
+    if student in pairs.keys():
+        print "Current student is {0} {1}".format(students[pairs[student]][0], students[pairs[student]][1])
+        if( pull_pair(lab, student, pairs[student], curr_tutor) ):
+            count += 1
+            f_name0 = students[student][0]
+            l_name0 = students[student][1]
+            f_name1 = students[pairs[student]][0]
+            l_name1 = students[pairs[student]][1]
+            
+            tutor_csvs[tutor].write(csv_str.format(tutor, f_name0, l_name0, student,'YES'))
+            tutor_csvs[tutor].write(csv_str.format(tutor, f_name1, l_name1, student,'YES'))
+           
+            added = [student, pairs[student]]
+    # Solo Case
+    else:
+        if( pull_solo(lab, student, curr_tutor) ):
+            count += 1
+            f_name0 = students[student][0]
+            l_name0 = students[student][1]
+            tutor_csvs[tutor].write(csv_str.format(tutor, f_name0, l_name0, student, 'NO'))
+            added = [student]
+
+    return added        
+
 import random
 import csv
 import sys
 sys.path.append("..");
 import config
 import argparse
-
-tutors    = config.getTutors()
-numTutors = len(tutors)
-count     = 0
 
 parser = argparse.ArgumentParser(description='Pull Students for grading')
 parser.add_argument('prefix', help='prefix e.g. PA1')
@@ -68,34 +90,38 @@ parser.add_argument('-p','--pairfileName',
                     help='input file (default: '+config.getPairsFile()+ ')',
                     default=config.getPairsFile())
                     
-args     = parser.parse_args()
-lab      = args.prefix
+#Initialize the variables
+args      = parser.parse_args()
+lab       = args.prefix
+tutors    = config.getTutors()
+numTutors = len(tutors)
+count     = 0
 
 submissions_dir = config.getLabSubmissionsDir()
 pairs    = {}
 students = {}
 
-#set up 
+#set up pairs
 with open(args.pairfileName, 'rb') as pairFile:
     pair_reader = csv.DictReader(pairFile)
     for line in pair_reader:
         pairs[line['Partner1_GithubID'].lower()] = line['Partner2_GithubID'].lower()
         pairs[line['Partner2_GithubID'].lower()] = line['Partner1_GithubID'].lower()
 
+#set up students
 with open(config.getStudentsFile(), 'rb') as studentsFile:
     student_reader = csv.DictReader(studentsFile)
     for line in student_reader:
         students[line['github userid'].lower()] = (line['First Name'], line['Last Name'])
 
+#clean out submissions dir
 proc = subprocess.Popen(['rm', '-rf', submissions_dir+'*'])
 proc.wait()
 
 tutor_csvs = {}
-
 for tutor in tutors:
-    tutor_csv = open(submissions_dir + tutor + ".csv", 'wb')
-    tutor_csv.write("Tutor,Student,Github ID,Pair\n")
-    tutor_csvs[tutor] = tutor_csv
+    tutor_csvs[tutor] = open(submissions_dir + tutor + ".csv", 'wb')
+    tutor_csvs[tutor].write("Tutor,Student,Github ID,Pair\n")
 
 completed = []
 csv_str   = "{0},{1} {2},{3},{4}\n" #Tutor,Student Name,Github ID,Pair
@@ -103,31 +129,15 @@ if(args.infileName != None):
     with open(args.infileName, 'rb') as tb_pulled:
         pull_reader = csv.DictReader(tb_pulled)
         for line in pull_reader:
+            if count%8  == 0:
+                random.shuffle(tutors)
+                count = 0
+            curr_tutor = tutors[count]
             student = line['GithubId'].lower()
             if student not in completed:
-                # Pair Case
-                if student in pairs.keys():
-                    print "Current student is {0} {1}".format(students[pairs[student]][0], students[pairs[student]][1])
-                    if( pull_pair(lab, student, pairs[student], curr_tutor) ):
-                        count += 1
-                        f_name0 = students[student][0]
-                        l_name0 = students[student][1]
-                        f_name1 = students[pairs[student]][0]
-                        l_name1 = students[pairs[student]][1]
-                        
-                        tutor_csvs[tutor].write(csv_str.format(tutor, f_name0, l_name0, student,'YES'))
-                        tutor_csvs[tutor].write(csv_str.format(tutor, f_name1, l_name1, student,'YES'))
-                       
-                        completed.extend([student, pairs[student]])
-                # Solo Case
-                else:
-                    if( pull_solo(lab, student, curr_tutor) ):
-                        count += 1
-                        f_name0 = students[student][0]
-                        l_name0 = students[student][1]
-                        tutor_csvs[tutor].write(csv_str.format(tutor, f_name0, l_name0, student, 'NO'))
-                        completed.append(student)
-            #done with student
+                added = check_student(student, pairs, students, csv_str, tutor_csvs, curr_tutor)
+                if added != None:
+                    completed.extends(added)
 else:
     for student in students.keys():
         print "Current student is {0} {1}".format(students[student][0], students[student][1])
