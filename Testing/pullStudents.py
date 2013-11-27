@@ -135,9 +135,11 @@ if(args.infileName != None):
             curr_tutor = tutors[count]
             student = line['GithubId'].lower()
             if student not in completed:
-                added = check_student(student, pairs, students, csv_str, tutor_csvs, curr_tutor)
+                added = check_student(student, pairs, students, csv_str, 
+                                      tutor_csvs, curr_tutor)
                 if added != None:
-                    completed.extends(added)
+                    completed.extend(added)
+    print count
 else:
     for student in students.keys():
         print "Current student is {0} {1}".format(students[student][0], students[student][1])
