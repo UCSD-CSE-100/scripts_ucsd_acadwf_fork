@@ -152,7 +152,15 @@ else:
                 completed.extend(added)
                 count+=1
         print
-    
+
+not_pulled = list(set(completed) & set(students.keys()))
+with open(submissions_dir+"not_worked") as not_worked
+    for student in not_pulled:
+        not_worked.write("(name) - (gid) not pulled\n".format(
+                         name = students[student][0] + students[1]),
+                         gid = student)
+       
+        
 #Close all open file handles
 for csv in tutor_csvs.values():
     csv.close()
