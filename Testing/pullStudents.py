@@ -61,7 +61,10 @@ count     = 0
 
 parser = argparse.ArgumentParser(description='Pull Students for grading')
 parser.add_argument('prefix', help='prefix e.g. PA1')
-
+parser.add_argument('-i','--infileName',
+                    help='input file (default: None)'",
+                    default=None)
+                    
 args = parser.parse_args()
 lab = args.prefix
 
@@ -93,37 +96,42 @@ for tutor in tutors:
 
 completed = []
 csv_str   = "{0},{1} {2},{3},{4}" #Tutor,Student Name,Github ID,Pair
-for student in students.keys():
-    print "Current student is {0} {1}".format(students[student][0], students[student][1])
-    if count%8  == 0:
-        random.shuffle(tutors)
-        count = 0
-    curr_tutor = tutors[count]
-    if student not in completed:
-        # Pair Case
-        if student in pairs:
-            print "Current student is {0} {1}".format(students[pairs[student]][0], students[pairs[student]][1])
-            if( pull_pair(lab, student, pairs[student], curr_tutor) ):
-                count += 1
-                f_name0 = students[student][0]
-                l_name0 = students[student][1]
-                f_name1 = students[pairs[student]][0]
-                l_name1 = students[pairs[student]][1]
-                
-                tutor_csvs[tutor].write(csv_str.format(tutor, f_name0, l_name0, student, 'YES'))
-                tutor_csvs[tutor].write(csv_str.format(tutor, f_name1, l_name1, student,'YES'))
-               
-                completed.extend([student, pairs[student]])
-        # Solo Case
-        else:
-            if( pull_solo(lab, student, curr_tutor) ):
-                count += 1
-                f_name0 = students[student][0]
-                l_name0 = students[student][1]
-                tutor_csvs[tutor].write(csv_str.format(tutor, f_name0, l_name0, student, 'NO'))
-                completed.append(student)
-    print
+if(args.infileName != None):
+    
+else:
+    for student in students.keys():
+        print "Current student is {0} {1}".format(students[student][0], students[student][1])
+        if count%8  == 0:
+            random.shuffle(tutors)
+            count = 0
+        curr_tutor = tutors[count]
+        if student not in completed:
+            # Pair Case
+            if student in pairs.keys():
+                print "Current student is {0} {1}".format(students[pairs[student]][0], students[pairs[student]][1])
+                if( pull_pair(lab, student, pairs[student], curr_tutor) ):
+                    count += 1
+                    f_name0 = students[student][0]
+                    l_name0 = students[student][1]
+                    f_name1 = students[pairs[student]][0]
+                    l_name1 = students[pairs[student]][1]
+                    
+                    tutor_csvs[tutor].write(csv_str.format(tutor, f_name0, l_name0, student, 'YES'))
+                    tutor_csvs[tutor].write(csv_str.format(tutor, f_name1, l_name1, student,'YES'))
+                   
+                    completed.extend([student, pairs[student]])
+            # Solo Case
+            else:
+                if( pull_solo(lab, student, curr_tutor) ):
+                    count += 1
+                    f_name0 = students[student][0]
+                    l_name0 = students[student][1]
+                    tutor_csvs[tutor].write(csv_str.format(tutor, f_name0, l_name0, student, 'NO'))
+                    completed.append(student)
+        print
     
 #Close all open file handles
 for csv in tutor_csvs.values():
     csv.close()
+
+sys.exit(0)
