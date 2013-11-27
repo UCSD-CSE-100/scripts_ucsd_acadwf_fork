@@ -65,7 +65,7 @@ parser.add_argument('-i','--infileName',
                     help='input file (default: None)',
                     default=None)
 parser.add_argument('-p','--pairfileName',
-                    help='input file (default: '+config.getPairsFile()),
+                    help='input file (default: '+config.getPairsFile()+ ')',
                     default=config.getPairsFile())
                     
 args     = parser.parse_args()
@@ -103,7 +103,7 @@ if(args.infileName != None):
     with open(args.infileName, 'rb') as tb_pulled:
         pull_reader = csv.DictReader(tb_pulled)
         for line in pull_reader:
-            if line['GithubId'].lower in pairs.keys():
+            if line['GithubId'].lower() in pairs.keys():
                 print line['Name'] + " is in a pair";
             else:
                 print line['Name'] + " is flying solo";
