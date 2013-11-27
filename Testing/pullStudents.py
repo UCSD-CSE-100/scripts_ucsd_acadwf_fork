@@ -91,11 +91,11 @@ tutor_csvs = {}
 
 for tutor in tutors:
     tutor_csv = open(submissions_dir + tutor + ".csv", 'wb')
-    tutor_csv.write("Tutor,Student,Github ID,Pair")
+    tutor_csv.write("Tutor,Student,Github ID,Pair\n")
     tutor_csvs[tutor] = tutor_csv
 
 completed = []
-csv_str   = "{0},{1} {2},{3},{4}" #Tutor,Student Name,Github ID,Pair
+csv_str   = "{0},{1} {2},{3},{4}\n" #Tutor,Student Name,Github ID,Pair
 if(args.infileName != None):
     with open(args.infileName, 'rb') as tb_pulled:
         pull_reader = csv.DictReader(tb_pulled)
