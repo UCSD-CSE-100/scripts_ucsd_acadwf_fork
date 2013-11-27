@@ -103,10 +103,31 @@ if(args.infileName != None):
     with open(args.infileName, 'rb') as tb_pulled:
         pull_reader = csv.DictReader(tb_pulled)
         for line in pull_reader:
-            if line['GithubId'].lower() in pairs.keys():
-                print line['Name'] + " is in a pair";
-            else:
-                print line['Name'] + " is flying solo";
+            student = line['GithubId'].lower()
+            if student not in completed:
+                # Pair Case
+                if student in pairs.keys():
+                    print "Current student is {0} {1}".format(students[pairs[student]][0], students[pairs[student]][1])
+                    if( pull_pair(lab, student, pairs[student], curr_tutor) ):
+                        count += 1
+                        f_name0 = students[student][0]
+                        l_name0 = students[student][1]
+                        f_name1 = students[pairs[student]][0]
+                        l_name1 = students[pairs[student]][1]
+                        
+                        tutor_csvs[tutor].write(csv_str.format(tutor, f_name0, l_name0, student,'YES'))
+                        tutor_csvs[tutor].write(csv_str.format(tutor, f_name1, l_name1, student,'YES'))
+                       
+                        completed.extend([student, pairs[student]])
+                # Solo Case
+                else:
+                    if( pull_solo(lab, student, curr_tutor) ):
+                        count += 1
+                        f_name0 = students[student][0]
+                        l_name0 = students[student][1]
+                        tutor_csvs[tutor].write(csv_str.format(tutor, f_name0, l_name0, student, 'NO'))
+                        completed.append(student)
+            #done with student
 else:
     for student in students.keys():
         print "Current student is {0} {1}".format(students[student][0], students[student][1])
