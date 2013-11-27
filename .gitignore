@@ -28,3 +28,6 @@ stragglers
 *.zip
 *.tar
 *tar.gz
+
+#ignore nfs mounting errors
+*nfs*
