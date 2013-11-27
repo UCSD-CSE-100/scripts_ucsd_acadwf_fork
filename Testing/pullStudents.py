@@ -53,7 +53,6 @@ def check_student(student, pairs, students, csv_str, tutor_csvs, curr_tutor):
     if student in pairs.keys():
         print "Current student is {0} {1}".format(students[pairs[student]][0], students[pairs[student]][1])
         if( pull_pair(lab, student, pairs[student], curr_tutor) ):
-            count += 1
             f_name0 = students[student][0]
             l_name0 = students[student][1]
             f_name1 = students[pairs[student]][0]
@@ -66,7 +65,6 @@ def check_student(student, pairs, students, csv_str, tutor_csvs, curr_tutor):
     # Solo Case
     else:
         if( pull_solo(lab, student, curr_tutor) ):
-            count += 1
             f_name0 = students[student][0]
             l_name0 = students[student][1]
             tutor_csvs[tutor].write(csv_str.format(tutor, f_name0, l_name0, student, 'NO'))
@@ -138,6 +136,7 @@ if(args.infileName != None):
                 added = check_student(student, pairs, students, csv_str, tutor_csvs, curr_tutor)
                 if added != None:
                     completed.extends(added)
+                    count +=1
 else:
     for student in students.keys():
         print "Current student is {0} {1}".format(students[student][0], students[student][1])
@@ -149,6 +148,7 @@ else:
             added = check_student(student, pairs, students, csv_str, tutor_csvs, curr_tutor)
             if added != None:
                 completed.extend(added)
+                count+=1
         print
     
 #Close all open file handles
