@@ -48,11 +48,11 @@ def pull_solo(project, gh_id, tutor):
     
     return (repo_proc.wait() == 0)
 
-def check_student(student, pairs, students, csv_str, tutor_csvs, curr_tutor):
+def check_student(student, pairs, students, csv_str, tutor_csvs, tutor):
     added = [];
     if student in pairs.keys():
         print "Current student is {0} {1}".format(students[pairs[student]][0], students[pairs[student]][1])
-        if( pull_pair(lab, student, pairs[student], curr_tutor) ):
+        if( pull_pair(lab, student, pairs[student], tutor) ):
             f_name0 = students[student][0]
             l_name0 = students[student][1]
             f_name1 = students[pairs[student]][0]
