@@ -148,28 +148,9 @@ else:
             count = 0
         curr_tutor = tutors[count]
         if student not in completed:
-            # Pair Case
-            if student in pairs.keys():
-                print "Current student is {0} {1}".format(students[pairs[student]][0], students[pairs[student]][1])
-                if( pull_pair(lab, student, pairs[student], curr_tutor) ):
-                    count += 1
-                    f_name0 = students[student][0]
-                    l_name0 = students[student][1]
-                    f_name1 = students[pairs[student]][0]
-                    l_name1 = students[pairs[student]][1]
-                    
-                    tutor_csvs[tutor].write(csv_str.format(tutor, f_name0, l_name0, student,'YES'))
-                    tutor_csvs[tutor].write(csv_str.format(tutor, f_name1, l_name1, student,'YES'))
-                   
-                    completed.extend([student, pairs[student]])
-            # Solo Case
-            else:
-                if( pull_solo(lab, student, curr_tutor) ):
-                    count += 1
-                    f_name0 = students[student][0]
-                    l_name0 = students[student][1]
-                    tutor_csvs[tutor].write(csv_str.format(tutor, f_name0, l_name0, student, 'NO'))
-                    completed.append(student)
+            added = check_student(student, pairs, students, csv_str, tutor_csvs, curr_tutor)
+            if added != None:
+                completed.extend(added)
         print
     
 #Close all open file handles
