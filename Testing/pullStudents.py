@@ -52,22 +52,33 @@ def check_student(student, pairs, students, csv_str, tutor_csvs, tutor):
     added = [];
     if student in pairs.keys():
         print "Current student is {0} {1}".format(students[pairs[student]][0], students[pairs[student]][1])
+        
+        #See if they need to be pulled separately
+        if( pull_solo(lab, student, tutor) ):
+            f_name0 = students[student][0]
+            l_name0 = students[student][1]
+            tutor_csvs[tutor].write(csv_str.format(tutor, f_name0, l_name0, student,'SOLO'))
+        if( pull_solo(lab, pairs[stuent], tutor):
+            f_name0 = students[pairs[student]][0]
+            l_name0 = students[pairs[student]][1]
+            tutor_csvs[tutor].write(csv_str.format(tutor, f_name0, l_name0, student, 'SOLO'))
+        
         if( pull_pair(lab, student, pairs[student], tutor) ):
             f_name0 = students[student][0]
             l_name0 = students[student][1]
             f_name1 = students[pairs[student]][0]
             l_name1 = students[pairs[student]][1]
             
-            tutor_csvs[tutor].write(csv_str.format(tutor, f_name0, l_name0, student,'YES'))
-            tutor_csvs[tutor].write(csv_str.format(tutor, f_name1, l_name1, student,'YES'))
+            tutor_csvs[tutor].write(csv_str.format(tutor, f_name0, l_name0, student,'PAIR'))
+            tutor_csvs[tutor].write(csv_str.format(tutor, f_name1, l_name1, pairs[student],'PAIR'))
            
             added = [student, pairs[student]]
     # Solo Case
     else:
-        if( pull_solo(lab, student, curr_tutor) ):
+        if( pull_solo(lab, student, tutor) ):
             f_name0 = students[student][0]
             l_name0 = students[student][1]
-            tutor_csvs[tutor].write(csv_str.format(tutor, f_name0, l_name0, student, 'NO'))
+            tutor_csvs[tutor].write(csv_str.format(tutor, f_name0, l_name0, student, 'SOLO'))
             added = [student]
 
     return added        
