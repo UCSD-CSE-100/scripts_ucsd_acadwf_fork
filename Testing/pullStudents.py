@@ -22,20 +22,14 @@ def pull_pair(project, gh_id, gh_id2, tutor):
     pair_name = "{0}_Pair_{1}_{2}".format(project, gh_id, gh_id2)
     pair_url  = "git@github.com:UCSD-CSE-100/" + pair_name + ".git"
     if check_repo(pair_url):
-        repo_proc = subprocess.Popen(['./pullRepo.sh',
-                                      pair_name,
-                                      pair_url,
-                                      tutor])
-        proc_state = repo_proc.wait()
-    else:
-        pair_name = "{0}_Pair_{1}_{2}.git".format(project, gh_id2, gh_id)
+        pair_name = "{0}_Pair_{1}_{2}".format(project, gh_id2, gh_id)
         pair_url = "git@github.com:UCSD-CSE-100/" + pair_name + ".git"
-        repo_proc = subprocess.Popen(['./pullRepo.sh',
-                                      pair_name,
-                                      pair_url,
-                                      tutor])
-        proc_state = repo_proc.wait()
-    return (proc_state == 0)
+    
+    repo_proc = subprocess.Popen(['./pullRepo.sh',
+                                  pair_name,
+                                  pair_url,
+                                  tutor])
+    return (repo_proc.wait() == 0)
 
 def pull_solo(project, gh_id, tutor):
     repo_name = "{0}_{1}".format(project, gh_id)
