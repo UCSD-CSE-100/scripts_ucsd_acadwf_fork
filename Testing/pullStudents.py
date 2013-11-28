@@ -30,7 +30,6 @@ def pull_pair(project, gh_id, gh_id2, tutor):
                                   pair_url,
                                   tutor])
     return (repo_proc.wait() == 0)
->>>>>>> 8a25f4e47fa00ff5dd58de4e038ff752c4a9cd06
 
 def pull_solo(project, gh_id, tutor):
     repo_name = "{0}_{1}".format(project, gh_id)
