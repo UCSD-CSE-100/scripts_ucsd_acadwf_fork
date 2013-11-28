@@ -21,7 +21,7 @@ def pull_pair(project, gh_id, gh_id2, tutor):
     proc_state = 0
     pair_name = "{0}_Pair_{1}_{2}".format(project, gh_id, gh_id2)
     pair_url  = "git@github.com:UCSD-CSE-100/" + pair_name + ".git"
-    if check_repo(pair_url):
+    if not check_repo(pair_url):
         pair_name = "{0}_Pair_{1}_{2}".format(project, gh_id2, gh_id)
         pair_url = "git@github.com:UCSD-CSE-100/" + pair_name + ".git"
     
