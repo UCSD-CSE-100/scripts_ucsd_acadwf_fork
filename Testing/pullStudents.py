@@ -22,7 +22,7 @@ def pull_pair(project, gh_id, gh_id2, tutor):
     pair_name = "{0}_Pair_{1}_{2}".format(project, gh_id, gh_id2)
     pair_url  = "git@github.com:UCSD-CSE-100/" + pair_name + ".git"
     if check_repo(pair_url):
-        repo_proc = subprocess.Popen(['./pullRepo.sh',
+        repo_proc = subprocess.Popen(['./../Grading/pullRepo.sh',
                                       pair_name,
                                       pair_url,
                                       tutor])
@@ -30,7 +30,7 @@ def pull_pair(project, gh_id, gh_id2, tutor):
     else:
         pair_name = "{0}_Pair_{1}_{2}.git".format(project, gh_id2, gh_id)
         pair_url = "git@github.com:UCSD-CSE-100/" + pair_name + ".git"
-        repo_proc = subprocess.Popen(['./pullRepo.sh',
+        repo_proc = subprocess.Popen(['./../Grading/pullRepo.sh',
                                       pair_name,
                                       pair_url,
                                       tutor])
@@ -58,7 +58,7 @@ def check_student(student, pairs, students, csv_str, tutor_csvs, tutor):
             f_name0 = students[student][0]
             l_name0 = students[student][1]
             tutor_csvs[tutor].write(csv_str.format(tutor, f_name0, l_name0, student,'SOLO'))
-        if( pull_solo(lab, pairs[stuent], tutor):
+        if( pull_solo(lab, pairs[student], tutor) ):
             f_name0 = students[pairs[student]][0]
             l_name0 = students[pairs[student]][1]
             tutor_csvs[tutor].write(csv_str.format(tutor, f_name0, l_name0, student, 'SOLO'))
