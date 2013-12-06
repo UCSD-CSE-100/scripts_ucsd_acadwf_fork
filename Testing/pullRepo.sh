@@ -48,9 +48,9 @@ pwd
 # fi
 
 #Check if checkpoint submission exists, pull latest commit before deadline if it does not
-exits=`git rev-list -n 1 --before="11/13/2013 20:45" --grep="CHECKPOINT" master`
+exits=`git rev-list -n 1 --before="12/3/2013 20:15" --grep="CHECKPOINT" master`
 if [ -z "${exists}" ]; then
-   revision=`git rev-list -n 1 --before="11/13/2013 20:45" master`
+   revision=`git rev-list -n 1 --before="11/3/2013 20:15" master`
    git checkout ${revision} -b checkpoint
 else
    git checkout ${exists} -b checkpoint
@@ -62,16 +62,16 @@ git checkout master
 git branch -d checkpoint
 
 #check if final submission exists, unless we are ignoring final submission
-exists=`git rev-list -n 1 --before="11/18/2013 20:15" --grep="final" -i master`
+exists=`git rev-list -n 1 --before="12/6/2013 20:15" --grep="final" -i master`
 if [ -z "${exists}" ]; then
-    revision=`git rev-list -n 1 --before="11/18/2013 20:15" master`
+    revision=`git rev-list -n 1 --before="12/6/2013 20:15" master`
     git checkout ${revision} -b ontime
 else
     ontime_check="TRUE"
     git checkout ${exists} -b ontime
 fi
-if [ -f "compress.cpp" ] && [ -f "uncompress.cpp" ]; then
-    tar -cvf ../${1}_ontime.tar *.cpp *.hpp
+if [ ! -z "${ontime_check}" ] || [ ! -z ${revision} ];
+    pull_files ${FILES} ${1} "ontime"
 fi
 git checkout master
 git branch -d ontime
