@@ -31,3 +31,7 @@ stragglers
 
 #ignore nfs mounting errors
 *nfs*
+
+#ignore swp files
+*.swp
+*.swo
