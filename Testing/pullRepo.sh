@@ -55,7 +55,9 @@ if [ -z "${exists}" ]; then
 else
    git checkout ${exists} -b checkpoint
 fi
-pull_files ${FILES} ${1} "checkpoint"
+if [ ! -z ${revision} ] || [ ! -z ${exists} ]; then
+    pull_files ${FILES} ${1} "checkpoint"
+fi
 git checkout master
 git branch -d checkpoint
 
