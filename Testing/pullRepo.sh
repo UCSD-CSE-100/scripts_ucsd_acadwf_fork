@@ -8,7 +8,7 @@ pull_files() #PARAMS: $1 = FILES,  $2 = NAME, $3 = TYPE
             rm -f ${2}_${3}.tar
             return 1;
         fi
-        tar -rvf ${2}_${3}.tar  ${line}
+        tar -rvf ../${2}_${3}.tar  ${line}
     done < $1    
     return 0
 }
