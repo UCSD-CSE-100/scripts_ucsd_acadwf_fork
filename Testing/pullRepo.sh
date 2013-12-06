@@ -58,7 +58,7 @@ pwd
 #Check if checkpoint submission exists, pull latest commit before deadline if it does not
 exits=`git rev-list -n 1 --before="12/3/2013 20:15" --grep="CHECKPOINT" master`
 if [ -z "${exists}" ]; then
-   revision=`git rev-list -n 1 --before="11/3/2013 20:15" master`
+   revision=`git rev-list -n 1 --before="12/3/2013 20:15" master`
    git checkout ${revision} -b checkpoint
 else
    git checkout ${exists} -b checkpoint
