@@ -38,7 +38,7 @@ echo "Repo Url is ${2}, reponame is ${1}"
 git clone ${2}
 cd ${scratchDir}${1}
 
-if [ $? -ne 0  ];
+if [ $? -ne 0  ]; then
     echo "Could not cd to directory ${scratchDir}${1}"
     exit 1
 fi
