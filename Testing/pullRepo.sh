@@ -70,7 +70,7 @@ else
     ontime_check="TRUE"
     git checkout ${exists} -b ontime
 fi
-if [ ! -z "${ontime_check}" ] || [ ! -z ${revision} ];
+if [ ! -z "${ontime_check}" ] || [ ! -z ${revision} ]; then
     pull_files ${FILES} ${1} "ontime"
 fi
 git checkout master
