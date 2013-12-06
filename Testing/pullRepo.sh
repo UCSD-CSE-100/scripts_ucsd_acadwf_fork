@@ -86,37 +86,33 @@ git branch -d ontime
 
 #check for late submission day one, always get latest commit
 unset revision
-lateOne=`git rev-list -n 1 --before="11/19/2013 20:15" --after="11/18/2013 20:15" --grep="final" -i master`
+lateOne=`git rev-list -n 1 --before="12/7/2013 20:15" --after="12/6/2013 20:15" --grep="final" -i master`
 if [ ! -z "${lateOne}" ]; then
     revision=${lateOne}
 elif [ -z "${ontime_check}" ]; then
-    revision=`git rev-list -n 1 --before="11/19/2013 20:15" --after="11/18/2013 20:15" master`
+    revision=`git rev-list -n 1 --before="12/7/2013 20:15" --after="12/6/2013 20:15" master`
 fi
 
 if [ ! -z "${revision}" ]; then
     git checkout ${revision} -b lateone
-   if [ -f "compress.cpp" ] && [ -f "uncompress.cpp" ]; then
-      tar -cvf ../${1}_lateone.tar *.hpp *.cpp
-   fi
-   git checkout master
-   git branch -d lateone
+    pull_files ${FILE} ${1} lateone
+    git checkout master
+    git branch -d lateone
 fi
 
 #check for late submission day two, always get latest commit
-lateTwo=`git rev-list -n 1 --before="11/20/2013 20:15" --after="11/19/2013 20:15" --grep="final" -i master`
+lateTwo=`git rev-list -n 1 --before="12/8/2013 20:15" --after="12/9/2013 20:15" --grep="final" -i master`
 if [ ! -z "${lateTwo}" ]; then
     revision=${lateTwo}
 elif [ -z "${ontime_check}" ]; then
-    revision=`git rev-list -n 1 --before="11/20/2013 20:15" --after="11/19/2013 20:15" master`
+    revision=`git rev-list -n 1 --before="12/8/2013 20:15" --after="12/9/2013 20:15" master`
 fi
 
 if [ ! -z "${revision}" ]; then
     git checkout ${revision} -b latetwo
-   if [ -f "compress.cpp" ] && [ -f "uncompress.cpp" ]; then
-      tar -cvf ../${1}_latetwo.tar *.hpp *.cpp
-   fi
-   git checkout master
-   git branch -d latetwo
+    pull_files ${FILES} ${1} "latetwo"
+    git checkout master
+    git branch -d latetwo
 fi
 
 cd ..
