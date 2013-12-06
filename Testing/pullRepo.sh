@@ -121,6 +121,7 @@ fi
 
 cd ..
 tar_count=`ls -1 *.tar 2>/dev/null | wc -l`
+echo "tar_count is ${tar_count}"
 if [ "$tar_count" != 0 ]; then
     tar --ignore-failed-read -czvf ${1}.tar.gz *.tar
     zip ${graderZip} ${1}.tar.gz
