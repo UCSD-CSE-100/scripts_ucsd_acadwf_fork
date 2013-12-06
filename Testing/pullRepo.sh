@@ -2,7 +2,13 @@
 
 pull_files() #PARAMS: $1 = FILES,  $2 = NAME, $3 = TYPE
 {
-    
+    while read line; do
+        if [ ! -f ${line} ]; then
+            rm -f ${2}_${3}.tar
+            break;
+        fi
+        tar -rvf ${2}_${3}.tar  ${line}
+    done < $1    
 }
 
 if [ $# -lt 4 ]; then
@@ -11,7 +17,8 @@ if [ $# -lt 4 ]; then
 fi
 
 protoDir=`python -c 'import sys; sys.path.append(".."); import config; print(config.getPrototypeDir())'`
-if [ ! -f "${protoDir}${4}_files" ]; then
+FILES="${protoDir}${4}_files"
+if [ ! -f "${FILES}" ]; then
     echo "Files to be pulled cannot be found!"
     exit 1
 fi
@@ -48,12 +55,7 @@ if [ -z "${exists}" ]; then
 else
    git checkout ${exists} -b checkpoint
 fi
-if [ -f "compress.cpp" ] && [ -f "uncompress.cpp"  ]; then
-    tar -cvf ../${1}_checkpoint.tar compress.cpp uncompress.cpp HCNode.*pp HCTree.*pp
-    if [ -s "BitInputStream.cpp" ] && [ -s "BitOutputStream.cpp" ]; then
-        tar -rvf ../${1}_checkpoint.tar BitInputStream.*pp BitOutputStream.*pp
-    fi
-fi
+pull_files ${FILES} ${1} "checkpoint"
 git checkout master
 git branch -d checkpoint
 
