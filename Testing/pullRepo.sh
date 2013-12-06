@@ -4,11 +4,13 @@ pull_files() #PARAMS: $1 = FILES,  $2 = NAME, $3 = TYPE
 {
     while read line; do
         if [ ! -f ${line} ]; then
+            echo "Could not pull file: $file"
             rm -f ${2}_${3}.tar
-            break;
+            return 1;
         fi
         tar -rvf ${2}_${3}.tar  ${line}
     done < $1    
+    return 0
 }
 
 if [ $# -lt 4 ]; then
@@ -35,6 +37,12 @@ echo "Repo Url is ${2}, reponame is ${1}"
 
 git clone ${2}
 cd ${scratchDir}${1}
+
+if [ $? -ne 0  ];
+    echo "Could not cd to directory ${scratchDir}${1}"
+    exit 1
+fi
+
 pwd
 
 #If they have less than a certain number of commits, exit
