@@ -78,12 +78,10 @@ def check_student(student, pairs, students, csv_str, tutor_csvs, tutor):
 
     return added        
 
-import random
-import csv
-import sys
+import random, csv, sys, os
+import zipfile, re
 sys.path.append("..");
-import config
-import argparse
+import config, argparse
 
 parser = argparse.ArgumentParser(description='Pull Students for grading')
 parser.add_argument('prefix', help='prefix e.g. PA1')
@@ -119,7 +117,6 @@ with open(config.getStudentsFile(), 'rb') as studentsFile:
         students[line['github userid'].lower()] = (line['First Name'], line['Last Name'])
 
 #clean out submissions dir
-import os
 for file in os.listdir(submissions_dir):
     os.remove(submissions_dir + file)
 
@@ -166,10 +163,20 @@ with open(submissions_dir+"not_worked", 'wb') as not_worked:
         not_worked.write("Not pulled: {name} - {gid}\n".format(
                          name = students[student][0] + students[student][1],
                          gid = student))
-       
-        
+
 #Close all open file handles
 for csv in tutor_csvs.values():
     csv.close()
+
+#Zip the CSVs with the zips
+os.chdir(submissions_dir)
+dir_files = os.listdir(os.getcwd())
+zips = sorted([x for x in dir_files if(re.match('.*\.zip', x))])
+csvs = sorted([x for x in dir_files if(re.match('.*\.csv', x))])
+zip_csvs = zip(zips, csvs)
+for tutor in zip_csvs:
+    zip_file = zipfile.ZipFile(tutor[0], 'w')
+    zip_file.write(tutor[1])
+    zip_file.close()
 
 sys.exit(0)
