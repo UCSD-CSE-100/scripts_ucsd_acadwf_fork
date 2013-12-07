@@ -25,20 +25,20 @@ def pull_pair(project, gh_id, gh_id2, tutor):
         pair_name = "{0}_Pair_{1}_{2}".format(project, gh_id2, gh_id)
         pair_url = "git@github.com:UCSD-CSE-100/" + pair_name + ".git"
     
-    repo_proc = subprocess.Popen(['./../Grading/pullRepo.sh',
+    repo_proc = subprocess.Popen(['./pullRepo.sh',
                                   pair_name,
                                   pair_url,
-                                  tutor])
+                                  tutor, P4])
     return (repo_proc.wait() == 0)
 
 def pull_solo(project, gh_id, tutor):
     repo_name = "{0}_{1}".format(project, gh_id)
     repo_url  = "git@github.com:UCSD-CSE-100/" + repo_name + ".git"
     
-    repo_proc = subprocess.Popen(['./../Grading/pullRepo.sh',
+    repo_proc = subprocess.Popen(['./pullRepo.sh',
                                  repo_name,
                                  repo_url,
-                                 tutor])
+                                 tutor, P4])
     
     return (repo_proc.wait() == 0)
 
