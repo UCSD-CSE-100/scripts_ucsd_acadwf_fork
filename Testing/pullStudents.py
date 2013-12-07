@@ -175,7 +175,7 @@ zips = sorted([x for x in dir_files if(re.match('.*\.zip', x))])
 csvs = sorted([x for x in dir_files if(re.match('.*\.csv', x))])
 zip_csvs = zip(zips, csvs)
 for tutor in zip_csvs:
-    zip_file = zipfile.ZipFile(tutor[0], 'w')
+    zip_file = zipfile.ZipFile(tutor[0], 'a')
     zip_file.write(tutor[1])
     zip_file.close()
 
