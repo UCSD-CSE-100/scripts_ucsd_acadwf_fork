@@ -28,7 +28,7 @@ def pull_pair(project, gh_id, gh_id2, tutor):
     repo_proc = subprocess.Popen(['./pullRepo.sh',
                                   pair_name,
                                   pair_url,
-                                  tutor, P4])
+                                  tutor, lab])
     return (repo_proc.wait() == 0)
 
 def pull_solo(project, gh_id, tutor):
@@ -38,7 +38,7 @@ def pull_solo(project, gh_id, tutor):
     repo_proc = subprocess.Popen(['./pullRepo.sh',
                                  repo_name,
                                  repo_url,
-                                 tutor, P4])
+                                 tutor, lab])
     
     return (repo_proc.wait() == 0)
 
