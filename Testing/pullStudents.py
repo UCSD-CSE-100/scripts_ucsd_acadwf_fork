@@ -79,7 +79,7 @@ def check_student(student, tutor):
            
             added = [student, pairs[student]]
     # Solo Case
-    else:
+    elif studen not in pairs.values():
         if( pull_solo(lab, student, tutor) ):
             f_name0 = students[student][0]
             l_name0 = students[student][1]
@@ -134,7 +134,6 @@ with open(args.pairfileName, 'rb') as pairFile:
     pair_reader = csv.DictReader(pairFile)
     for line in pair_reader:
         pairs[line['Partner1_GithubID'].lower()] = line['Partner2_GithubID'].lower()
-        pairs[line['Partner2_GithubID'].lower()] = line['Partner1_GithubID'].lower()
 
 #set up students
 with open(config.getStudentsFile(), 'rb') as studentsFile:
