@@ -28,3 +28,10 @@ stragglers
 *.zip
 *.tar
 *tar.gz
+
+#ignore nfs mounting errors
+*nfs*
+
+#ignore swp files
+*.swp
+*.swo

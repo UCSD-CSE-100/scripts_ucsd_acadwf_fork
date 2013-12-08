@@ -5,12 +5,13 @@
 #       for use with the scripts
 
 #Python globals
-students          = "test1.csv"
-pairs             = "pairs.csv"
+students          = "DIRECTORY/test1.csv"
+pairs             = "DIRECTORY/pairs.csv"
 org               = "UCSD-CSE-100"
-scratchRepoDir    = "/home/linux/ieng6/cs100e/USER/scratchRepos/"
+scratchRepoDir    = "DIRECTORY/../scratchRepos/"
 prototypesDir     = "/home/linux/ieng6/cs100e/public/"
-labSubmissionsDir = "/home/linux/ieng6/cs100e/USER/labSubmissions/"
+labSubmissionsDir = "DIRECTORY/../labSubmissions/"
+grading_dir       = "DIRECTORY/Grading"
 
 currQuarter       = "FALL 2013"
 currClass         = "CSE 100"
@@ -20,10 +21,13 @@ classWebsite      = "https://sites.google.com/a/eng.ucsd.edu/cse-100-fall-2013/"
 projLang          = "C++"
 
 #Shell Script Globals
-scriptsLogsDir    = "/home/linux/ieng6/cs100e/USER/scriptLogs/"
+scriptsLogsDir    = "DIRECTORY/../scriptLogs/"
 
 #List of current tutors
 tutors            = ["tutor_0", "tutor_1", "tutor_2", "tutor_3", "tutor_4", "tutor_5", "tutor_6", "tutor_7"]
+
+#List of Lab Names
+class_labs        = ["P1", "P2", "P3", "P4"]
 
 ''' Python Config calls '''
 def getStudentsFile():

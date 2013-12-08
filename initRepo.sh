@@ -8,7 +8,8 @@ cp sample_config.py config.py
 
 #intialize the config file values to some default values
 #makes the scratch, submission, and logs directories if they don't already exist
-sed -i "s,USER,$USER,g" config.py
+PWD=`pwd`
+sed -i "s,DIRECTORY,$PWD,g" config.py
 
 SCRATCHREPODIR=`python -c 'import config; dir = config.getScratchRepoDir(); print(dir)'`
 SUBMISSIONSDIR=`python -c 'import config; dir = config.getLabSubmissionsDir(); print(dir)'`
@@ -16,13 +17,13 @@ SCRIPTSLOGSDIR=`python -c 'import config; dir = config.getScriptsLogsDir(); prin
 
 echo "Creating directories..."
 if [ ! -d "${SCRATCHREPODIR}" ]; then
-	mkdir ${SCRATCHREPODIR}
+	mkdir -p ${SCRATCHREPODIR}
 fi
 
 if [ ! -d "${SUBMISSIONSDIR}" ]; then
-	mkdir ${SUBMISSIONSDIR}
+	mkdir -p ${SUBMISSIONSDIR}
 fi
 
 if [ ! -d "${SCRIPTSLOGSDIR}" ]; then
-	mkdir ${SCRIPTSLOGSDIR}
+	mkdir -p  ${SCRIPTSLOGSDIR}
 fi
