@@ -4,7 +4,7 @@ pull_files() #PARAMS: $1 = FILES,  $2 = NAME, $3 = TYPE
 {
     while read line; do
         if [ ! -f ${line} ]; then
-            echo "Could not pull file: $file"
+            echo "Could not pull file: $line"
             rm -f ${2}_${3}.tar
             return 1;
         fi
@@ -55,12 +55,18 @@ pwd
     # exit 0
 # fi
 
+#setup the times to use
+chk_datetime="$7 $8"
+on_datetime="$5 $6"
+l1_datetime=`date --date="$5 +1 days $6"`
+l2_datetime=`date --date="$5 +2 days $6"`
+
 #Check if checkpoint submission exists, pull latest commit before deadline if it does not
 #
 if [ $# -eq 8  ]; then
-    exits=`git rev-list -n 1 --before="$7 $8" --grep="CHECKPOINT" master`
+    exits=`git rev-list -n 1 --before="${chk_datetime}" --grep="CHECKPOINT" master`
     if [ -z "${exists}" ]; then
-        revision=`git rev-list -n 1 --before="$7 $8" master`
+        revision=`git rev-list -n 1 --before="${chk_datetime}" master`
         git checkout ${revision} -b checkpoint
     else
         git checkout ${exists} -b checkpoint
@@ -72,9 +78,9 @@ if [ $# -eq 8  ]; then
     git branch -d checkpoint
 fi
 #check if final submission exists, unless we are ignoring final submission
-exists=`git rev-list -n 1 --before="12/6/2013 20:15" --grep="final" -i master`
+exists=`git rev-list -n 1 --before="${on_datetime}" --grep="final" -i master`
 if [ -z "${exists}" ]; then
-    revision=`git rev-list -n 1 --before="12/6/2013 20:15" master`
+    revision=`git rev-list -n 1 --before="${on_datetime}" master`
     git checkout ${revision} -b ontime
 else
     ontime_check="TRUE"
@@ -88,11 +94,11 @@ git branch -d ontime
 
 #check for late submission day one, always get latest commit
 unset revision
-lateOne=`git rev-list -n 1 --before="12/7/2013 20:15" --after="12/6/2013 20:15" --grep="final" -i master`
+lateOne=`git rev-list -n 1 --before="$7 +1 days $8" --after="$7 $8" --grep="final" -i master`
 if [ ! -z "${lateOne}" ]; then
     revision=${lateOne}
 elif [ -z "${ontime_check}" ]; then
-    revision=`git rev-list -n 1 --before="12/7/2013 20:15" --after="12/6/2013 20:15" master`
+    revision=`git rev-list -n 1 --before="$7 +1 days $8" --after="$7 $8" master`
 fi
 
 if [ ! -z "${revision}" ]; then
@@ -103,11 +109,11 @@ if [ ! -z "${revision}" ]; then
 fi
 
 #check for late submission day two, always get latest commit
-lateTwo=`git rev-list -n 1 --before="12/8/2013 20:15" --after="12/9/2013 20:15" --grep="final" -i master`
+lateTwo=`git rev-list -n 1 --before="$7 +2 days" --after="$7 +1 days $8" --grep="final" -i master`
 if [ ! -z "${lateTwo}" ]; then
     revision=${lateTwo}
-elif [ -z "${ontime_check}" ]; then
-    revision=`git rev-list -n 1 --before="12/8/2013 20:15" --after="12/9/2013 20:15" master`
+elif [ -z "${ontime_check}" ] || [ -z "${lateOne}" ]; then
+    revision=`git rev-list -n 1 --before="$7 +2 days $8" --after="$7 +1 days $8" master`
 fi
 
 if [ ! -z "${revision}" ]; then
