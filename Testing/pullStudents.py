@@ -109,7 +109,9 @@ parser.add_argument('-i','--infileName',
 parser.add_argument('-p','--pairfileName',
                     help='input file (default: '+config.getPairsFile()+ ')',
                     default=config.getPairsFile())
-parser.add_argument('--debug', dest='dbg', action='store_true', const=bool)
+parser.add_argument('--debug', dest='dbg', action='store_true', 
+                    help='Enables debug output to a log file',
+                    default=False,const=bool)
 
 #Initialize the variables
 args      = parser.parse_args()
