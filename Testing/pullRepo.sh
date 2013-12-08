@@ -94,11 +94,11 @@ git branch -d ontime
 
 #check for late submission day one, always get latest commit
 unset revision
-lateOne=`git rev-list -n 1 --before="$7 +1 days $8" --after="$7 $8" --grep="final" -i master`
+lateOne=`git rev-list -n 1 --before="${l1_datetime}" --after="${on_datetime}" --grep="final" -i master`
 if [ ! -z "${lateOne}" ]; then
     revision=${lateOne}
 elif [ -z "${ontime_check}" ]; then
-    revision=`git rev-list -n 1 --before="$7 +1 days $8" --after="$7 $8" master`
+    revision=`git rev-list -n 1 --before="${l1_datetime}" --after="${on_datetime}" master`
 fi
 
 if [ ! -z "${revision}" ]; then
@@ -109,11 +109,11 @@ if [ ! -z "${revision}" ]; then
 fi
 
 #check for late submission day two, always get latest commit
-lateTwo=`git rev-list -n 1 --before="$7 +2 days" --after="$7 +1 days $8" --grep="final" -i master`
+lateTwo=`git rev-list -n 1 --before="${l2_datetime}" --after="${l1_datetime}" --grep="final" -i master`
 if [ ! -z "${lateTwo}" ]; then
     revision=${lateTwo}
 elif [ -z "${ontime_check}" ] || [ -z "${lateOne}" ]; then
-    revision=`git rev-list -n 1 --before="$7 +2 days $8" --after="$7 +1 days $8" master`
+    revision=`git rev-list -n 1 --before="${l2_datetime}" --after="${l1_datetime}" master`
 fi
 
 if [ ! -z "${revision}" ]; then
