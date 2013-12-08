@@ -144,17 +144,24 @@ else:
         sys.exit(1)
 
 #set up pairs
-with open(args.pairfileName, 'rb') as pairFile:
-    pair_reader = csv.DictReader(pairFile)
-    for line in pair_reader:
-        pairs[line['Partner1_GithubID'].lower()] = line['Partner2_GithubID'].lower()
+try:
+    with open(args.pairfileName, 'rb') as pairFile:
+        pair_reader = csv.DictReader(pairFile)
+        for line in pair_reader:
+            pairs[line['Partner1_GithubID'].lower()] = line['Partner2_GithubID'].lower()
+except IOError:
+    print("Could not open pair file list for reading\nAttempting to continue...")
 
 #set up students
-with open(config.getStudentsFile(), 'rb') as studentsFile:
-    student_reader = csv.DictReader(studentsFile)
-    for line in student_reader:
-        students[line['github userid'].lower()] = (line['First Name'], line['Last Name'])
-
+try:
+    with open(config.getStudentsFile(), 'rb') as studentsFile:
+        student_reader = csv.DictReader(studentsFile)
+        for line in student_reader:
+            students[line['github userid'].lower()] = (line['First Name'], line['Last Name'])
+except IOError:
+    print("Could not open students list for reading")
+    sys.exit(1)
+    
 #clean out submissions dir
 for file in os.listdir(submissions_dir):
     os.remove(submissions_dir + file)
@@ -162,8 +169,12 @@ for file in os.listdir(submissions_dir):
 #create clean csvs
 tutor_csvs = {}
 for tutor in tutors:
-    tutor_csvs[tutor] = open(submissions_dir + tutor + ".csv", 'wb')
-    tutor_csvs[tutor].write("Tutor,Student,Github ID,Pair\n")
+    try:
+        tutor_csvs[tutor] = open(submissions_dir + tutor + ".csv", 'wb')
+        tutor_csvs[tutor].write("Tutor,Student,Github ID,Pair\n")
+    except IOError:
+        print("Could not open csv file for " + tutor)
+        sys.exit(0)
 
 completed = []
 csv_str   = "{0},{1} {2},{3},{4}\n" #Tutor,Student Name,Github ID,Pair
