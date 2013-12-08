@@ -34,7 +34,13 @@ def pull_pair(project, gh_id, gh_id2, tutor):
 def pull_solo(project, gh_id, tutor):
     repo_name = "{0}_{1}".format(project, gh_id)
     repo_url  = "git@github.com:UCSD-CSE-100/" + repo_name + ".git"
-    
+    args = []
+    if (True):
+        args = ['/pullRepo.sh', repo_name, repo_url, tutor, lab,
+                ];
+    else:
+        args = [2];
+
     repo_proc = subprocess.Popen(['./pullRepo.sh',
                                  repo_name,
                                  repo_url,
@@ -85,19 +91,35 @@ import config, argparse
 
 parser = argparse.ArgumentParser(description='Pull Students for grading')
 parser.add_argument('prefix', help='prefix e.g. PA1')
+parser.add_argument('date', help='Due Date in YYYY-MM-DD format')
+parser.add_argument('time', help='Due Time in 24-Hour HH:MM format')
+parser.add_argument('-d', '--checkpt_date',
+                    help='Checkpoint date YYYY-MM-DD format',
+                    default=None)
+parser.add_argument('-t', '--checkpt_time',
+                    help='Checkpoint date YYYY-MM-DD format',
+                    default=None)
 parser.add_argument('-i','--infileName',
                     help='input file (default: None)',
                     default=None)
 parser.add_argument('-p','--pairfileName',
                     help='input file (default: '+config.getPairsFile()+ ')',
                     default=config.getPairsFile())
-                    
+
 #Initialize the variables
 args      = parser.parse_args()
 lab       = args.prefix
 tutors    = config.getTutors()
 numTutors = len(tutors)
+due_date  = args.date
+due_time  = args.time
+chk_date  = args.checkpt_date
+chk_time  = args.checkpt_time
 count     = 0
+
+#print("{date} {time}, {ck_dt} {ck_tm}".format(date=due_date, time=due_time, 
+#                                              ck_dt=chk_date,ck_tm=chk_time))
+#sys.exit(0);
 
 submissions_dir = config.getLabSubmissionsDir()
 pairs    = {}
