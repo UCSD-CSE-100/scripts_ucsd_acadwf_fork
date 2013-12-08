@@ -79,7 +79,7 @@ def check_student(student, tutor):
            
             added = [student, pairs[student]]
     # Solo Case
-    elif studen not in pairs.values():
+    elif student not in pairs.values():
         if( pull_solo(lab, student, tutor) ):
             f_name0 = students[student][0]
             l_name0 = students[student][1]
