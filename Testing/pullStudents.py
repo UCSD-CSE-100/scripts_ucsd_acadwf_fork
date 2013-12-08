@@ -25,26 +25,30 @@ def pull_pair(project, gh_id, gh_id2, tutor):
         pair_name = "{0}_Pair_{1}_{2}".format(project, gh_id2, gh_id)
         pair_url = "git@github.com:UCSD-CSE-100/" + pair_name + ".git"
     
-    repo_proc = subprocess.Popen(['./pullRepo.sh',
-                                  pair_name,
-                                  pair_url,
-                                  tutor, lab])
+    args = []
+    if(chk_time is not None):
+        args = ['./pullRepo.sh', pair_name, pair_url, tutor, lab,
+                due_date, due_time, chk_date, chk_time]
+    else:
+        args = ['./pullRepo.sh', pair_name, pair_url, tutor, lab,
+                due_date, due_time]
+
+    repo_proc = subprocess.Popen(args)
+
     return (repo_proc.wait() == 0)
 
 def pull_solo(project, gh_id, tutor):
     repo_name = "{0}_{1}".format(project, gh_id)
     repo_url  = "git@github.com:UCSD-CSE-100/" + repo_name + ".git"
     args = []
-    if (True):
+    if (chk_time is not None):
         args = ['/pullRepo.sh', repo_name, repo_url, tutor, lab,
-                ];
+                due_date, due_time, chk_date, chk_time]
     else:
-        args = [2];
+        args = ['/pullRepo.sh', repo_name, repo_url, tutor, lab,
+                due_date, due_time]
 
-    repo_proc = subprocess.Popen(['./pullRepo.sh',
-                                 repo_name,
-                                 repo_url,
-                                 tutor, lab])
+    repo_proc = subprocess.Popen(args)
     
     return (repo_proc.wait() == 0)
 
