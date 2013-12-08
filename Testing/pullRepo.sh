@@ -13,8 +13,8 @@ pull_files() #PARAMS: $1 = FILES,  $2 = NAME, $3 = TYPE
     return 0
 }
 
-if [ $# -lt 4 ]; then
-   echo "Usage: pullRepo.sh repoName repoUrl grader lab_num"
+if [ $# -lt 6 ]; then
+   echo "Usage: pullRepo.sh repoName repoUrl grader lab_num date time"
    exit 1
 fi
 
@@ -56,19 +56,21 @@ pwd
 # fi
 
 #Check if checkpoint submission exists, pull latest commit before deadline if it does not
-exits=`git rev-list -n 1 --before="12/3/2013 20:15" --grep="CHECKPOINT" master`
-if [ -z "${exists}" ]; then
-   revision=`git rev-list -n 1 --before="12/3/2013 20:15" master`
-   git checkout ${revision} -b checkpoint
-else
-   git checkout ${exists} -b checkpoint
+#
+if [ $# -eq 8  ]; then
+    exits=`git rev-list -n 1 --before="$7 $8" --grep="CHECKPOINT" master`
+    if [ -z "${exists}" ]; then
+        revision=`git rev-list -n 1 --before="$7 $8" master`
+        git checkout ${revision} -b checkpoint
+    else
+        git checkout ${exists} -b checkpoint
+    fi
+    if [ ! -z ${revision} ] || [ ! -z ${exists} ]; then
+        pull_files ${FILES} ${1} "checkpoint"
+    fi
+    git checkout master
+    git branch -d checkpoint
 fi
-if [ ! -z ${revision} ] || [ ! -z ${exists} ]; then
-    pull_files ${FILES} ${1} "checkpoint"
-fi
-git checkout master
-git branch -d checkpoint
-
 #check if final submission exists, unless we are ignoring final submission
 exists=`git rev-list -n 1 --before="12/6/2013 20:15" --grep="final" -i master`
 if [ -z "${exists}" ]; then
