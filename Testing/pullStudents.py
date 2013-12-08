@@ -111,7 +111,7 @@ parser.add_argument('-p','--pairfileName',
                     default=config.getPairsFile())
 parser.add_argument('--debug', dest='dbg', action='store_true', 
                     help='Enables debug output to a log file',
-                    default=False,const=bool)
+                    default=False)
 
 #Initialize the variables
 args      = parser.parse_args()
@@ -125,13 +125,23 @@ chk_time  = args.checkpt_time
 count     = 0
 dbg_log   = None
 
-#print("{date} {time}, {ck_dt} {ck_tm}".format(date=due_date, time=due_time, 
-#                                              ck_dt=chk_date,ck_tm=chk_time))
-#sys.exit(0);
-
 submissions_dir = config.getLabSubmissionsDir()
 pairs    = {}
 students = {}
+
+#setup debug logs
+if(args.dbg):
+    try:
+        dbg_log = open('git_debug_log', 'wb')
+    except IOError:
+        print("Could not open file \'git_debug_log\'")
+        sys.exit(1)
+else:
+    try:
+        dbg_log = open('/dev/null', 'w')
+    except IOError:
+        print("Could not open /dev/null")
+        sys.exit(1)
 
 #set up pairs
 with open(args.pairfileName, 'rb') as pairFile:
@@ -154,12 +164,6 @@ tutor_csvs = {}
 for tutor in tutors:
     tutor_csvs[tutor] = open(submissions_dir + tutor + ".csv", 'wb')
     tutor_csvs[tutor].write("Tutor,Student,Github ID,Pair\n")
-
-#setup debug logs
-if(args.debug):
-    dbg_log = open('git_debug_log', 'wb')
-else:
-    dbg_log = open('/dev/nul', 'w')
 
 completed = []
 csv_str   = "{0},{1} {2},{3},{4}\n" #Tutor,Student Name,Github ID,Pair
@@ -200,6 +204,7 @@ with open(submissions_dir+"not_worked", 'wb') as not_worked:
                          gid = student))
 
 #Close all open file handles
+dgb_log.close()
 for csv in tutor_csvs.values():
     csv.close()
 
