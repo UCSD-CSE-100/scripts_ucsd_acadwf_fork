@@ -42,10 +42,10 @@ def pull_solo(project, gh_id, tutor):
     repo_url  = "git@github.com:UCSD-CSE-100/" + repo_name + ".git"
     args = []
     if (chk_time is not None):
-        args = ['/pullRepo.sh', repo_name, repo_url, tutor, lab,
+        args = ['./pullRepo.sh', repo_name, repo_url, tutor, lab,
                 due_date, due_time, chk_date, chk_time]
     else:
-        args = ['/pullRepo.sh', repo_name, repo_url, tutor, lab,
+        args = ['./pullRepo.sh', repo_name, repo_url, tutor, lab,
                 due_date, due_time]
 
     repo_proc = subprocess.Popen(args)
