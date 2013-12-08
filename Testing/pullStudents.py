@@ -52,7 +52,7 @@ def pull_solo(project, gh_id, tutor):
     
     return (repo_proc.wait() == 0)
 
-def check_student(student, pairs, students, csv_str, tutor_csvs, tutor):
+def check_student(student, tutor):
     added = [];
     if student in pairs.keys():
         print "Current student is {0} {1}".format(students[pairs[student]][0], students[pairs[student]][1])
@@ -163,8 +163,7 @@ if(args.infileName != None):
             curr_tutor = tutors[count]
             student = line['GithubId'].lower()
             if student not in completed:
-                added = check_student(student, pairs, students, csv_str, 
-                                      tutor_csvs, curr_tutor)
+                added = check_student(student, curr_tutor)
                 if len(added) != 0:
                     completed.extend(added)
                     count +=1
@@ -177,7 +176,7 @@ else:
             count = 0
         curr_tutor = tutors[count]
         if student not in completed:
-            added = check_student(student, pairs, students, csv_str, tutor_csvs, curr_tutor)
+            added = check_student(student, curr_tutor)
             if len(added) != 0:
                 completed.extend(added)
                 count+=1
