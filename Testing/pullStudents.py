@@ -129,20 +129,6 @@ submissions_dir = config.getLabSubmissionsDir()
 pairs    = {}
 students = {}
 
-#setup debug logs
-if(args.dbg):
-    try:
-        dbg_log = open('git_debug_log', 'wb')
-    except IOError:
-        print("Could not open file \'git_debug_log\'")
-        sys.exit(1)
-else:
-    try:
-        dbg_log = open('/dev/null', 'w')
-    except IOError:
-        print("Could not open /dev/null")
-        sys.exit(1)
-
 #set up pairs
 try:
     with open(args.pairfileName, 'rb') as pairFile:
@@ -174,7 +160,21 @@ for tutor in tutors:
         tutor_csvs[tutor].write("Tutor,Student,Github ID,Pair\n")
     except IOError:
         print("Could not open csv file for " + tutor)
-        sys.exit(0)
+        sys.exit(1)
+
+#setup debug logs
+if(args.dbg):
+    try:
+        dbg_log = open(submissions_dir + 'git_debug_log', 'wb')
+    except IOError:
+        print("Could not open file \'git_debug_log\'")
+        sys.exit(1)
+else:
+    try:
+        dbg_log = open('/dev/null', 'w')
+    except IOError:
+        print("Could not open /dev/null")
+        sys.exit(1)
 
 completed = []
 csv_str   = "{0},{1} {2},{3},{4}\n" #Tutor,Student Name,Github ID,Pair
