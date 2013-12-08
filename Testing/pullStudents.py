@@ -215,7 +215,7 @@ with open(submissions_dir+"not_worked", 'wb') as not_worked:
                          gid = student))
 
 #Close all open file handles
-dgb_log.close()
+dbg_log.close()
 for csv in tutor_csvs.values():
     csv.close()
 
