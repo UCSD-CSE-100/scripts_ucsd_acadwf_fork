@@ -33,7 +33,7 @@ def pull_pair(project, gh_id, gh_id2, tutor):
         args = ['./pullRepo.sh', pair_name, pair_url, tutor, lab,
                 due_date, due_time]
 
-    repo_proc = subprocess.Popen(args, stderr=dbg_log)
+    repo_proc = subprocess.Popen(args, stdout=dbg_log, stderr=subprocess.PIPE)
 
     return (repo_proc.wait() == 0)
 
