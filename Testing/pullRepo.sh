@@ -103,7 +103,7 @@ fi
 
 if [ ! -z "${revision}" ]; then
     git checkout ${revision} -b lateone
-    pull_files ${FILE} ${1} lateone
+    pull_files ${FILE} ${1} "lateone"
     git checkout master
     git branch -d lateone
 fi
