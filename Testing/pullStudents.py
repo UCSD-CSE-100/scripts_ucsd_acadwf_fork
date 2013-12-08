@@ -165,7 +165,7 @@ if(args.infileName != None):
             if student not in completed:
                 added = check_student(student, pairs, students, csv_str, 
                                       tutor_csvs, curr_tutor)
-                if added != None:
+                if len(added) != 0:
                     completed.extend(added)
                     count +=1
 
@@ -178,7 +178,7 @@ else:
         curr_tutor = tutors[count]
         if student not in completed:
             added = check_student(student, pairs, students, csv_str, tutor_csvs, curr_tutor)
-            if added != None:
+            if len(added) != 0:
                 completed.extend(added)
                 count+=1
         print
