@@ -33,7 +33,7 @@ def pull_pair(project, gh_id, gh_id2, tutor):
         args = ['./pullRepo.sh', pair_name, pair_url, tutor, lab,
                 due_date, due_time]
 
-    repo_proc = subprocess.Popen(args)
+    repo_proc = subprocess.Popen(args, stderr=dbg_log)
 
     return (repo_proc.wait() == 0)
 
@@ -48,7 +48,7 @@ def pull_solo(project, gh_id, tutor):
         args = ['./pullRepo.sh', repo_name, repo_url, tutor, lab,
                 due_date, due_time]
 
-    repo_proc = subprocess.Popen(args)
+    repo_proc = subprocess.Popen(args, stderr=dbg_log)
     
     return (repo_proc.wait() == 0)
 
@@ -109,6 +109,7 @@ parser.add_argument('-i','--infileName',
 parser.add_argument('-p','--pairfileName',
                     help='input file (default: '+config.getPairsFile()+ ')',
                     default=config.getPairsFile())
+parser.add_argument('--debug', dest='dbg', action='store_true', const=bool)
 
 #Initialize the variables
 args      = parser.parse_args()
@@ -120,6 +121,7 @@ due_time  = args.time
 chk_date  = args.checkpt_date
 chk_time  = args.checkpt_time
 count     = 0
+dbg_log   = None
 
 #print("{date} {time}, {ck_dt} {ck_tm}".format(date=due_date, time=due_time, 
 #                                              ck_dt=chk_date,ck_tm=chk_time))
@@ -145,10 +147,17 @@ with open(config.getStudentsFile(), 'rb') as studentsFile:
 for file in os.listdir(submissions_dir):
     os.remove(submissions_dir + file)
 
+#create clean csvs
 tutor_csvs = {}
 for tutor in tutors:
     tutor_csvs[tutor] = open(submissions_dir + tutor + ".csv", 'wb')
     tutor_csvs[tutor].write("Tutor,Student,Github ID,Pair\n")
+
+#setup debug logs
+if(args.debug):
+    dbg_log = open('git_debug_log', 'wb')
+else:
+    dbg_log = open('/dev/nul', 'w')
 
 completed = []
 csv_str   = "{0},{1} {2},{3},{4}\n" #Tutor,Student Name,Github ID,Pair
