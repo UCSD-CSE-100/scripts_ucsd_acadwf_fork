@@ -23,6 +23,7 @@ alreadyCreated
 *Pairs.csv
 cse_100_fa13_roster.csv
 stragglers
+*_list.csv
 
 #ignore compressed files
 *.zip
