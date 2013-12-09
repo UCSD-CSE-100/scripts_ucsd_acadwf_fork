@@ -48,7 +48,7 @@ def pull_solo(project, gh_id, tutor):
         args = ['./pullRepo.sh', repo_name, repo_url, tutor, lab,
                 due_date, due_time]
 
-    repo_proc = subprocess.Popen(args, stderr=dbg_log)
+    repo_proc = subprocess.Popen(args,stdout=dbg_log, stderr=subprocess.PIPE)
     
     return (repo_proc.wait() == 0)
 
