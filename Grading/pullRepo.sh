@@ -5,7 +5,7 @@ pull_files() #PARAMS: $1 = FILES,  $2 = NAME, $3 = TYPE
     while read line; do
         if [ ! -f ${line} ]; then
             echo "Could not pull file: $line"
-            rm -f ${2}_${3}.tar
+            rm -f ../${2}_${3}.tar
             return 1;
         fi
         tar -rvf ../${2}_${3}.tar  ${line}
