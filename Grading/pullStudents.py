@@ -66,7 +66,7 @@ def check_student(student, tutor):
         if( pull_solo(lab, pairs[student], tutor) ):
             f_name0 = students[pairs[student]][0]
             l_name0 = students[pairs[student]][1]
-            tutor_csvs[tutor].write(csv_str.format(tutor, f_name0, l_name0, student, 'SOLO-P'))
+            tutor_csvs[tutor].write(csv_str.format(tutor, f_name0, l_name0, pairs[student], 'SOLO-P'))
             added.append(pairs[student]);
         if( pull_pair(lab, student, pairs[student], tutor) ):
             f_name0 = students[student][0]
