@@ -6,6 +6,7 @@
 """
 
 import getpass
+import logging
 import subprocess
 import sys
 
@@ -13,7 +14,7 @@ import sys
 try:
     import requests
 except ImportError:
-    print("Requests not installed on this machine")
+    logging.info("\'requests\' module not installed on this machine")
 
 #own libraries
 sys.path.append("..")
@@ -57,10 +58,15 @@ def delete_repo(org, repo_url, credentials):
     try:
         req = requests.delete(request_url, auth=credentials)
         if req.status_code != requests.codes.no_content :
-            print("Could not delete {0}".format(repo_url))
+            logging.error("Could not delete {0}".format(repo_url))
     except NameError:
-        #TODO use subprocess and curl
-        print("Requests not imported, falling back on curl")
+        logging.info("Requests not imported, falling back on curl")
+        repo_proc = subprocess.Popen(["curl", "-x DELETE",
+                                      "-u "+credentials[0]+":"+credentials[1],
+                                      request_url])
+        if (repo_proc.wait() != 0):
+            logging.error("Could not delete {0}".format(repo_url))
+
 
 def archive_pairs(class_org, labs, credentials, delrepo):
     """ Logic for archiving student pairs  """
@@ -113,14 +119,16 @@ def archive_repo(**repo):
     repo_stat = repo_proc.wait()
     if repo_stat:
         if repo['ghdi2'] == None :
-            print ARCHIVE_SOLO.format(repo['ghid'])
+            logging.error(ARCHIVE_SOLO.format(repo['ghid']))
         else:
-            print ARCHIVE_PAIR.format(repo['ghid'], repo['ghid2'])
+            logging.error(ARCHIVE_PAIR.format(repo['ghid'], repo['ghid2']))
 
 if __name__ == '__main__':
     PARSER   = argparse.ArgumentParser(description='Archive repositories')
     PARSER.add_argument('--delete', dest='delrepo', action='store_true',
                         help='Delete repositories after archiving',
                         default=False)
+    logging.basicConfig(level=logging.ERROR, format='%(asctime)s - %(levelname)\
+                        - %(message)s')
     main(PARSER.parse_args())
     sys.exit(0)
