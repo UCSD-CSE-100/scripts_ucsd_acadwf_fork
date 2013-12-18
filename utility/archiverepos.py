@@ -54,8 +54,8 @@ def delete_repo(org, repo_url, credentials):
             logging.error("Could not delete {0}".format(repo_url))
     except NameError:
         logging.info("Requests not imported, falling back on curl")
-        repo_proc = subprocess.Popen(["curl", "-x DELETE",
-                                      "-u "+credentials[0]+":"+credentials[1],
+        repo_proc = subprocess.Popen(["curl", "-x", "DELETE", "-u ",
+                                      credentials[0]+":"+credentials[1],
                                       request_url])
         if (repo_proc.wait() != 0):
             logging.error("Could not delete {0}".format(repo_url))
