@@ -1,5 +1,8 @@
 #!/usr/bin/python
 
+# Author: Phillip Conrad
+# Contributors: Arden Liao
+
 # This script reads all the users and pairs from the CSV files created
 # by the Google Form.
 
@@ -29,7 +32,7 @@ addPyGithubToPath()
 
 from github import Github
 from github import GithubException
-                      
+
 defaultInputFileName =  config.getStudentsFile()
 defaultPairFileName  =  config.getPairsFile()
 
@@ -43,7 +46,7 @@ parser.add_argument('-p','--pairFileName',
                     help='pair file (default: ' + defaultPairFileName+"'",
                     default=defaultPairFileName)
 
-parser.add_argument('-u','--githubUsername', 
+parser.add_argument('-u','--githubUsername',
                     help="github username, default is current OS user",
                     default=getpass.getuser())
 

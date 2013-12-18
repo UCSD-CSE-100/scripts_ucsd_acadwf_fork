@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Author: Phillip Conrad
+# Contributors: Arden Liao
 
 if [ $# -ne 4 ] ; then
    echo "Usage: populateRepo.sh repoName repoURL protoDir scratchDir" ; 

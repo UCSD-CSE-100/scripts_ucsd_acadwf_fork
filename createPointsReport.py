@@ -1,6 +1,8 @@
 #!/usr/bin/python
 
-# createPointsReport.py iterates through every comment in every issue in every repo in the 
+# Author: Phillip Conrad
+
+# createPointsReport.py iterates through every comment in every issue in every repo in the
 # specified organization, and generates a .csv file containing the points and users associated
 # with each issue
 
@@ -43,7 +45,7 @@ repos = org.get_repos()
 # Iterate through all the comments in all the issues in all the repos
 for repo in repos:
     issues = repo.get_issues()
-    issue_report = {"repository"   : repo.full_name, 
+    issue_report = {"repository"   : repo.full_name,
                     "estimated"    : 0,
                     "requested"    : 0,
                     "assigned"     : 0,

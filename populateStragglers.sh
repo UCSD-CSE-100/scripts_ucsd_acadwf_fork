@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Author: Arden Liao
+
 if [ $# -ne 1 ]; then
    echo "usage ./populateStragglers.sh LABNAME"
    exit 0

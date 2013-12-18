@@ -1,6 +1,9 @@
-# github-acadwf.py contains utility functions for 
+# github-acadwf.py contains utility functions for
 # working with PyGithub objects to set up teams, and repositories
 # and other Github objects for academic workflows.
+
+# Author: Phillip Conrad
+# Contributor: Arden Liao
 
 from __future__ import print_function
 import sys
@@ -26,9 +29,9 @@ def pushFilesToRepo(g,org,lab,firstName,scratchDirName):
     from github import GithubException
 
     protoDirName = config.getPrototypeDir() + lab
-    
+
     # check to see if protoDirName exists.  If not, bail
-    
+
     if (not os.path.isdir(protoDirName)):
         raise Exception(protoDirName + " does not exist.")
 
@@ -45,16 +48,16 @@ def pushFilesToRepo(g,org,lab,firstName,scratchDirName):
             populateRepo(repo,protoDirName,scratchDirName)
         except GithubException as ghe:
             print("Could not find repo " + repoName + ":" + str(ghe))
-            
+
     else:
-            
+
         # User wants to update ALL repos that start with labxx_
-        
+
         repos = org.get_repos()
         for repo in repos:
             if (repo.name.startswith(lab+"_")):
                 populateRepo(repo,protoDirName,scratchDirName)
-            
+
 
 def pushFilesToPairRepo(g,org,lab,team,scratchDirName):
 
@@ -62,9 +65,9 @@ def pushFilesToPairRepo(g,org,lab,team,scratchDirName):
     from github import GithubException
 
     protoDirName = config.getPrototypeDir() + lab
-    
+
     # check to see if protoDirName exists.  If not, bail
-    
+
     if (not os.path.isdir(protoDirName)):
         raise Exception(protoDirName + " does not exist.")
 
@@ -74,14 +77,14 @@ def pushFilesToPairRepo(g,org,lab,team,scratchDirName):
     protoDirName = os.path.abspath(protoDirName)
     scratchDirName = os.path.abspath(scratchDirName)
 
-    
+
     try:
         repoName = (lab + "_" + team.name)
         repo = org.get_repo(repoName)
         populateRepo(repo,protoDirName,scratchDirName)
     except GithubException as ghe:
         print("Could not find repo " + repoName + ":" + str(ghe))
-            
+
 
 
 
@@ -92,19 +95,19 @@ def addPyGithubToPath():
 
 
 def addStudentsFromFileToTeams(g,org,infileName):
-    
+
     addPyGithubToPath()
     from disambiguateFunctions import getUserList
-    
+
     userList = getUserList(infileName)
-   
+
     allstudents = findTeam(org, "AllStudents")
     if(allstudents is None):
         allstudents = createTeam(org, "AllStudents")
         if(allstudents is None):
            print("Could not create team AllStudents")
            return
-     
+
     for line in userList:
         studentTeam = addStudentToTeams(g,org,
                           line['last'],
@@ -121,41 +124,41 @@ def updateStudentsFromFileForLab(g,org,infileName,lab,scratchDirName,firstName='
 
     addPyGithubToPath()
     from disambiguateFunctions import getUserList
-    
+
     userList = getUserList(infileName)
 
     for line in userList:
-        
+
         if ( firstName=="" or line['first']==firstName ):
-        
+
             studentTeam = addStudentToTeams(g,org,
                                        line['last'],
                                        line['first'],
                                        line['github'],
                                        line['email'],
                                        line['csil'])
-            
+
             result = createLabRepoForThisUser(g,org,lab,
                                               line['last'],line['first'],
                                               line['github'],
                                               line['email'],line['csil'],
                                               studentTeam)
-            
+
             if (result):
                 pushFilesToRepo(g,org,lab,line['first'],scratchDirName)
-                
-        
+
+
 
 def updateAllStudentsFromFileForLab(g,org,infileName,lab,scratchDirName):
 
-    
+
     addPyGithubToPath()
     from disambiguateFunctions import getUserList
-    
+
     userList = getUserList(infileName)
 
     for line in userList:
-        
+
         studentTeam = addStudentToTeams(g,org,
                                        line['last'],
                           line['first'],
@@ -167,7 +170,7 @@ def updateAllStudentsFromFileForLab(g,org,infileName,lab,scratchDirName):
                                  line['last'],line['first'],line['github'],
                                  line['email'],line['csil'],
                                  studentTeam)
-        
+
         if (result):
             pushFilesToRepo(g,org,lab,line['first'],scratchDirName)
 
@@ -186,13 +189,13 @@ def addUserToTeam(team,user,quiet=False):
        return True
     except GithubException as e:
        print (e)
-       
+
     return False
 
 
 def addStudentToTeams(g,org,lastName,firstName,githubUser,umail,csil):
     """
-    return the team if it was created or found, and user is member 
+    return the team if it was created or found, and user is member
     Otherwise False
     Only creates team and adds if wasn't already on the teams
     """
@@ -207,12 +210,12 @@ def addStudentToTeams(g,org,lastName,firstName,githubUser,umail,csil):
     else:
         studentTeam = createTeam(org,
                                  formatStudentTeamName(githubUser))
-    
+
 
     studentGithubUser = findUser(g,githubUser)
     if (studentGithubUser is None):
         print ("github user {0} for {1} {2} does not exist".format(githubUser,firstName,lastName))
-        return False       
+        return False
 
     result = addUserToTeam(studentTeam,studentGithubUser,quiet=False)
 
@@ -222,14 +225,14 @@ def addStudentToTeams(g,org,lastName,firstName,githubUser,umail,csil):
         return studentTeam
     else:
         return False
-               
+
 def  getStudentGithubTeam(org,githubUser,refresh=False):
     return findTeam(org,formatStudentTeamName(githubUser),refresh)
 
 def  getAllStudentsTeam(org):
     return findTeam(org,"AllStudents", True)
 
-    
+
 
 
 def createStudentFirstNameTeamAndAddStudent(g,org,
@@ -264,7 +267,7 @@ def addStudentToAllStudentsTeam(g,
 
     if (user is None):
        return
-    
+
     # TRY ADDING STUDENT TO THE AllStudents team
 
     try:
@@ -291,17 +294,17 @@ def createLabRepo(g,org,infileName,lab):
                                  line['github'],
                                  line['email'],
                                  line['csil'])
-        
+
 
 def createLabRepoForThisUser(g,
                              org,
                              lab,
                              lastName,firstName,githubUser,umail,csil,
                              team=None):
-   
+
 
     print(firstName + "\t" + lastName + "\t" + githubUser);
-    
+
     githubUserObject = findUser(g,githubUser)
 
     if (githubUserObject is None):
@@ -320,11 +323,11 @@ def createLabRepoForThisUser(g,
         print("ERROR: could not find team: " + teamName)
         print("RUN THE addStudentsToTeams script first!")
         return False
-    
+
     return createRepoForOrg(org,lab,
                             githubUserObject,team,githubUser,csil)
 
-    
+
 
 def createRepoForOrg(org,labNumber,githubUserObject,githubTeamObject, githubUser,csil):
 
@@ -334,12 +337,12 @@ def createRepoForOrg(org,labNumber,githubUserObject,githubTeamObject, githubUser
 
     desc = "Github repo for " + labNumber + " for " + githubUser
     repoName =            labNumber + "_" + githubUser  # name -- string
-    try:  
+    try:
         repo = org.create_repo(
             repoName,
-            labNumber + " for " + config.getCurrentClass() + " " 
-			          + config.getCurrentQuarter()  + " for " 
-					  + githubUser, # description 
+            labNumber + " for " + config.getCurrentClass() + " "
+			          + config.getCurrentQuarter()  + " for "
+					  + githubUser, # description
             "", # homepage -- string, part of README
             True, # private -- bool
             True, # has_issues -- bool
@@ -407,14 +410,14 @@ def createTeam(org,teamName,quiet=False):
                print(" team {0} created...".format(teamName),end='')
            return team
     except GithubException as e:
-       
+
        if ('errors' in e.data and e.data['errors'][0]['code']=='already_exists'):
           if not quiet:
               print(" team {0} already exists...".format(teamName),
-                         end='') 
+                         end='')
        else:
           print (e)
-       
+
     # If the create failed, try to find the team by name
     # This is our own function and does NOT throw an exception on failure
 
@@ -425,22 +428,22 @@ def createTeam(org,teamName,quiet=False):
     team = findTeam(org,teamName,refresh=True)
     if not team is None:
         return team
-     
+
     if not quiet:
         print(
             "ERROR: team {0} could not be created and was not found".format(
                 teamName))
-        
+
     return None
-        
-    
+
+
 
 def findTeam(org,teamName,refresh=False):
 
     # There isn't a "lookup team by name within an org"
     # function in the API.  So we cache a dictionary of teams
     # on the first call, then use that afterwards to look up the team.
-            
+
     if not hasattr(findTeam, 'cacheTeamList') or refresh:
         findTeam.cacheTeamList = org.get_teams();
 
@@ -452,20 +455,20 @@ def findTeam(org,teamName,refresh=False):
 
     if teamName in findTeam.cacheTeamDict:
         return findTeam.cacheTeamDict[teamName]
-    
+
     return None
 
 
 def addTeamsForPairsInFile(g,org,studentFileName,pairFileName):
-    
+
     #addPyGithubToPath()
     from disambiguateFunctions import getUserList
     from disambiguateFunctions import getPairList
-    
+
     userList = getUserList(studentFileName)
 
     pairList = getPairList(userList,pairFileName)
-    
+
     for pair in pairList:
         print("\nCreating team {0}...".format(pair["teamName"]))
         pairTeam = createTeam(org,pair["teamName"])
@@ -478,11 +481,11 @@ def addTeamsForPairsInFile(g,org,studentFileName,pairFileName):
         if (user2 is None):
             raise Exception("Could not find github user {0}".pair["user2"]["github"])
         addUserToTeam(pairTeam,user2)
-        
-        createRepoForPairTeam(org, "P4", pairTeam);
-        
 
-    
+        createRepoForPairTeam(org, "P4", pairTeam);
+
+
+
 
 def updatePairsForLab(g,org,lab,scratchDirName,prefix=""):
 
@@ -501,17 +504,17 @@ def updatePairsForLab(g,org,lab,scratchDirName,prefix=""):
     # make for every team that starts with prefix
 
     startsWith =  ("Pair_" if (prefix=="") else prefix)
-    
+
     for team in allTeams:
-        
+
         if team.name.startswith(startsWith):
             print("\nTeam: " + team.name,end='')
             result = createLabRepoForThisPairTeam(g,org,lab,team)
-            
+
 #            if (result):
 #                pushFilesToPairRepo(g,org,lab,team,scratchDirName)
-                
-        
+
+
 
 
 def createLabRepoForThisPairTeam(g,
@@ -520,7 +523,7 @@ def createLabRepoForThisPairTeam(g,
                              team):
 
     print("Creating repo for " + team.name + "...",end='')
-    
+
     return createRepoForPairTeam(org,lab,team)
 
 def createRepoForPairTeam(org,labNumber,team):
@@ -531,12 +534,12 @@ def createRepoForPairTeam(org,labNumber,team):
 
     desc = "Github repo for " + labNumber + " for " + team.name
     repoName = labNumber + "_" + team.name  # name -- string
-    try:  
+    try:
         repo = org.create_repo(
             repoName,
-            labNumber + " for " + config.getCurrentClass() + " " 
-			          + config.getCurrentQuarter()  + " for " 
-					  + team.name, # description 
+            labNumber + " for " + config.getCurrentClass() + " "
+			          + config.getCurrentQuarter()  + " for "
+					  + team.name, # description
             "", # homepage -- string, now part of readme
             True, # private -- bool
             True, # has_issues -- bool
@@ -555,4 +558,4 @@ def createRepoForPairTeam(org,labNumber,team):
 
     return False
 
-    
+

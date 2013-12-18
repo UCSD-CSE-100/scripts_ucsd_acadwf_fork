@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Author: Arden Liao
+
 #initialize PyGithub, unsure why submodule doesn't work, manually clone for now
 git clone git@github.com:jacquev6/PyGithub.git
 

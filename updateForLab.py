@@ -1,5 +1,7 @@
 #!/usr/bin/python
 
+# Author: Phillip Conrad
+
 # This script reads all the users from the CSV file created
 # by the Google Form.
 
@@ -36,27 +38,27 @@ if not os.path.exists("config.py"):
 	sys.exit()
 
 import config
-                      
+
 defaultInputFilename =  config.getStudentsFile()
 
 parser = argparse.ArgumentParser(description='Update for lab only for new users')
 
-parser.add_argument('lab',metavar='labxx',  
+parser.add_argument('lab',metavar='labxx',
                     help="which lab (e.g. lab00, lab01, etc.)")
 
 parser.add_argument('-i','--infileName',
                     help='input file (default: ' + defaultInputFilename+"'",
                     default=defaultInputFilename)
 
-parser.add_argument('-u','--githubUsername', 
+parser.add_argument('-u','--githubUsername',
                     help="github username, default is current OS user",
                     default=getpass.getuser())
 
-parser.add_argument('-s','--scratchDirName', 
+parser.add_argument('-s','--scratchDirName',
                     help="scratch directory to clone repos in while doing work",
                     default=config.getScratchRepoDir())
 
-parser.add_argument('-f','--firstName', 
+parser.add_argument('-f','--firstName',
                     help="if passed, only update labxx_FirstName",
                     default="")
 

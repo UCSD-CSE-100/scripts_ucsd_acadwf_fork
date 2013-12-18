@@ -1,12 +1,14 @@
 #!/usr/bin/python
 
+# Author: Phillip Conrad
+
 import unittest
 import csv
 from string import maketrans
 
 def containsDuplicates(aList):
     """Does list contain a duplicate
-    
+
     >>> containsDuplicates(['foo','bar','fum'])
     False
     >>> containsDuplicates(['foo','foo','fum'])
@@ -19,20 +21,20 @@ def containsDuplicates(aList):
     copyList = list(aList)
 
     copyList.sort()
-    
+
     for i in range(len(copyList)-1):
         if copyList[i]==copyList[i+1]:
             return True
     return False
-    
+
 def firstNamesWithNCharsOfLastName(userList, indices, n):
     "return list of new first names"
 
     names = []
     for i in range(len(indices)):
-        names.append(userList[indices[i]]['first'] + "_" + 
+        names.append(userList[indices[i]]['first'] + "_" +
                      userList[indices[i]]['last'][0:n])
-        
+
     return names
 
 def disambiguateAllFirstNames(userList):
@@ -45,38 +47,38 @@ def disambiguateAllFirstNames(userList):
        firstDuplicateName = nameInFirstMatchingPairOfFirstNames(newUserList)
 
     return newUserList
-        
+
 
 def disambiguateFirstNamesOfTheseIndices(userList,indices):
     "return a new userList with certain first names disambiguated"
-    
+
     newList = list(userList)
-    
+
     needed = 1;  # Need up through 0 only (i.e. 1 char)
-    
+
     firstNames = firstNamesWithNCharsOfLastName(userList,indices,needed)
     #print("firstNames=",firstNames,"needed=",needed)
-    
+
     while( containsDuplicates(firstNames) ):
         needed = needed + 1
         firstNames = firstNamesWithNCharsOfLastName(userList,indices,needed)
         #print("firstNames=",firstNames,"needed=",needed)
 
-        
+
     for i in range(len(indices)):
         newList[indices[i]]['first'] = firstNames[i]
 
     return newList
 
 def nameInFirstMatchingPairOfFirstNames(userList):
-    "returns the first name that occurs more than once, or False if no dup first names" 
+    "returns the first name that occurs more than once, or False if no dup first names"
 
     for i in range(len(userList)):
         for j in range(i+1,len(userList)):
             if userList[i]['first'] == userList[j]['first']:
                return userList[i]['first']
     return False
-           
+
 def findIndicesOfMatchingFirstNames(userList,name):
     "returns list of the indices of the elements in userList who first names match name"
 
@@ -84,9 +86,9 @@ def findIndicesOfMatchingFirstNames(userList,name):
     for i in range(len(userList)):
         if userList[i]['first'] == name:
             indices.append(i)
-            
+
     return indices
-                          
+
 
 def makeUserDict(first,last,github,email,csil):
     return {'first': first, 'last': last, 'github': github.lower(), 'email':email.lower(), 'csil':csil.lower() }
@@ -100,7 +102,7 @@ def convertUserList(csvFile):
                                      line["github userid"],
                                      line["Umail address"],
                                      line["CSIL userid"]))
-    
+
 
     for user in userList:
         user["first"] = user["first"].strip().translate(maketrans(" ","_"));
@@ -126,7 +128,7 @@ def convertPairList(userList,csvFile):
     """
     userList is a list of dictionaries with keys first,last,github,email,csil
     csvFile is a list of dictionaries with keys Partner1_GithubID,Partner2_GithubID,labnumber
-    
+
     returned value should be a list of dictionaries with keys teamName,user1,user2, where user1 and user2 are the elements fromn userlist where the github ids match.
     """
 
@@ -137,14 +139,14 @@ def convertPairList(userList,csvFile):
         line['Partner2_GithubID']=line['Partner2_GithubID'].lower().strip()
         if not (line['Partner1_GithubID'] in userLookupDict):
             raise Exception("Partner1_GithubID from pair file not found in user list: {0}".format(line['Partner1_GithubID']))
-        
+
         if not (line['Partner2_GithubID'] in userLookupDict):
             raise Exception("Partner2_GithubID from pair file not found in user list: {0}".format(line['Partner2_GithubID']))
-        
+
         team = {}
         user1 = userLookupDict[line['Partner1_GithubID']]
         user2 = userLookupDict[line['Partner2_GithubID']]
-        if (user1["first"] > user2["first"]): 
+        if (user1["first"] > user2["first"]):
             # Swap if out of order
             temp = user1
             user1 = user2
@@ -152,18 +154,18 @@ def convertPairList(userList,csvFile):
         team["user1"] = user1
         team["user2"] = user2
         team["teamName"]="Pair_" + user1['github'] + "_" + user2['github']
-        
+
         pairList.append(team)
-        
+
     return pairList
 
 def getUserList(csvFilename):
 
     with open(csvFilename,'r') as f:
         csvFile = csv.DictReader(f,delimiter=',', quotechar='"')
-    
+
         userList = convertUserList(csvFile)
-        
+
         #newUserList = disambiguateAllFirstNames(userList)
 
         return userList
@@ -172,9 +174,9 @@ def getPairList(userList,csvFilename):
 
     with open(csvFilename,'r') as f:
         csvFile = csv.DictReader(f,delimiter=',', quotechar='"')
-    
+
         pairList = convertPairList(userList,csvFile)
-        
+
         return pairList
 
 class TestSequenceFunctions(unittest.TestCase):
@@ -262,7 +264,7 @@ class TestSequenceFunctions(unittest.TestCase):
         self.assertEqual(result,"Mary");
 
 
-        
+
 
     def test_findIndicesOfMatchingFirstNames1(self):
         result = findIndicesOfMatchingFirstNames(self.userList1,'Chris');

@@ -1,4 +1,7 @@
 #!/usr/bin/python
+
+# Author: Phillip Conrad
+
 import os
 
 import getpass

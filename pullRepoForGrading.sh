@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Author: Phillip Conrad
 
 if [ $# -ne 3 ] ; then
    echo "Usage: pullRepoForGrading.sh repoName repoURL gradingDir" ; 

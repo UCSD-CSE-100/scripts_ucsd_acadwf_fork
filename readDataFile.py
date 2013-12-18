@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 
+# Author: Phillip Conrad
+
 # This is just a super simple example script of how to process the data
 # in the CSV that results from exporting the Google Form.
 
@@ -13,7 +15,7 @@ filename =  'test1.csv'
 def processLine(lastName,githubUser):
     print("Last Name: ",lastName,end='');
     print(" github userid:: ",githubUser);
-   
+
 
 with open(filename,'r',newline='') as f:
     csvFile = csv.DictReader(f,delimiter=',', quotechar='"')
