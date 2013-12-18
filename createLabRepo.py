@@ -1,5 +1,8 @@
 #!/usr/bin/python
 
+# Author: Phillip Conrad
+# Contributors: Arden Liao
+
 # This script reads all the users from the CSV file created
 # by the Google Form.
 
@@ -36,16 +39,16 @@ sys.path.append("./PyGithub");
 
 from github import Github
 from github import GithubException
-                      
+
 defaultInputFilename =  config.getStudentsFile()
 
 parser = argparse.ArgumentParser(description='Disambiguate First Names.')
-parser.add_argument('lab',metavar='labxx',  
+parser.add_argument('lab',metavar='labxx',
                     help="which lab (e.g. lab00, lab01, etc.)")
 parser.add_argument('-i','--infileName',
                     help='input file (default: ' + defaultInputFilename+"'",
                     default=defaultInputFilename)
-parser.add_argument('-u','--githubUsername', 
+parser.add_argument('-u','--githubUsername',
                     help="github username, default is current OS user",
                     default=getpass.getuser())
 

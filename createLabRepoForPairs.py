@@ -1,5 +1,8 @@
 #!/usr/bin/python
 
+# Author: Phillip Conrad
+# Contributor: Arden Liao
+
 # This script looks up every pair team that exists.
 # It then,for each pair team
 #  (4) creates a repo for the team (if it doesn't already exist)
@@ -26,27 +29,27 @@ if not os.path.exists("config.py"):
 	sys.exit(1)
 
 import config
-                      
+
 defaultInputFilename =  config.getStudentsFile()
 
 parser = argparse.ArgumentParser(description='Update for lab only for new users')
 
-parser.add_argument('lab',metavar='labxx',  
+parser.add_argument('lab',metavar='labxx',
                     help="which lab (e.g. lab00, lab01, etc.)")
 
 parser.add_argument('-i','--infileName',
                     help='input file (default: ' + defaultInputFilename+"'",
                     default=defaultInputFilename)
 
-parser.add_argument('-u','--githubUsername', 
+parser.add_argument('-u','--githubUsername',
                     help="github username, default is current OS user",
                     default=getpass.getuser())
 
-parser.add_argument('-s','--scratchDirName', 
+parser.add_argument('-s','--scratchDirName',
                     help="scratch directory to clone repos in while doing work",
                     default=config.getScratchRepoDir())
 
-parser.add_argument('-t','--teamPrefix', 
+parser.add_argument('-t','--teamPrefix',
                     help="prefix of teams to create",
                     default="")
 

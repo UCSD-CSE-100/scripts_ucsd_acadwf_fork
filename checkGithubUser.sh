@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Author: Arden Liao
+
+# Check to make sure student submitted github id is valid
+# echo's to console and a file if their id can't be found
+
 echo -n "Oauth token: "
 read -s oauth
 echo

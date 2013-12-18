@@ -1,6 +1,8 @@
 #!/usr/bin/python
 
-# createPairPartnersReport.py iterates through every comment in every issue in every repo in the 
+# Author: Phillip Conrad
+
+# createPairPartnersReport.py iterates through every comment in every issue in every repo in the
 # specified organization, and generates markdown output describing what students and moderator are
 # assigned to each issue
 

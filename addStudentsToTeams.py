@@ -1,5 +1,8 @@
 #!/usr/bin/python
 
+# Author: Phillip Conrad
+# Contributors: Arden Liao
+
 # This script reads all the users from the CSV file created
 # by the Google Form.
 
@@ -15,10 +18,11 @@
 from __future__ import print_function
 
 import getpass
+import logging
 import sys
 import os
-import argparse
 
+import argparse
 from github_acadwf import addPyGithubToPath
 from github_acadwf import addStudentsFromFileToTeams
 
@@ -26,14 +30,16 @@ from github_acadwf import addStudentsFromFileToTeams
 if not os.path.exists("config.py"):
 	print("Unable to find config file, please see sample_config.py")
 	sys.exit(1)
+try:
+    import config
+except ImportError:
 
-import config
 
 addPyGithubToPath()
 
 from github import Github
 from github import GithubException
-                      
+
 defaultInputFilename =  config.getStudentsFile()
 
 parser = argparse.ArgumentParser(description='Disambiguate First Names.')
@@ -41,7 +47,7 @@ parser.add_argument('-i','--infileName',
                     help='input file (default: ' + defaultInputFilename+"'",
                     default=defaultInputFilename)
 
-parser.add_argument('-u','--githubUsername', 
+parser.add_argument('-u','--githubUsername',
                     help="github username, default is current OS user",
                     default=getpass.getuser())
 
@@ -53,12 +59,4 @@ org= g.get_organization(config.getOrgName())
 addStudentsFromFileToTeams(g,org,args.infileName)
 
 sys.exit(0)
-        
-
-
-
-
-
-
-
 
