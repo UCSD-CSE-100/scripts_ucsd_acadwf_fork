@@ -6,10 +6,16 @@
 """
 
 import getpass
-import requests
 import subprocess
 import sys
 
+#external installed libraries
+try:
+    import requests
+except ImportError:
+    print("Requests not installed on this machine")
+
+#own libraries
 sys.path.append("..")
 import argparse
 import checkrepo
@@ -24,14 +30,8 @@ DELETE_REPO  = "https://api.github.com/repos/{0}/{1}"
 SOLO_REPO    = "{0}_{1}"
 PAIR_REPO    = "{0}_Pair_{1}_{2}"
 
-def main():
+def main(del_arg):
     """ Main driver for archiving repos in a github repository """
-    parser   = argparse.ArgumentParser(description='Archive repositories')
-    parser.add_argument('--delete', dest='delrepo', action='store_true',
-                        help='Delete repositories after archiving',
-                        default=False)
-    del_arg   = parser.parse_args()
-    pairs     = getclass.get_pairs(config.getPairsFile())
     students  = getclass.get_students(config.getStudentsFile())
     class_org = config.getOrgName()
     labs      = config.get_labs()
@@ -45,33 +45,67 @@ def main():
         for student in students.keys():
             if not checkrepo.check_repo_ghid(class_org, lab, student):
                 continue
-            repo_url = checkrepo.SOLO.format(class_org, lab, student)
-            archive_repo(labno=lab, name=repo_url, ghid=student, ghid2=None)
-            if del_arg.delrepo:
-                repo_name = SOLO_REPO.format(lab, student)
-                delete_repo(class_org, repo_name, credentials)
-        for pair in pairs.keys():
-            repo_url  = checkrepo.PAIR.format(class_org, lab, pair, pairs[pair])
-            repo_name = PAIR_REPO.format(lab, pair, pairs[pair])
-            if not checkrepo.check_repo_ghid(class_org, lab, pair, pairs[pair]):
-                if not checkrepo.check_repo_ghid(class_org, lab,
-                                              pairs[pair], pair):
-                    continue
-                repo_url  = checkrepo.PAIR.format(class_org, lab, pair,
-                                                  pairs[pair])
-                repo_name = PAIR_REPO.format(lab, pairs[pair], pair)
-            archive_repo(labno=lab, name=repo_url, ghid=pair, ghid2=pairs[pair])
+            repo_name = SOLO_REPO.format(lab, student)
+            archive_repo(labno=lab, name=repo_name, ghid=student, ghid2=None)
             if del_arg.delrepo:
                 delete_repo(class_org, repo_name, credentials)
+
 
 
 def delete_repo(org, repo_url, credentials):
     """ Deletes the specified repo_url from github  """
     request_url = DELETE_REPO.format(org, repo_url)
-    req = requests.delete(request_url, auth=credentials)
-    if req.status_code != requests.codes.no_content :
-        print "Could not delete {0}".format(repo_url)
+    try
+        req = requests.delete(request_url, auth=credentials)
+        if req.status_code != requests.codes.no_content :
+            print("Could not delete {0}".format(repo_url))
+    except NameError:
+        #TODO use subprocess and curl
+        print("Requests not imported, falling back on curl")
 
+def archive_pairs(class_org, labs, credentials, delrepo):
+    """ Logic for archiving student pairs  """
+     #Currently hardcoded, need a way to put this in the config file for P1
+    p1pairsfn = "/Users/arden/Documents/Github/scripts_ucsd_acadwf_fork/\
+                 P1Pairs.csv"
+    p1pairs   = getclass.get_pairs(p1pairsfn)
+    p2pairs   = getclass.get_pairs(config.getPairsFile())
+
+    for lab in labs[0:2]:
+        for pair in p1pairs.keys():
+            repo_url  = checkrepo.PAIR.format(class_org, lab, pair,
+                                              p1pairs[pair])
+            repo_name = PAIR_REPO.format(lab, pair, p1pairs[pair])
+            if not checkrepo.check_repo_ghid(class_org, lab, pair,
+                                             p1pairs[pair]):
+                if not checkrepo.check_repo_ghid(class_org, lab,
+                                                 p1pairs[pair], pair):
+                    continue
+                repo_url  = checkrepo.PAIR.format(class_org, lab, pair,
+                                                  p1pairs[pair])
+                repo_name = PAIR_REPO.format(lab, p1pairs[pair], pair)
+            archive_repo(labno=lab, name=repo_url, ghid=pair,
+                         ghid2=p1pairs[pair])
+            if delrepo:
+                delete_repo(class_org, repo_name, credentials)
+
+    for lab in labs[2:]:
+        for pair in p2pairs.keys():
+            repo_url  = checkrepo.PAIR.format(class_org, lab, pair,
+                                              p2pairs[pair])
+            repo_name = PAIR_REPO.format(lab, pair, p2pairs[pair])
+            if not checkrepo.check_repo_ghid(class_org, lab, pair,
+                                             p2pairs[pair]):
+                if not checkrepo.check_repo_ghid(class_org, lab,
+                                                 p2pairs[pair], pair):
+                    continue
+                repo_url  = checkrepo.PAIR.format(class_org, lab, pair,
+                                                  p2pairs[pair])
+                repo_name = PAIR_REPO.format(lab, p2pairs[pair], pair)
+            archive_repo(labno=lab, name=repo_url, ghid=pair, ghid2=
+                         p2pairs[pair])
+            if delrepo:
+                delete_repo(class_org, repo_name, credentials)
 
 def archive_repo(**repo):
     """ Archives the specified repo  """
@@ -85,5 +119,9 @@ def archive_repo(**repo):
             print ARCHIVE_PAIR.format(repo['ghid'], repo['ghid2'])
 
 if __name__ == '__main__':
-    main()
+    PARSER   = argparse.ArgumentParser(description='Archive repositories')
+    PARSER.add_argument('--delete', dest='delrepo', action='store_true',
+                        help='Delete repositories after archiving',
+                        default=False)
+    main(PARSER.parse_args())
     sys.exit(0)
