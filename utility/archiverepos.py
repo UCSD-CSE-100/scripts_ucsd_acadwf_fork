@@ -51,11 +51,10 @@ def main(del_arg):
                 delete_repo(class_org, repo_name, credentials)
 
 
-
 def delete_repo(org, repo_url, credentials):
     """ Deletes the specified repo_url from github  """
     request_url = DELETE_REPO.format(org, repo_url)
-    try
+    try:
         req = requests.delete(request_url, auth=credentials)
         if req.status_code != requests.codes.no_content :
             print("Could not delete {0}".format(repo_url))

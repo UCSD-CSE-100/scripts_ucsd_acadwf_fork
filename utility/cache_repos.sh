@@ -6,7 +6,7 @@ if [ $# -ne 2 ]; then
 fi
 
 SCRATCH_DIR="scratch"
-ORG=`ptyhon -c 'import sys; sys.path.append(".."); import config; print(config.getOrgName())'`
+ORG=`python -c 'import sys; sys.path.append(".."); import config; print(config.getOrgName())'`
 
 mkdir -p $SCRATCH_DIR
 
@@ -17,8 +17,8 @@ git clone git@github.com:${ORG}/${2}
 cd ${2}
 
 git bundle create ${2}.bundle master
-zip ${SCRATCH_DIR}${1}_cache.zip ${2}.bundle
+zip ../${1}_cache.zip ${2}.bundle
 
-cd ${SCRATCH_DIR}; rm -rf ${2}
+cd ..; rm -rf ${2}
 
 
