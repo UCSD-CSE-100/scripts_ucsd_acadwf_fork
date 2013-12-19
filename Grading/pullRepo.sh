@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Author: Arden Liao (ardentsonata)
+
+# Pull student submission for grading, can also pull an optional checkpoint
+
+
 pull_files() #PARAMS: $1 = FILES,  $2 = NAME, $3 = TYPE
 {
     while read line; do
@@ -44,16 +49,6 @@ if [ $? -ne 0  ]; then
 fi
 
 pwd
-
-#If they have less than a certain number of commits, exit
-# commits=`git shortlog | grep -E '^[ ]+\w+' | wc -l`
-# if [ "${commits}" -le 3 ]; then
-    # echo "Did not work in this repository"
-    # echo "Commits was ${commits}"
-    # cd ..
-    # rm -rf ${scratchDir}* #perform cleanup
-    # exit 0
-# fi
 
 #setup the times to use
 chk_datetime="$7 $8"
