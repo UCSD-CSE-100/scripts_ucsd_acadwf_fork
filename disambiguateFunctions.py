@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# Author: Phillip Conrad
+# Author: Phillip Conrad (pconrad)
 
 import unittest
 import csv

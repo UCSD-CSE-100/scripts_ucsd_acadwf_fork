@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
-# Author: Phillip Conrad
-# Contributors: Arden Liao
+# Author: Phillip Conrad (pconrad)
+# Contributors: Arden Liao (ardentsonata)
 
 # This script reads all the users and pairs from the CSV files created
 # by the Google Form.

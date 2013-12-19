@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
-# Author: Phillip Conrad
-# Contributor: Arden Liao
+# Author: Phillip Conrad (pconrad)
+# Contributor: Arden Liao (ardentsonata)
 
 # This script looks up every pair team that exists.
 # It then,for each pair team

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 """ Python module for archiving student submissions
+    Author: Arden Liao (ardentsonata) (ardentsonata)
 
     --delete option will also issue a DELETE api call to github
 """

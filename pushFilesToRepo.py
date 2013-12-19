@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
-# Author: Phillip Conrad
-# Contributors: Arden Liao
+# Author: Phillip Conrad (pconrad)
+# Contributors: Arden Liao (ardentsonata)
 
 # This script takes a lab number such as lab00 as the command line argument,
 # and tries to update all of the lab00_* repos in the

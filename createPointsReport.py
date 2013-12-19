@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# Author: Phillip Conrad
+# Author: Phillip Conrad (pconrad)
 
 # createPointsReport.py iterates through every comment in every issue in every repo in the
 # specified organization, and generates a .csv file containing the points and users associated

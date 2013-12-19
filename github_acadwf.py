@@ -2,8 +2,8 @@
 # working with PyGithub objects to set up teams, and repositories
 # and other Github objects for academic workflows.
 
-# Author: Phillip Conrad
-# Contributor: Arden Liao
+# Author: Phillip Conrad (pconrad)
+# Contributor: Arden Liao (ardentsonata)
 
 from __future__ import print_function
 import sys

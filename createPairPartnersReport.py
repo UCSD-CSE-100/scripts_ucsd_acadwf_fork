@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# Author: Phillip Conrad
+# Author: Phillip Conrad (pconrad)
 
 # createPairPartnersReport.py iterates through every comment in every issue in every repo in the
 # specified organization, and generates markdown output describing what students and moderator are

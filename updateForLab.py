@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# Author: Phillip Conrad
+# Author: Phillip Conrad (pconrad)
 
 # This script reads all the users from the CSV file created
 # by the Google Form.

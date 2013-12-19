@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-# Author: Phillip Conrad
+# Author: Phillip Conrad (pconrad)
 
 # This is just a super simple example script of how to process the data
 # in the CSV that results from exporting the Google Form.

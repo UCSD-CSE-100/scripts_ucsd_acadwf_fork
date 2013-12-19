@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 """ Python module for checking if a repository exists or not on github
+    Author: Arden Liao (ardentsonata)
 
     Note: User executing the script must have permission to view those
           repositories

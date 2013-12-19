@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Author: Arden Liao (ardentsonata)
+
+# This script takes a repository name and lab, and creates a git bundle of the
+# repository and zips it into a zipfile with other repositories for the same
+# lab
+
 if [ $# -ne 2 ]; then
     echo "Usage: cache_repos.sh labno REPO_NAME"
     exit 1

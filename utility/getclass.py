@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
-""" Python module for retrieving student information  """
+""" Python module for retrieving student information
+    Author: Arden Liao (ardentsonata)
+"""
 
 import csv
 import sys
