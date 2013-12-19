@@ -1,43 +1,62 @@
 #!/usr/bin/env python
 
-import subprocess
-import os
-import sys
-import random
+""" Module: pullstudents
+    Author: Arden Liao (ardentsonata)
+
+    This module is to be used in conjuction with the Professor Conrad's github
+    scripts, and is used to pull repositories for grading.
+
+    Arguments:
+        labno date time
+        -h :    Brings up a help guide for the arguments
+        -d :    --checkpt_date set the due date for a checkpoint
+        -t :    --checkpt_time set the due time for a checkpoint
+        -i :    --infilename pull students from an infile
+        -p :    --pairfilename use pairs from a specified file
+        --debug: output goes to a debug file
+"""
+
 import csv
+import glob
+import os
+import random
+import subprocess
+import sys
 import zipfile
-import re
 
 sys.path.append("..")
-import config
+sys.path.append("../utility")
 import argparse
+import config
+import getclass
 
 CSV_STRING   = "{0},{1} {2},{3},{4}\n" #Tutor,Student Name, Github ID, Pair
-CURR_STUDENT = "Current student is {0} {1}"
+CURR_STUDENT = "Current student is {0} {1}" #First Name, Last Name
 
 def main():
     """ Main driver for the script  """
-    args        = parse_args()
-    lab         = args.labno
-    due_date    = args.date
-    due_time    = args.time
-    chk_time    = args.checkpt_date
-    chk_time    = args.checkpt_time
-    count       = 0
+    args            = parse_args()
+    lab             = args.labno
+    due_date_time   = (args.date, args.time)
+    chk_date_time   = (args.checkpt_date, args.chkpt_time)
 
     submissions_dir = config.getLabSubmissionsDir()
-    tutors          = config.getTutors()
-    pairs           = get_pairs(args.pair_fn)
-    students        = get_students(args.students_fn)
+    class_tutors    = config.getTutors()
+    class_pairs     = getclass.get_pairs(args.pair_fn)
+    class_students  = getclass.get_students(args.students_fn)
 
     clean_dir(submissions_dir)
-    tutor_csvs = create_csvs(submissions_dir, tutors)
+    tutor_csvs = create_csvs(submissions_dir, class_tutors)
     dbg_log    = open_dbglog(args.dbg, submissions_dir)
 
     if(args.infile_name != None):
-        pull_from_file(args.infile_name, pairs, tutors, tutor_csvs)
+        pull_from_file(infile=args.infile_name, pairs=class_pairs,
+                       tutors=class_tutors, csvs=tutor_csvs, labno=lab,
+                       due=due_date_time, chk=chk_date_time)
     else:
-        pull_all_students(students, pairs, tutors, tutor_csvs)
+        pull_all_students(students=class_students, pairs=class_pairs,
+                          tutors=class_tutors, csvs=tutor_csvs, labno=lab,
+                          due=due_date_time, chk=chk_date_time)
 
     #Close all open file handles
     dbg_log.close()
@@ -45,21 +64,21 @@ def main():
         csv_file.close()
 
 
-def pull_from_file(infile, pairs, tutors, csvs):
+def pull_from_file(**kwargs):
     """ Pull all student submissions that are in the infile
 
         Parameters: infile, pairs, tutors, csvs, labo
     """
     completed  = []
     count      = 0
-    num_tutors = len(tutors)
-    with open(infile, 'rb') as tb_pulled:
+    num_tutors = len(kwargs['tutors'])
+    with open(kwargs['infile'], 'rb') as tb_pulled:
         pull_reader = csv.DictReader(tb_pulled)
         for line in pull_reader:
             if count % num_tutors == 0:
-                random.shuffle(tutors)
+                random.shuffle(kwargs['tutors'])
                 count = 0
-            curr_tutor = tutors[count]
+            curr_tutor = kwargs['tutors'][count]
             student = line['GithubId'].lower()
             if student not in completed:
                 added = (student, curr_tutor)
@@ -68,64 +87,28 @@ def pull_from_file(infile, pairs, tutors, csvs):
                     count += 1
 
 
-def pull_all_students(students, pairs, tutors, csvs):
+def pull_all_students(**kwargs):
     """ Pull all student submissions
 
         Parameters: students, pairs, tutors, csvs, labno
     """
     completed  = []
     count      = 0
-    num_tutors = len(tutors)
-    for student in students.keys():
+    num_tutors = len(kwargs['tutors'])
+    for student in kwargs['students'].keys():
         if student not in completed:
             continue
 
-        print CURR_STUDENT.format(students[student][0], students[student][1])
+        print CURR_STUDENT.format(kwargs['students'][student][0],
+                                  kwargs['students'][student][1])
         if count % num_tutors == 0:
-            random.shuffle(tutors)
+            random.shuffle(kwargs['tutors'])
             count = 0
-        curr_tutor = tutors[count]
+        curr_tutor = kwargs['tutors'][count]
         added = (student, curr_tutor)
         if len(added) != 0:
             completed.extend(added)
             count += 1
-
-
-def get_pairs(infile):
-    """ Parses pairs from an infile
-
-        Returns a dictionary of pairs, with the first pair github id
-                as the key
-    """
-    temp = {}
-    try:
-        with open(infile, 'rb') as pairfile:
-            pair_reader = csv.DictReader(pairfile)
-            for line in pair_reader:
-                temp[line['Partner1_GithubID'].lower()] =\
-                line['Partner2_GithubID'].lower()
-    except IOError:
-        print("Could not open pair file list for reading\n\
-               Attempting to continue...")
-    return temp
-
-def get_students(infile):
-    """ Parses students from an infile
-
-        Returns a dictionary of tuples (First Name, Last Name)
-                with the student's github id as the key
-    """
-    temp = {}
-    try:
-        with open(infile, 'rb') as studentsfile:
-            student_reader = csv.DictReader(studentsfile)
-            for line in student_reader:
-                temp[line['github userid'].lower()] =\
-                (line['First Name'], line['Line Name'])
-    except IOError:
-        print("Could not open students list for reading\n")
-        sys.exit(1)
-    return temp
 
 
 def create_csvs(directory, tutors):
@@ -193,6 +176,15 @@ def clean_dir(directory):
     for file_name in os.listdir(directory):
         os.remove(directory + file_name)
 
+
+def zip_csvs(directory):
+    """ Zip tutor csvs with their respective zip bundles  """
+    os.chdir(directory)
+    zipped_csvs = zip(glob.glob("*.zip"), glob.glob ("*.csv"))
+    for tutor in zipped_csvs:
+        zip_file = zipfile.ZipFile(tutor[0], 'a')
+        zip_file.write(tutor[1])
+        zip_file.close()
 
 if __name__ == '__main__':
     main()
