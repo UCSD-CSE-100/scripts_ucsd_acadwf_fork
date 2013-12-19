@@ -12,7 +12,7 @@ sys.path.append("..")
 import config
 import argparse
 
-student_print = "Current student is {0} {1}"
+CURR_STUDENT = "Current student is {0} {1}"
 
 #TODO: Come up with a better solution for checking if a repo exists
 def repo_exists(project=None, gh_id=None, gh_id2=None):
@@ -72,8 +72,8 @@ def pull_solo(project, gh_id, tutor):
 def check_student(student, tutor):
     added = []
     if student in pairs.keys():
-        print student_print.format(students[pairs[student]][0],
-                                   students[pairs[student]][1])
+        print CURR_STUDENT.format(students[pairs[student]][0],
+                                  students[pairs[student]][1])
 
         #See if they need to be pulled separately
         if( pull_solo(lab, student, tutor) ):
@@ -113,28 +113,57 @@ def check_student(student, tutor):
 
     return added
 
-parser = argparse.ArgumentParser(description='Pull Students for grading')
-parser.add_argument('prefix', help='prefix e.g. PA1')
-parser.add_argument('date', help='Due Date in YYYY-MM-DD format')
-parser.add_argument('time', help='Due Time in 24-Hour HH:MM format')
-parser.add_argument('-d', '--checkpt_date',
-                    help='Checkpoint date YYYY-MM-DD format',
-                    default=None)
-parser.add_argument('-t', '--checkpt_time',
-                    help='Checkpoint date YYYY-MM-DD format',
-                    default=None)
-parser.add_argument('-i', '--infileName',
-                    help='input file (default: None)',
-                    default=None)
-parser.add_argument('-p', '--pairfileName',
-                    help='input file (default: '+config.getPairsFile()+ ')',
-                    default=config.getPairsFile())
-parser.add_argument('--debug', dest='dbg', action='store_true',
-                    help='Enables debug output to a log file',
-                    default=False)
+def parse_arguments():
+    parser = argparse.ArgumentParser(description='Pull Students for grading')
+    parser.add_argument('prefix', help='prefix e.g. PA1')
+    parser.add_argument('date', help='Due Date in YYYY-MM-DD format')
+    parser.add_argument('time', help='Due Time in 24-Hour HH:MM format')
+    parser.add_argument('-d', '--checkpt_date',
+                        help='Checkpoint date YYYY-MM-DD format',
+                        default=None)
+    parser.add_argument('-t', '--checkpt_time',
+                        help='Checkpoint date YYYY-MM-DD format',
+                        default=None)
+    parser.add_argument('-i', '--infileName',
+                        help='input file (default: None)',
+                        default=None)
+    parser.add_argument('-p', '--pairfileName',
+                        help='input file (default: '+config.getPairsFile()+ ')',
+                        default=config.getPairsFile())
+    parser.add_argument('--debug', dest='dbg', action='store_true',
+                        help='Enables debug output to a log file',
+                        default=False)
+    return parser.parse_args()
+
+
+def get_pairs(infile):
+    temp = {}
+    try:
+        with open(infile, 'rb') as pairFile:
+            pair_reader = csv.DictReader(pairFile)
+            for line in pair_reader:
+                temp[line['Partner1_GithubID'].lower()] = \
+                line['Partner2_GithubID'].lower()
+            return temp
+    except IOError:
+        print("Could not open pair file list for reading\n\
+               Attempting to continue...")
+
+def get_students(infile):
+    temp = {}
+    try:
+        with open(infile, 'rb') as studentsFile:
+            student_reader = csv.DictReader(studentsFile)
+            for line in student_reader:
+                temp[line['github userid'].lower()] = \
+                (line['First Name'], line['Last Name'])
+            return temp
+    except IOError:
+        print("Could not open students list for reading")
+        sys.exit(1)
 
 #Initialize the variables
-args      = parser.parse_args()
+args      = parse_arguments()
 lab       = args.prefix
 tutors    = config.getTutors()
 numTutors = len(tutors)
@@ -146,31 +175,8 @@ count     = 0
 dbg_log   = None
 
 submissions_dir = config.getLabSubmissionsDir()
-pairs    = {}
-students = {}
-
-#set up pairs
-try:
-    with open(args.pairfileName, 'rb') as pairFile:
-        pair_reader = csv.DictReader(pairFile)
-        for line in pair_reader:
-            pairs[line['Partner1_GithubID'].lower()] = \
-            line['Partner2_GithubID'].lower()
-except IOError:
-    print("Could not open pair file list for reading\n\
-           Attempting to continue...")
-
-#set up students
-try:
-    with open(config.getStudentsFile(), 'rb') as studentsFile:
-        student_reader = csv.DictReader(studentsFile)
-        for line in student_reader:
-            students[line['github userid'].lower()] = \
-            (line['First Name'], line['Last Name'])
-
-except IOError:
-    print("Could not open students list for reading")
-    sys.exit(1)
+pairs    = get_pairs(args.pairfileName)
+students = get_students(config.getStudentsFile())
 
 #clean out submissions dir
 for file_name in os.listdir(submissions_dir):
@@ -219,7 +225,7 @@ if(args.infileName != None):
 
 else:
     for student in students.keys():
-        print student_print.format(students[student][0], students[student][1])
+        print CURR_STUDENT.format(students[student][0], students[student][1])
         if count % numTutors  == 0:
             random.shuffle(tutors)
             count = 0
