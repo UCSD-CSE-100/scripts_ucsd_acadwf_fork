@@ -1,6 +1,12 @@
 #!/usr/bin/python
 
-#needed globally
+""" Python module for checking if a pair exists or not
+    Author: Arden Liao (ardentsonata)
+
+    Used as an experiment for determining more efficient ways of dictionary
+    traversal and usage
+"""
+
 import subprocess
 
 def check_pairs(students, pairs):
@@ -18,12 +24,12 @@ def check_pairs(students, pairs):
 def repo_exists(project, gh_id, gh_id2=None):
     repo_name = "git@github.com:UCSD-CSE-100/{0}_{1}.git".format(project, gh_id)
     if gh_id2 != None:
-        repo_name = "git@github.com:UCSD-CSE-100/{0}_Pair_{1}_{2}.git".format(project, gh_id, gh_id2) 
+        repo_name = "git@github.com:UCSD-CSE-100/{0}_Pair_{1}_{2}.git".format(project, gh_id, gh_id2)
     repo_proc  = subprocess.Popen(["git", "ls-remote", repo_name, "&> /dev/null"],
                                   stderr = subprocess.PIPE)
     repo_state = repo_proc.wait()
     return (repo_state == 0)
-    
+
 def check_pairs(students, pairs):
     completed = []
     for student in students.keys():
@@ -54,10 +60,10 @@ def check_repos(students, pairs):
                 print "Error! {0} does not have a repository".format(students[student])
                 count +=1
             completed.append(student)
-    
+
     if count == 0:
         print "All repositories accounted for!"
-    
+
 import csv
 import os
 import sys
