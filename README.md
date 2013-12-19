@@ -27,30 +27,19 @@ Creating Repos for Students and Pairs
       NOTE: Github Password or OAuth token will need to be entered for each individual command in a script
             Script may take up to 1 hour to run depending on API calls reaching the rate limit
             
-To Add All Students and Create Repos
---------------------
-
-1. run 
-
-            ./addStudentsCreateRepos.sh <github username> <Project #> BOTH
-
-To Only Add Students
---------------------
-1. run
-
-            ./addStudentsCreateRepos.sh <github username> <Project #> ADD
-
-To Only Create and Populate Repos
---------------------
-1. run
-            
-            ./addStudentsCreateRepos.sh <github username> <Project #> CREATE
-
-2. Check your scripts log directory for command status, the script itself will tell you if it thinks it succeeded in executing all scripts, but it never hurts to double check.
+UNDER CONSTRUCTION
 
 
 Pulling Repos for Grading
 =====================
+1. cd to the grading directory (default: Grading)
+2. run the following:
+            
+            Pull all:      ./pullstudents.py labno due_date due_time
+            Pull w/ chkpt: ./pullstudents.py labno due_date due_time -d chk_due_date -t chk_due_time
+            Pull subset:   ./pullstudents.py labno due_date due_time -i infilename
+            Help:          ./pullstudents.py -h
+3. Pulled files can be located in the labsubmissions directory
 
 Acknowledgements
 =====================
