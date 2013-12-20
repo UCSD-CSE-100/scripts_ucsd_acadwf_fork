@@ -24,11 +24,11 @@ addPyGithubToPath()
 from github import Github
 from github import GithubException
 
-if not os.path.exists("config.py"):
-	print("Unable to find config file, please see sample_config.py")
-	sys.exit(1)
-
-import config
+try:
+    import config
+except ImportError:
+    print ("Could not import configuration")
+    sys.exit(1)
 
 defaultInputFilename =  config.getStudentsFile()
 
