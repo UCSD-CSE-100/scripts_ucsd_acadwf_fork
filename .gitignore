@@ -11,8 +11,8 @@ PyGithub/
 *_prototype
 config.py
 
-#runtime creations
-scriptLogs/
+#Ignore directories
+**/
 
 #misc
 *.txt

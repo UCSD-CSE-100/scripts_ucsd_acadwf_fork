@@ -9,7 +9,11 @@ from __future__ import print_function
 import sys
 import os
 
-import config
+try:
+    import config
+except ImportError:
+    print("Could not import config")
+    sys.exit(1)
 
 def populateRepo(repo,protoDir,scratchDir):
     import subprocess

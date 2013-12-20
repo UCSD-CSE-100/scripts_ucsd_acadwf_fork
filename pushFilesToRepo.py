@@ -28,12 +28,11 @@ from github import GithubException
 
 from github_acadwf import pushFilesToRepo
 
-#check if config file exists
-if not os.path.exists("config.py"):
-	print("Unable to find config file, please see sample_config.py")
-	sys.exit(1)
-
-import config
+try:
+    import config
+except ImportError:
+    print("Could not import config")
+    sys.exit(1)
 
 parser = argparse.ArgumentParser(description='push files from labxx_prototype directory to labxx_* repos')
 

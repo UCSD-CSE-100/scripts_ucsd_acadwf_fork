@@ -20,12 +20,11 @@ from github_acadwf import pullRepoForGrading
 
 sys.path.append("./PyGithub");
 
-#check if config file exists
-if not os.path.exists("config.py"):
-	print("Unable to find config file, please see sample_config.py")
-	sys.exit(1)
-
-import config
+try:
+    import config
+except ImportError:
+    print("Could not import config")
+    sys.exit(1)
 
 labSubmissionsDir = config.getLabSubmissionsDir()
 if not os.access(labSubmissionsDir, os.W_OK):

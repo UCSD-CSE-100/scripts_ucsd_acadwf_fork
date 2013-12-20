@@ -18,18 +18,16 @@
 from __future__ import print_function
 from github_acadwf import createLabRepo
 
+import argparse
 import getpass
 import sys
 import os
-import argparse
 
-#check if config file exists
-if not os.path.exists("config.py"):
-	print("Unable to find config file, please see sample_config.py")
-	sys.exit(1)
-
-import config
-
+try:
+    import config
+except ImportError:
+    print("Could not import config")
+    sys.exit(1)
 
 from disambiguateFunctions import makeUserDict
 from disambiguateFunctions import disambiguateAllFirstNames
