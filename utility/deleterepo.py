@@ -4,13 +4,19 @@
     Author: Arden Liao (ardentsonata)
 """
 
+#python STL
 import logging
 import subprocess
 
+#importing external libraries
 try:
     import requests
 except ImportError:
     logging.info("\'requests\' module not installed on this system")
+
+#importing user defined libraries
+sys.path.append("..")
+import argparse #defined in python STL, but school python installation old
 
 DELETE_REPO = "https://api.github.com/repos/{_org}/{_repo_name}"
 
