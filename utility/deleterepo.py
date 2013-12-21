@@ -28,7 +28,7 @@ def delete_repo(org, repo_name, credentials):
         if (req.status_code != requests.codes.no_content):
             logging.error("Could not delete {0}".format(repo_name))
     except NameError:
-        logging.info("Requests not imported, using suprocess.")
+        logging.info("Requests not imported, using subprocess.")
         repo_proc = subprocess.Popen(["curl", "-X", "DELETE", "-u",
                                       credentials[0]+":"+credentials[1],
                                       request_url])
