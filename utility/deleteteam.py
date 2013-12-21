@@ -40,6 +40,17 @@ def get_teams(org, credentials):
         logging.info("Requests not installed on this system")
         sys.exit(0)
 
+def delete_team(team, credentials):
+    request_url = DELETE_TEAM.format(_id=team[1])
+    try:
+        req = requests.delete(request_url, credentials)
+        if (req.status_code != requests.codes.nocontent):
+            logging.error("Could not delete team {0} with id {1}".format(
+                          team[0], team[1]))
+    except NameError
+        logging.info("Requests not imported, using subprocess")
+
+
 if __name__ == "__main__":
     main()
     sys.exit(0)
