@@ -11,23 +11,16 @@ import logging
 import subprocess
 import sys
 
-#external installed libraries
-try:
-    import requests
-except ImportError:
-    logging.info("\'requests\' module not installed on this system")
-
 #own libraries
 sys.path.append("..")
 import argparse
 import checkrepo
 import config
+import deleterepo
 import getclass
 
 ARCHIVE_SOLO = "Could not archive {0}"
 ARCHIVE_PAIR = "Could not archive pair {0} {1}"
-
-DELETE_REPO  = "https://api.github.com/repos/{0}/{1}"
 
 SOLO_REPO    = "{0}_{1}"
 PAIR_REPO    = "{0}_Pair_{1}_{2}"
@@ -46,22 +39,6 @@ def main(del_arg):
     archive_pairs(class_org, labs, credentials, del_arg.delrepo)
 
 
-def delete_repo(org, repo_url, credentials):
-    """ Deletes the specified repo_url from github  """
-    request_url = DELETE_REPO.format(org, repo_url)
-    try:
-        req = requests.delete(request_url, auth=credentials)
-        if req.status_code != requests.codes.no_content :
-            logging.error("Could not delete {0}".format(repo_url))
-    except NameError:
-        logging.info("Requests not imported, falling back on curl")
-        repo_proc = subprocess.Popen(["curl", "-x", "DELETE", "-u ",
-                                      credentials[0]+":"+credentials[1],
-                                      request_url])
-        if (repo_proc.wait() != 0):
-            logging.error("Could not delete {0}".format(repo_url))
-
-
 def archive_solo(org, labs, credentials, delrepo):
     """ Archives all students's solo repository  """
     students  = getclass.get_students(config.getStudentsFile())
@@ -72,7 +49,7 @@ def archive_solo(org, labs, credentials, delrepo):
             repo_name = SOLO_REPO.format(lab, student)
             archive_repo(labno=lab, name=repo_name, ghid=student, ghid2=None)
             if delrepo:
-                delete_repo(org, repo_name, credentials)
+                deleterepo.delete_repo(org, repo_name, credentials)
 
 def archive_pairs(org, labs, credentials, delrepo):
     """ Logic for archiving student pairs  """
@@ -99,7 +76,7 @@ def archive_pairs_for_lab(org, lab, credentials, pairs, delrepo):
 
         archive_repo(labno=lab, name=repo_name, ghid=pair, ghid2=pairs[pair])
         if delrepo:
-            delete_repo(org, repo_name, credentials)
+            deleterepo.delete_repo(org, repo_name, credentials)
 
 
 def archive_repo(**repo):
