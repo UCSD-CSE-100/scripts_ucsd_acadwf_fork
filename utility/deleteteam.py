@@ -58,13 +58,13 @@ def delete_team(team, credentials):
 
     try:
         req = requests.delete(request_url, credentials)
-        deleted = (req.status_code == requests.codes.nocontent):
+        deleted = (req.status_code == requests.codes.nocontent)
     except NameError
         logging.info("Requests not imported, using subprocess")
         repo_proc = subprocess.Popen(["curl", "-X", "DELETE", "-u",
                                       credentials[0]+":"+credentials[1],
                                       request_url])
-        deleted = (repo_proc.wait() == 0):
+        deleted = (repo_proc.wait() == 0)
 
     if not deleted:
         logging.error("Could not delete team {0} with id {1}".format(team[0],
