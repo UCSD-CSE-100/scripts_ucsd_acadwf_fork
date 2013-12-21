@@ -6,7 +6,9 @@
 
 #Python STL
 import logging
+import re
 import subprocess
+import sys
 
 #External Libraries
 try:
@@ -20,3 +22,24 @@ import argparse
 
 GET_TEAMS   = "https://api.github.com/orgs/{_org}/teams"
 DELETE_TEAM = "https://api.github.com/teams/{_id}"
+
+def main():
+    return 0
+
+
+def get_teams(org, credentials):
+    request_url = GET_TEAMS.format(_org=org)
+    try:
+        req = requests.get(request_url, credentials)
+        if (req.status_code != requests.codes.ok):
+            logging.error("Could not retrieve teams for {0}".format(org))
+            sys.exit(1)i
+        teams = req.json()
+        return [ (team['name'], team['id']) for team in teams ]
+    except NameError:
+        logging.info("Requests not installed on this system")
+        sys.exit(0)
+
+if __name__ == "__main__":
+    main()
+    sys.exit(0)
