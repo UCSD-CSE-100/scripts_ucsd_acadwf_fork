@@ -18,6 +18,7 @@
 
 import csv
 import glob
+import logging
 import os
 import random
 import subprocess
@@ -122,7 +123,7 @@ def create_csvs(directory, tutors):
             temp[tutor] = open (directory + tutor + ".csv", 'wb')
             temp[tutor].write("Tutor,Student,Github ID, Pair\n")
         except IOError:
-            print("Could not open csv file for " + tutor)
+            logging.error("Could not open csv file for " + tutor)
             sys.exit(1)
     return temp
 
@@ -133,13 +134,13 @@ def open_dbglog(open_log, directory):
         try:
             return open(directory + 'git_debug_log', 'wb')
         except IOError:
-            print("Could not open file \'git_debug_log\'")
+            logging.error("Could not open file \'git_debug_log\'")
             sys.exit(1)
     else:
         try:
             return open('/dev/null', 'w')
         except IOError:
-            print ("Could not open \'/dev/null\'")
+            logging.error("Could not open \'/dev/null\'")
             sys.exit(1)
 
 
@@ -187,6 +188,8 @@ def zip_csvs(directory):
         zip_file.close()
 
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.ERROR,
+                        format="%(acstime)s - %(levelname)s - %(message)s")
     main()
     sys.exit(0)
 
