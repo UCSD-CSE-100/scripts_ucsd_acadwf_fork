@@ -10,8 +10,8 @@ class Student(object):
     """ Student class
 
         Instance Variables:
-            name - (First Name, Last Night)
-            ghid - String
+            name - String = "First Name Last Name"
+            ghid - String = "GithubID"
     """
 
     def __init__(self, name, ghid):
@@ -51,7 +51,7 @@ class Class(object):
 
     def __init__(self, student_list, pair_list):
         self.__students = []
-        self.__pairs    = {}
+        self.__pairs    = []
         self.__get_students__(student_list)
         self.__get_pairs__(pair_list)
 
@@ -62,7 +62,7 @@ class Class(object):
                 student_reader = csv.DictReader(students_list)
                 for line in student_reader:
                     ghid = line['github userid'].lower()
-                    name = (line['First Name'], line['Last Name'])
+                    name = line['First Name'] + " " + line['Last Name']
                     self.__students.append(Student(name, ghid))
         except IOError:
             logging.error("Could not open student list for reading")
@@ -78,7 +78,7 @@ class Class(object):
                     ghid2 = line['Partner2_GithubID'].lower()
                     student1 = self.__get_student__(ghid1)
                     student2 = self.__get_student__(ghid2)
-                    self.__pairs[student1] = student2
+                    self.__pairs.append(student1, student2)
 
         except IOError:
             logging.error("Could not open pair list for reading")
@@ -110,11 +110,12 @@ class Class(object):
         """ Sets the students to specified value  """
         if type(value) is not list:
             raise TypeError
-        self.__students = val
+        self.__students = value
 
     @pairs.setter
     def pairs(self, value):
         """ Sets the pairs to the specified value  """
-        if type(value) is not dict:
+        if type(value) is not list:
             raise TypeError
         self.__pairs = value
+
