@@ -21,6 +21,12 @@ import argparse #defined in python STL, but school python installation old
 
 DELETE_REPO = "https://api.github.com/repos/{_org}/{_repo_name}"
 
+def main():
+    """ Main driver for deleting all student submissions for
+        a github organization
+    """
+    return 0
+
 def delete_repo(org, repo_name, credentials):
     """ Deletes the specified repo from a github organization  """
     request_url = DELETE_REPO.format(_org=org, _repo_name=repo_name)
@@ -38,3 +44,7 @@ def delete_repo(org, repo_name, credentials):
 
     if not deleted:
         logging.error("Could not delete {0}".format(repo_name))
+
+if __name__ == "__main__":
+    main()
+    sys.exit(0)

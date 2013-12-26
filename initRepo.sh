@@ -2,8 +2,8 @@
 
 # Author: Arden Liao
 
-#initialize PyGithub, unsure why submodule doesn't work, manually clone for now
-git clone git@github.com:jacquev6/PyGithub.git
+#initialize PyGithub
+git submodule update --init
 
 #create the config file
 cp sample_config.py config.py
