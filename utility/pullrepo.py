@@ -54,7 +54,7 @@ def pull_repo(info, student=None, pair=None):
     args.extend([info['tutor'], info['labno'], info['due_date'][0],
                  info['due_date'][1]])
 
-    if info['chkpoint'] is not None:
+    if info['chkpoint'][0] is not None:
         args.extend([info['chkpoint'][0], info['chkpoint'][1]])
 
     repo_proc = subprocess.Popen(args, stdout=info['debug'],
