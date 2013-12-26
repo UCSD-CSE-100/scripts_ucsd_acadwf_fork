@@ -26,8 +26,9 @@ import zipfile
 sys.path.append("..")
 sys.path.append("../utility")
 import argparse
-import config
 import academicclass
+import config
+import pullrepo
 
 CSV_STRING   = "{0},{1} {2},{3},{4}\n" #Tutor,Student Name, Github ID, Pair
 CURR_STUDENT = "Current student is {name}"
@@ -41,7 +42,8 @@ def main():
 
     submissions_dir = config.getLabSubmissionsDir()
     class_tutors    = config.getTutors()
-    class_students  = academicclass.Class(args.students_fn, args.pair_fn)
+    class_students  = academicclass.Class(args.students_fn, args.pair_fn,
+                                          config.getOrgName())
     # class_pairs     = getclass.get_pairs(args.pair_fn)
     # class_students  = getclass.get_students(args.students_fn)
 
@@ -71,18 +73,20 @@ def pull_all_students(**kwargs):
     count      = 0
     num_tutors = len(kwargs['tutors'])
     acad_class = kwargs['acad_class']
-    debug_log  = kwargs['log']
+    info = {'labno': kwargs['labno'], 'tutor': None, 'csvs': kwargs['csvs'],
+            'due_date': kwargs['due'], 'chkpoint': kwargs['chk'],
+            'org': acad_class.org, 'debug': kwargs['log']}
 
     #Pull pairs first
     for pair in acad_class.pairs:
         if (count == 0):
             random.shuffle(kwargs['tutors'])
 
-        info = (kwargs['labno'], kwargs['tutors'][count], kwargs['csvs'])
-        print CURR_STUDENT.format(pair[0].name[0], pair[0].name[1])
-        print CURR_STUDENT.format(pair[1].name[0], pair[1].name[1])
+        info['tutor'] = kwargs['tutors'][count]
+        print CURR_STUDENT.format(pair[0].name)
+        print CURR_STUDENT.format(pair[1].name)
 
-        added = [pair[0], pair[1]]
+        added = check_pair(pair, info)
         if len(added) > 0:
             completed.extend(added)
             count = (count + 1) % num_tutors
@@ -90,18 +94,50 @@ def pull_all_students(**kwargs):
     for student in kwargs['students'].students:
         if student not in completed:
             continue
-
         if (count == 0):
             random.shuffle(kwargs['tutors'])
 
-        info = (kwargs['labno'], kwargs['tutors'][count], kwargs['csvs'])
+        info['tutor'] = kwargs['tutors'][count]
         print CURR_STUDENT.format(student.name[0], student.name[1])
 
-        added = [student]
+        added = check_solo(student, info)
         if len(added) != 0:
             completed.extend(added)
             count = (count + 1) % num_tutors
 
+def check_pair(pair, info):
+    """ Pulls a Student pair for grading  """
+    added = []
+    curr_csv = info['csvs'][info['tutor']]
+
+    # Check if the pair worked separately
+    for student in pair:
+        if (pullrepo.pull_repo(info, student=student)):
+            write_csv(curr_csv, info['tutor'], student, "SOLO-P")
+            added.append(student)
+
+    # Pull the pair repository
+    if (pullrepo.pull_repo(info, pair=pair)):
+        for student in pair:
+            write_csv(curr_csv, info['tutor'], student, "PAIR")
+        added = [pair[0], pair[1]]
+
+    return added
+
+def check_solo(student, info):
+    """ Pulls a Student solo submission for grading  """
+    added = []
+    curr_csv = info['csvs'][info['tutor']]
+
+    if (pullrepo.pull_repo(info, student=student)):
+        write_csv(curr_csv, info['tutor'], student, "SOLO")
+        added = [student]
+
+    return added
+
+def write_csv(csv, tutor, student, type_repo):
+    """ Writes CSV string to tutor's csv for specified student  """
+    csv.write(CSV_STRING.format(tutor, student.name, student.ghid, type_repo))
 
 def create_csvs(directory, tutors):
     """ Creates new CSV files for each tutor
@@ -114,7 +150,7 @@ def create_csvs(directory, tutors):
             temp[tutor] = open (directory + tutor + ".csv", 'wb')
             temp[tutor].write("Tutor,Student,Github ID, Pair\n")
         except IOError:
-            logging.error("Could not open csv file for " + tutor)
+            logging.critical("Could not open csv file for " + tutor)
             sys.exit(1)
     return temp
 
@@ -125,13 +161,13 @@ def open_dbglog(open_log, directory):
         try:
             return open(directory + 'git_debug_log', 'wb')
         except IOError:
-            logging.error("Could not open file \'git_debug_log\'")
+            logging.critical("Could not open file \'git_debug_log\'")
             sys.exit(1)
     else:
         try:
             return open('/dev/null', 'w')
         except IOError:
-            logging.error("Could not open \'/dev/null\'")
+            logging.critical("Could not open \'/dev/null\'")
             sys.exit(1)
 
 
@@ -168,7 +204,9 @@ def clean_dir(directory):
         path = directory + file_name
         if (os.path.isdir(path)):
             clean_dir(path)
-        os.remove(path)
+            os.rmdir(path)
+        else:
+            os.remove(path)
 
 
 def zip_csvs(directory):
