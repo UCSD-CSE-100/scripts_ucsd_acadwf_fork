@@ -38,7 +38,7 @@ def main():
     args            = parse_args()
     lab             = args.labno
     due_date_time   = (args.date, args.time)
-    chk_date_time   = (args.checkpt_date, args.chkpt_time)
+    chk_date_time   = (args.checkpt_date, args.checkpt_time)
 
     submissions_dir = config.getLabSubmissionsDir()
     class_tutors    = config.getTutors()
@@ -221,7 +221,7 @@ def zip_csvs(directory):
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.ERROR,
-                        format="%(acstime)s - %(levelname)s - %(message)s")
+                        format="%(asctime)s - %(levelname)s - %(message)s")
     main()
     sys.exit(0)
 
