@@ -49,9 +49,10 @@ class Class(object):
             pairs    - Dict of Student pairs in a Class
     """
 
-    def __init__(self, student_list, pair_list):
+    def __init__(self, student_list, pair_list, org):
         self.__students = []
         self.__pairs    = []
+        self.__org      = org
         self.__get_students__(student_list)
         self.__get_pairs__(pair_list)
 
@@ -104,6 +105,11 @@ class Class(object):
         """ Returns the dictionary of pairs in this class  """
         return self.__pairs
 
+    @property
+    def org(self):
+        """ Returns the org name string of this class """
+        return self.__org
+
     # Setter methods for instance variables
     @students.setter
     def students(self, value):
@@ -119,3 +125,9 @@ class Class(object):
             raise TypeError
         self.__pairs = value
 
+    @org.setter
+    def org(self, value):
+        """ Sets the org to be the specified value """
+        if type(value) is not str:
+            raise TypeError
+        self.__org = value
