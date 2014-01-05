@@ -26,7 +26,7 @@ DELETE_TEAM = "https://api.github.com/teams/{_id}"
 
 def main():
     """ Main driver for deleteteam modules """
-    class_org = config.getOrgname()
+    class_org = config.getOrgName()
 
     username = raw_input("Username: ")
     password = getpass.getpass()
@@ -37,6 +37,7 @@ def main():
     for team in teams:
         if (re.search(r"\A(Student_)", team[0]) != None) or \
            (re.search(r"\A(Pair_)", team[0]) != None):
+            logging.info("Deleting team {0}".format(team[0]))
             delete_team(team, credentials)
 
 def get_teams(org, credentials):
@@ -63,7 +64,7 @@ def delete_team(team, credentials):
 
     try:
         req = requests.delete(request_url, auth=credentials)
-        deleted = (req.status_code == requests.codes.nocontent)
+        deleted = (req.status_code == requests.codes.no_content)
     except NameError:
         logging.info("Requests not imported, using subprocess")
         repo_proc = subprocess.Popen(["curl", "-X", "DELETE", "-u",
