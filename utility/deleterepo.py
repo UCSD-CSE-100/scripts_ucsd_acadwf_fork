@@ -31,7 +31,10 @@ def main():
     username = raw_input("Username: ")
     password = getpass.getpass()
     cred = (username, password)
-    collect_repos("UCSD-CSE-100", cred)
+    repos = collect_repos("UCSD-CSE-100", cred)
+    student_repos = [ repo for repo in repos if re.match("P[0-9]", repo)]
+    for repo in student_repos:
+        delete_repo("UCSD-CSE-100", repo, cred)
     return 0
 
 def collect_repos(org, credentials):
@@ -41,6 +44,10 @@ def collect_repos(org, credentials):
 
     try:
         req   = requests.get(request_url, auth=credentials)
+        if req.status_code != requests.codes.ok:
+            logging.error("Could not get page 1, status {0}".format(
+                          req.status_code))
+            return repos
         pages = req.headers['link']
 
         # store the repos from the first page
@@ -54,7 +61,11 @@ def collect_repos(org, credentials):
             for page in range(2, int(lastpg)+1):
                 request_url = GET_REPO.format(_org=org, _pgn=page)
                 req = requests.get(request_url, auth=credentials)
-                repos.extend([x['name'] for x in req.json()])
+                if req.status_code == requests.codes.ok:
+                    repos.extend([x['name'] for x in req.json()])
+                else:
+                    logging.error("Could not get page {0}, status {0}".format(
+                                  page, req.status_code))
 
     except NameError:
         logging.info("Requests not imported, using subprocess")
